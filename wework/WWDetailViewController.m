@@ -9,6 +9,7 @@
 #import "WWDetailViewController.h"
 
 @interface WWDetailViewController ()
+<UISplitViewControllerDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 @end
