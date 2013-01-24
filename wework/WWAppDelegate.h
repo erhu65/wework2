@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Peter2. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SurfsUpAppDelegate.h"
 
-@interface WWAppDelegate : UIResponder <UIApplicationDelegate>
+@interface WWAppDelegate : SurfsUpAppDelegate <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

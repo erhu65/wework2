@@ -7,16 +7,41 @@
 //
 
 #import "WWAppDelegate.h"
- //dfd
+#import "SurfsUpViewController_iPad.h"
+#import "DetailViewController_iPad.h"
+
 @implementation WWAppDelegate
+
+- (void)customizeAppearance
+{
+    [super customizeAppearance];
+    
+    // UIToolbar
+    
+    UIImage *gradientTop = [[UIImage imageNamed:@"surf_gradient_textured_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UIToolbar appearance] setBackgroundImage:gradientTop 
+                            forToolbarPosition:UIToolbarPositionAny
+                                    barMetrics:UIBarMetricsDefault]; 
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    splitViewController.delegate = (id)navigationController.topViewController;
-    return YES;
+    UINavigationController *navigationControllerMaster = [splitViewController.viewControllers objectAtIndex:0];
+    SurfsUpViewController_iPad* master =  (SurfsUpViewController_iPad*) navigationControllerMaster.topViewController;
+    
+    master.title =  @"Surf's Up";
+    master.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
+    navigationControllerMaster.title = @"Surf's Up";
+  
+    UINavigationController *navigationControllerDetail = [splitViewController.viewControllers lastObject];
+   DetailViewController_iPad* detail = (DetailViewController_iPad*)navigationControllerDetail.topViewController;
+    [master setDetailVC:detail];
+
+    splitViewController.delegate = (id)navigationControllerDetail.topViewController;
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
