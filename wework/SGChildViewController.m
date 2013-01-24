@@ -9,8 +9,7 @@
 #import "SGChildViewController.h"
 #import "BackgroundLayer.h"
 #import <AudioToolbox/AudioToolbox.h>
-
-
+#import "BRStyleSheet.h"
 
 @interface SGChildViewController ()
 @property (nonatomic, assign, getter = isZoomed) BOOL zoomed;
@@ -149,7 +148,6 @@
     
     if (self.isSlideDown)
     {
-        
         self.superviewController.noticeHConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|" options:0 metrics:nil views:views];
         self.superviewController.noticeVConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(-100)-[self(==100)]|" options:0 metrics:nil views:views];
     } else {
@@ -158,9 +156,6 @@
         NSURL *pewPewURL = [NSURL fileURLWithPath:pewPewPath];
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)pewPewURL, &_pewPewSound);
         AudioServicesPlaySystemSound(_pewPewSound);
-        
-        
-        
         self.superviewController.noticeHConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|" options:0 metrics:nil views:views];
         self.superviewController.noticeVConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[self(==100)]|" options:0 metrics:nil views:views];
     }

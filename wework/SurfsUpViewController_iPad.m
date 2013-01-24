@@ -29,11 +29,9 @@
     
     [self setClearsSelectionOnViewWillAppear:NO];
     [self setContentSizeForViewInPopover:CGSizeMake(320.0f, 480.0f)];
-    
     NSIndexPath *initialPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[self tableView] selectRowAtIndexPath:initialPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 //    self.detailVC = (DetailViewController_iPad *)[[self.splitViewController.viewControllers lastObject] topViewController];
-
     [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:initialPath]];
  
 }

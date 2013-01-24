@@ -31,7 +31,7 @@ typedef enum videosFilterMode {
     self = [super initWithCoder:aDecoder];
     if(self){
         self.lang = [LangManager sharedManager].dic;
-        self.isDisableInAppNotification = FALSE;
+        self.isDisableInAppNotification = NO;
     }
     return self;
 }
@@ -56,10 +56,13 @@ typedef enum videosFilterMode {
 -(void) viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor grayColor];
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"app-background.png"]];
-    [self.view insertSubview:backgroundView atIndex:0];
+
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        self.view.backgroundColor = [UIColor grayColor];
+        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"app-background.png"]];
+        [self.view insertSubview:backgroundView atIndex:0];
+    }
+
     
     if(!self.isDisableInAppNotification){
         
@@ -70,7 +73,7 @@ typedef enum videosFilterMode {
         NSDictionary *views = @{@"noticeVidew" : self.noticeChildViewController.view};
         
         // Set the width of the container box to be 250
-        self.noticeHConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[noticeVidew(==320)]" options:0 metrics:nil views:views];
+        self.noticeHConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[noticeVidew(==200)]" options:0 metrics:nil views:views];
         [self.view addConstraints:self.noticeHConstraint];
         
         // Set the height of the container box to be 250
@@ -93,17 +96,16 @@ typedef enum videosFilterMode {
     }
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleFacebookMeDidUpdate:) name:BRNotificationFacebookMeDidUpdate object:[BRDModel sharedInstance]];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handelBRNotificationInAppDidUpdate:) name:BRNotificationInAppDidUpdate object:nil];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:[BRDModel sharedInstance]];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationInAppDidUpdate object:nil];

@@ -4,10 +4,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Tab1 Navigation Controller - Item-->
         <scene sceneID="14">
             <objects>
-                <navigationController id="3" sceneMemberID="viewController">
+                <navigationController id="3" customClass="Tab1NavigationController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="tao-es-9AW"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -17,14 +18,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="734" y="-642"/>
+            <point key="canvasLocation" x="1304" y="-2093"/>
         </scene>
         <!--Surfs Up View Controller i Pad-->
         <scene sceneID="5c4-M1-YNN">
             <objects>
                 <tableViewController id="LIR-2N-iPV" customClass="SurfsUpViewController_iPad" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9y2-Yn-afB">
-                        <rect key="frame" x="0.0" y="64" width="320" height="704"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="655"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -48,7 +49,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aVC-RT-JHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1213" y="-642"/>
+            <point key="canvasLocation" x="1907" y="-2077"/>
         </scene>
         <!--Detail View Controller i Pad - Detail-->
         <scene sceneID="16">
@@ -158,13 +159,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qMa-aY-UQD">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="703" id="dHQ-JL-uND"/>
-                                </constraints>
                                 <items>
                                     <barButtonItem title="Item" id="geh-XM-bxL"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="X8A-or-S5u"/>
+                                    <barButtonItem title="Menu" id="Dys-0Q-biK">
+                                        <connections>
+                                            <segue destination="Tct-4v-YI2" kind="popover" identifier="ShowPopover" popoverAnchorBarButtonItem="Dys-0Q-biK" id="fRQ-2C-YIL">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iX7-ib-pMy">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="notice">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="_notice:" destination="4" eventType="touchUpInside" id="HNf-cy-SM9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -173,28 +192,32 @@
                             <constraint firstItem="fZk-aV-cZP" firstAttribute="trailing" secondItem="5pv-q3-JSL" secondAttribute="trailing" type="default" id="2Si-Kg-sAB"/>
                             <constraint firstItem="WkH-uB-Lbi" firstAttribute="top" secondItem="26" secondAttribute="top" constant="117" id="2ni-vL-3yl"/>
                             <constraint firstItem="WEH-ha-E5I" firstAttribute="top" secondItem="26" secondAttribute="top" constant="305" id="3vG-XP-6dw"/>
+                            <constraint firstAttribute="bottom" secondItem="AXX-fm-0si" secondAttribute="bottom" constant="96" id="3vI-5r-JH7"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="leading" secondItem="YUK-XQ-kLH" secondAttribute="leading" type="default" id="4ss-M8-5hP"/>
                             <constraint firstItem="5pv-q3-JSL" firstAttribute="leading" secondItem="MSY-yK-Z9H" secondAttribute="leading" type="default" id="9XM-ik-UhR"/>
                             <constraint firstItem="YUK-XQ-kLH" firstAttribute="trailing" secondItem="7On-QT-wRa" secondAttribute="trailing" type="default" id="AOP-cR-zJ3"/>
                             <constraint firstItem="WkH-uB-Lbi" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="155" id="B1q-2r-d9l"/>
                             <constraint firstAttribute="bottom" secondItem="MSY-yK-Z9H" secondAttribute="bottom" constant="190" id="BYs-KJ-iBl"/>
+                            <constraint firstItem="qMa-aY-UQD" firstAttribute="leading" secondItem="26" secondAttribute="leading" type="default" id="CVH-Ex-p6q"/>
                             <constraint firstAttribute="trailing" secondItem="WEH-ha-E5I" secondAttribute="trailing" constant="240" id="CXq-ss-rh2"/>
-                            <constraint firstItem="qMa-aY-UQD" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="4" id="CbZ-G3-EUy"/>
+                            <constraint firstAttribute="trailing" secondItem="iX7-ib-pMy" secondAttribute="trailing" constant="98" id="Ctc-GW-Xtq"/>
                             <constraint firstItem="MSY-yK-Z9H" firstAttribute="top" secondItem="5pv-q3-JSL" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="FaP-2a-0dz"/>
                             <constraint firstItem="fZk-aV-cZP" firstAttribute="leading" secondItem="MSY-yK-Z9H" secondAttribute="leading" type="default" id="GFJ-lQ-U8l"/>
                             <constraint firstItem="AXX-fm-0si" firstAttribute="trailing" secondItem="MSY-yK-Z9H" secondAttribute="trailing" type="default" id="PsG-j3-ebs"/>
-                            <constraint firstAttribute="bottom" secondItem="AXX-fm-0si" secondAttribute="bottom" constant="96" id="QgH-PR-Nnj"/>
+                            <constraint firstItem="qMa-aY-UQD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="26" secondAttribute="leading" type="user" id="Qhy-x8-A67"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="leading" secondItem="5pv-q3-JSL" secondAttribute="leading" type="default" id="S99-OF-46R"/>
                             <constraint firstItem="YUK-XQ-kLH" firstAttribute="top" secondItem="26" secondAttribute="top" constant="242" id="Tv8-kP-USF"/>
-                            <constraint firstItem="qMa-aY-UQD" firstAttribute="centerX" secondItem="2t0-uA-kKc" secondAttribute="centerX" type="default" id="XH0-Zo-7Ec"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="trailing" secondItem="WkH-uB-Lbi" secondAttribute="trailing" type="default" id="Xqp-N1-YW2"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="centerY" secondItem="WEH-ha-E5I" secondAttribute="centerY" type="default" id="Xxm-qy-Wfd"/>
+                            <constraint firstItem="qMa-aY-UQD" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" type="user" id="aKj-pv-rXp"/>
                             <constraint firstItem="Dgw-zp-Pvq" firstAttribute="centerX" secondItem="Y21-hd-GWD" secondAttribute="centerX" type="default" id="cGS-oV-j5A"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="leading" secondItem="YUK-XQ-kLH" secondAttribute="leading" type="default" id="cq3-dl-LHe"/>
+                            <constraint firstAttribute="bottom" secondItem="iX7-ib-pMy" secondAttribute="bottom" constant="131" id="dYx-TR-3cU"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="top" secondItem="Y21-hd-GWD" secondAttribute="top" type="default" id="fNs-sr-6Bt"/>
-                            <constraint firstItem="qMa-aY-UQD" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" type="default" id="goM-5V-f5O"/>
+                            <constraint firstItem="qMa-aY-UQD" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" type="user" id="goM-5V-f5O"/>
                             <constraint firstItem="Y21-hd-GWD" firstAttribute="trailing" secondItem="2t0-uA-kKc" secondAttribute="trailing" type="default" id="iMm-mM-GNG"/>
                             <constraint firstItem="AXX-fm-0si" firstAttribute="leading" secondItem="fZk-aV-cZP" secondAttribute="leading" type="default" id="iiT-Ob-l1U"/>
+                            <constraint firstAttribute="trailing" secondItem="qMa-aY-UQD" secondAttribute="trailing" type="user" id="mOQ-tu-6pl"/>
                             <constraint firstItem="27" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="32" id="mdT-at-7HO"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="trailing" secondItem="5pv-q3-JSL" secondAttribute="trailing" type="default" id="ozI-S3-DWV"/>
                             <constraint firstAttribute="bottom" secondItem="2t0-uA-kKc" secondAttribute="bottom" constant="284" id="sOB-0f-naX"/>
@@ -202,6 +225,7 @@
                             <constraint firstItem="27" firstAttribute="top" secondItem="26" secondAttribute="top" constant="20" symbolic="YES" type="default" id="sy3-74-VmT"/>
                             <constraint firstItem="YUK-XQ-kLH" firstAttribute="trailing" secondItem="57j-ZO-EDB" secondAttribute="trailing" type="default" id="tVO-Vb-GXq"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="top" secondItem="26" secondAttribute="top" constant="166" id="yD6-E0-rce"/>
+                            <constraint firstItem="2t0-uA-kKc" firstAttribute="centerX" secondItem="qMa-aY-UQD" secondAttribute="centerX" type="default" id="zL0-Rx-h9U"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
@@ -224,8 +248,8 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <segue destination="3" kind="relationship" relationship="masterViewController" id="9"/>
                         <segue destination="42" kind="relationship" relationship="detailViewController" id="51"/>
+                        <segue destination="ArI-vL-q8i" kind="relationship" relationship="masterViewController" id="4W2-Q2-akf"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
@@ -271,7 +295,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1816" y="-779"/>
+            <point key="canvasLocation" x="4046" y="-703"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="50">
@@ -287,6 +311,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="49" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-548" y="528"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="0AQ-Ej-EXB">
+            <objects>
+                <viewController id="Tct-4v-YI2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8lA-qV-Wda">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Me6-LS-amU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1122" y="891"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Ckd-s5-GJO">
+            <objects>
+                <tabBarController id="ArI-vL-q8i" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="hFt-PA-nub">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="3" kind="relationship" relationship="viewControllers" id="Dib-am-YdE"/>
+                        <segue destination="YeT-ZE-alx" kind="relationship" relationship="viewControllers" id="J2X-MD-vG3"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BNj-S8-Tne" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="606" y="-1518"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ZxW-yV-PsP">
+            <objects>
+                <viewController id="tfA-Sj-LAt" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2c6-VD-hEV">
+                        <rect key="frame" x="0.0" y="64" width="320" height="655"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="82a-VG-zlc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hia-bd-Tr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1834" y="-1078"/>
+        </scene>
+        <!--Tab1 Navigation Controller - Item-->
+        <scene sceneID="4QE-eH-00u">
+            <objects>
+                <navigationController id="YeT-ZE-alx" customClass="Tab1NavigationController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="Rn8-Z8-RTz"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LVl-IT-CFQ">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="tfA-Sj-LAt" kind="relationship" relationship="rootViewController" id="RFr-Dk-vLL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yVM-qi-eB0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1308" y="-1078"/>
         </scene>
     </scenes>
     <classes>
@@ -304,6 +399,7 @@
         <class className="DetailViewController_iPad" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController_iPad.h"/>
             <relationships>
+                <relationship kind="action" name="_notice:"/>
                 <relationship kind="action" name="aboutTapped:"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="rentSwitch" candidateClass="UISwitch"/>
@@ -315,12 +411,17 @@
         </class>
         <class className="SurfsUpViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelAndDismiss:"/>
+                <relationship kind="action" name="navigationBack:"/>
+                <relationship kind="action" name="saveAndDismiss:"/>
+            </relationships>
         </class>
         <class className="SurfsUpViewController_iPad" superclassName="SurfsUpViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController_iPad.h"/>
         </class>
-        <class className="WWMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWMasterViewController.h"/>
+        <class className="Tab1NavigationController" superclassName="UINavigationController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Tab1NavigationController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

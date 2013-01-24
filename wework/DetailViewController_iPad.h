@@ -20,9 +20,9 @@
     IBOutlet UISwitch   *rentSwitch;
 }
 
-@property (nonatomic, retain) UIPopoverController   *detailPopover;
-@property (nonatomic, retain) UIPopoverController   *aboutPopover;
-@property (nonatomic, retain) id                    lastTappedButton;
+@property (nonatomic, strong) UIPopoverController   *detailPopover;
+@property (nonatomic, strong) UIPopoverController   *aboutPopover;
+@property (nonatomic, strong) id                    lastTappedButton;
 
 
 - (IBAction)aboutTapped:(id)sender;

@@ -168,8 +168,6 @@
 		B78C4C2816AFD7F80066D95F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78C4C2716AFD7F80066D95F /* Default@2x.png */; };
 		B78C4C2A16AFD7F80066D95F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78C4C2916AFD7F80066D95F /* Default-568h@2x.png */; };
 		B78C4C2D16AFD7F80066D95F /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78C4C2B16AFD7F80066D95F /* MainStoryboard.storyboard */; };
-		B78C4C3016AFD7F80066D95F /* WWMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C4C2F16AFD7F80066D95F /* WWMasterViewController.m */; };
-		B78C4C3316AFD7F80066D95F /* WWDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C4C3216AFD7F80066D95F /* WWDetailViewController.m */; };
 		B78CFF4816B107E7000043EB /* AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78CFF4716B107E6000043EB /* AWSiOSSDK.framework */; };
 		B78CFF4A16B10816000043EB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78CFF4916B10816000043EB /* AudioToolbox.framework */; };
 		B78CFF4C16B1081E000043EB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78CFF4B16B1081E000043EB /* Security.framework */; };
@@ -436,10 +434,6 @@
 		B78C4C2716AFD7F80066D95F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		B78C4C2916AFD7F80066D95F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B78C4C2C16AFD7F80066D95F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		B78C4C2E16AFD7F80066D95F /* WWMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMasterViewController.h; sourceTree = "<group>"; };
-		B78C4C2F16AFD7F80066D95F /* WWMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMasterViewController.m; sourceTree = "<group>"; };
-		B78C4C3116AFD7F80066D95F /* WWDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWDetailViewController.h; sourceTree = "<group>"; };
-		B78C4C3216AFD7F80066D95F /* WWDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWDetailViewController.m; sourceTree = "<group>"; };
 		B78CFF4516B10680000043EB /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		B78CFF4716B107E6000043EB /* AWSiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSiOSSDK.framework; sourceTree = "<group>"; };
 		B78CFF4916B10816000043EB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -906,10 +900,6 @@
 				B78C4C2216AFD7F80066D95F /* WWAppDelegate.h */,
 				B78C4C2316AFD7F80066D95F /* WWAppDelegate.m */,
 				B78C4C2B16AFD7F80066D95F /* MainStoryboard.storyboard */,
-				B78C4C2E16AFD7F80066D95F /* WWMasterViewController.h */,
-				B78C4C2F16AFD7F80066D95F /* WWMasterViewController.m */,
-				B78C4C3116AFD7F80066D95F /* WWDetailViewController.h */,
-				B78C4C3216AFD7F80066D95F /* WWDetailViewController.m */,
 				B78C4C1A16AFD7F80066D95F /* Supporting Files */,
 			);
 			path = wework;
@@ -1083,15 +1073,6 @@
 		B78CFFC416B10AB9000043EB /* view-controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B78C014916B124BE000043EB /* SurfsUpViewController_iPad.h */,
-				B78C014A16B124BF000043EB /* SurfsUpViewController_iPad.m */,
-				B78C014B16B124C0000043EB /* DetailViewController_iPad.h */,
-				B78C014C16B124C1000043EB /* DetailViewController_iPad.m */,
-				B78C014F16B124EC000043EB /* AboutViewController.h */,
-				B78C015016B124ED000043EB /* AboutViewController.m */,
-				B78C015116B124EE000043EB /* AboutBackgroundView.h */,
-				B78C015216B124F0000043EB /* AboutBackgroundView.m */,
-				B78C015316B124F1000043EB /* AboutView.xib */,
 				B78C00DF16B11025000043EB /* BRPostToFacebookWallViewController.h */,
 				B78C00E016B11026000043EB /* BRPostToFacebookWallViewController.m */,
 				B78C003116B10CF8000043EB /* FriendsList */,
@@ -1103,6 +1084,15 @@
 				B78CFFC816B10ACA000043EB /* BRCoreViewController.m */,
 				B78CFFC916B10ACA000043EB /* Tab1NavigationController.h */,
 				B78CFFCA16B10ACA000043EB /* Tab1NavigationController.m */,
+				B78C014916B124BE000043EB /* SurfsUpViewController_iPad.h */,
+				B78C014A16B124BF000043EB /* SurfsUpViewController_iPad.m */,
+				B78C014B16B124C0000043EB /* DetailViewController_iPad.h */,
+				B78C014C16B124C1000043EB /* DetailViewController_iPad.m */,
+				B78C014F16B124EC000043EB /* AboutViewController.h */,
+				B78C015016B124ED000043EB /* AboutViewController.m */,
+				B78C015116B124EE000043EB /* AboutBackgroundView.h */,
+				B78C015216B124F0000043EB /* AboutBackgroundView.m */,
+				B78C015316B124F1000043EB /* AboutView.xib */,
 				B78CFFCE16B10ADF000043EB /* MainCategory */,
 			);
 			name = "view-controllers";
@@ -1369,8 +1359,6 @@
 			files = (
 				B78C4C2016AFD7F80066D95F /* main.m in Sources */,
 				B78C4C2416AFD7F80066D95F /* WWAppDelegate.m in Sources */,
-				B78C4C3016AFD7F80066D95F /* WWMasterViewController.m in Sources */,
-				B78C4C3316AFD7F80066D95F /* WWDetailViewController.m in Sources */,
 				B78CFF6A16B108EE000043EB /* IAPHelper.m in Sources */,
 				B78CFF6B16B108EE000043EB /* HMIAPHelper.m in Sources */,
 				B78CFF6C16B108EE000043EB /* IAPProduct.m in Sources */,

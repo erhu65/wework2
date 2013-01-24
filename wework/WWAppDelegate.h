@@ -7,9 +7,15 @@
 //
 
 #import "SurfsUpAppDelegate.h"
+#import "WebViewJavascriptBridge.h"
+#import "Utils.h"
 
 @interface WWAppDelegate : SurfsUpAppDelegate <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property(strong, nonatomic)NSString* token;
+
+@property (strong, nonatomic) UIWebView *webview;
+@property (strong, nonatomic) WebViewJavascriptBridge *javascriptBridge;
 
 @end

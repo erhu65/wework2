@@ -13,8 +13,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+#import "MBProgressHUD.h"
+#import "SGChildViewController.h"
+
 
 @interface SurfsUpViewController : UITableViewController
+{
+    MBProgressHUD *HUD;
+}
+@property(nonatomic, strong)NSDictionary* lang;
+
+- (IBAction)cancelAndDismiss:(id)sender;
+- (IBAction)saveAndDismiss:(id)sender;
+-(void)handleErrMsg:(NSString*) errMsg;
+-(void)showMsg:(NSString*)msg type:(msgLevel)level;
+-(void)showHud:(BOOL) isAnimation;
+-(void)hideHud:(BOOL) isAnimation;
+-(IBAction)navigationBack:(id)sender;
+-(void)_handleFacebookMeDidUpdate:(NSNotification *)notification;
 
 - (NSString *)tripNameForRowAtIndexPath:(NSIndexPath *)indexPath;
 

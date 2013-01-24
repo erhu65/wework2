@@ -14,6 +14,7 @@
 #import "UIImageView+RemoteFile.h"
 #import "BackgroundLayer.h"
 
+
 @interface HMStoreDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imvBg;
 

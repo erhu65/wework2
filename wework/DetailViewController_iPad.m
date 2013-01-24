@@ -15,24 +15,19 @@
 //
 
 #import "DetailViewController_iPad.h"
-
 #import "AboutBackgroundView.h"
 #import "AboutViewController.h"
 
 @interface DetailViewController_iPad ()
-<UISplitViewControllerDelegate, UIPopoverControllerDelegate>
+<UISplitViewControllerDelegate,
+ UIPopoverControllerDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @end
 
 
 @implementation DetailViewController_iPad
 
-@synthesize detailPopover;
-@synthesize aboutPopover;
-@synthesize lastTappedButton;
-
 #pragma mark - Private behavior
-
 - (void)showAboutPopover
 {
 	if ([[self aboutPopover] isPopoverVisible] == NO) 
@@ -48,7 +43,6 @@
 }
 
 #pragma mark - IBActions
-
 - (IBAction)aboutTapped:(id)sender
 {
     [self setLastTappedButton:sender];
@@ -63,9 +57,7 @@
     
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_sand"]]];
     [rentSwitch setOnTintColor:[UIColor colorWithRed:0 green:175.0/255.0 blue:176.0/255.0 alpha:1.0]];
-    
     // About button
-    
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About"
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self 
@@ -73,7 +65,6 @@
     [self.navigationItem setRightBarButtonItem:aboutButton animated:YES]; 
     
     // Initialize popover
-    
     AboutViewController *aboutVC = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
     [self setAboutPopover:[[UIPopoverController alloc] initWithContentViewController:aboutVC]];
     [[self aboutPopover] setPopoverBackgroundViewClass:[AboutBackgroundView class]];
@@ -85,20 +76,16 @@
 {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
         // Update the view.
         [self configureView];
     }
-    
     if (self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }        
 }
-
 - (void)configureView
 {
     // Update the user interface for the detail item.
-    
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
     }
@@ -106,7 +93,6 @@
 
 
 #pragma mark - UISplitViewControllerDelegate
-
 - (void)splitViewController:(UISplitViewController*)svc 
      willHideViewController:(UIViewController *)aViewController 
           withBarButtonItem:(UIBarButtonItem*)barButtonItem 
@@ -133,15 +119,13 @@
     } 
 }
 
-#pragma mark - UIPopoverViewControllerDelegate
-
+#pragma mark - UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController 
 {
 	self.lastTappedButton = nil;
 }
 
 #pragma mark - Rotation
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return YES;
@@ -162,5 +146,12 @@
 		[self showAboutPopover];
 	}
 }
+
+- (IBAction)_notice:(id)sender {
+    [self.noticeChildViewController 
+     toggleSlide:nil msg:@"ljlkjl"
+     stayTime:5.0f];
+}
+
 
 @end
