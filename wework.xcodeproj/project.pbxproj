@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B73D5B0E16B4233800BC2D77 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0416B4233800BC2D77 /* ioapi.c */; };
+		B73D5B0F16B4233800BC2D77 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0616B4233800BC2D77 /* mztools.c */; };
+		B73D5B1016B4233800BC2D77 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0816B4233800BC2D77 /* unzip.c */; };
+		B73D5B1116B4233800BC2D77 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0A16B4233800BC2D77 /* zip.c */; };
+		B73D5B1216B4233800BC2D77 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0D16B4233800BC2D77 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B73D5B1916B424AB00BC2D77 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B73D5B1816B424AB00BC2D77 /* libz.1.2.5.dylib */; };
 		B753CED416AFE5D900DC42B9 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CED016AFE5D900DC42B9 /* Default-Landscape.png */; };
 		B753CED516AFE5D900DC42B9 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CED116AFE5D900DC42B9 /* Default-Landscape@2x.png */; };
 		B753CED616AFE5D900DC42B9 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CED216AFE5D900DC42B9 /* Default-Portrait.png */; };
@@ -256,6 +262,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B73D5B0316B4233800BC2D77 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		B73D5B0416B4233800BC2D77 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		B73D5B0516B4233800BC2D77 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		B73D5B0616B4233800BC2D77 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		B73D5B0716B4233800BC2D77 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		B73D5B0816B4233800BC2D77 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		B73D5B0916B4233800BC2D77 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		B73D5B0A16B4233800BC2D77 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		B73D5B0B16B4233800BC2D77 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		B73D5B0C16B4233800BC2D77 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		B73D5B0D16B4233800BC2D77 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		B73D5B1816B424AB00BC2D77 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		B753CED016AFE5D900DC42B9 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		B753CED116AFE5D900DC42B9 /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x.png"; sourceTree = "<group>"; };
 		B753CED216AFE5D900DC42B9 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
@@ -609,6 +627,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73D5B1916B424AB00BC2D77 /* libz.1.2.5.dylib in Frameworks */,
 				B78C00EC16B11628000043EB /* AddressBook.framework in Frameworks */,
 				B78C001416B10C70000043EB /* MediaPlayer.framework in Frameworks */,
 				B78C001216B10C63000043EB /* CoreData.framework in Frameworks */,
@@ -630,6 +649,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B73D5B0116B4233800BC2D77 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				B73D5B0216B4233800BC2D77 /* minizip */,
+				B73D5B0C16B4233800BC2D77 /* ZipArchive.h */,
+				B73D5B0D16B4233800BC2D77 /* ZipArchive.mm */,
+			);
+			path = ZipArchive;
+			sourceTree = "<group>";
+		};
+		B73D5B0216B4233800BC2D77 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				B73D5B0316B4233800BC2D77 /* crypt.h */,
+				B73D5B0416B4233800BC2D77 /* ioapi.c */,
+				B73D5B0516B4233800BC2D77 /* ioapi.h */,
+				B73D5B0616B4233800BC2D77 /* mztools.c */,
+				B73D5B0716B4233800BC2D77 /* mztools.h */,
+				B73D5B0816B4233800BC2D77 /* unzip.c */,
+				B73D5B0916B4233800BC2D77 /* unzip.h */,
+				B73D5B0A16B4233800BC2D77 /* zip.c */,
+				B73D5B0B16B4233800BC2D77 /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
 		B7887E4016B3A48900670C77 /* Brush */ = {
 			isa = PBXGroup;
 			children = (
@@ -944,6 +989,7 @@
 		B78C4C1216AFD7F80066D95F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B73D5B1816B424AB00BC2D77 /* libz.1.2.5.dylib */,
 				B78C00EB16B11627000043EB /* AddressBook.framework */,
 				B78C001316B10C70000043EB /* MediaPlayer.framework */,
 				B78C001116B10C62000043EB /* CoreData.framework */,
@@ -1092,6 +1138,7 @@
 		B78CFFA816B109D0000043EB /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				B73D5B0116B4233800BC2D77 /* ZipArchive */,
 				B78C004A16B10DB0000043EB /* components */,
 				B78C004416B10D91000043EB /* user-interface */,
 				B78CFFFD16B10C1A000043EB /* subscripting */,
@@ -1579,6 +1626,11 @@
 				B7887E4716B3A61800670C77 /* ColorPickerController.m in Sources */,
 				B7887E5316B3C39A00670C77 /* UIImagePickerController+NonRotating.m in Sources */,
 				B7887E5B16B3C93400670C77 /* DetailViewController.m in Sources */,
+				B73D5B0E16B4233800BC2D77 /* ioapi.c in Sources */,
+				B73D5B0F16B4233800BC2D77 /* mztools.c in Sources */,
+				B73D5B1016B4233800BC2D77 /* unzip.c in Sources */,
+				B73D5B1116B4233800BC2D77 /* zip.c in Sources */,
+				B73D5B1216B4233800BC2D77 /* ZipArchive.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,6 +1711,7 @@
 		B78C4C3716AFD7F80066D95F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Peter Huang (Q66V2GU4AU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Peter Huang (Q66V2GU4AU)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1674,6 +1727,7 @@
 				PROVISIONING_PROFILE = "95FB0F42-27C4-48FB-946F-9D4FCC134971";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95FB0F42-27C4-48FB-946F-9D4FCC134971";
 				TARGETED_DEVICE_FAMILY = 2;
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1681,6 +1735,7 @@
 		B78C4C3816AFD7F80066D95F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Huang Peter";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Huang Peter";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1695,6 +1750,7 @@
 				PROVISIONING_PROFILE = "05BB88EA-FBA5-4538-ADE1-9EE381DD038D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "05BB88EA-FBA5-4538-ADE1-9EE381DD038D";
 				TARGETED_DEVICE_FAMILY = 2;
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

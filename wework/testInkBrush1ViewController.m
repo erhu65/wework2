@@ -9,6 +9,8 @@
 #import "testInkBrush1ViewController.h"
 #import "Canvas.h"
 #import "Utils.h"
+#import "ZipArchive.h"
+
 @implementation testInkBrush1ViewController
 
 
@@ -116,43 +118,37 @@
         imageSaved = [UIImage imageWithData:dataRestored];
     }
     
-//    
+    BOOL isDir = YES;
+    NSArray *subpaths;
     
-
-//    BOOL isDir=NO;
-//    
-//    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    
-//    NSArray *subpaths;
-//    
-//    NSString *toCompress = @"dirToZip_OR_fileNameToZip";
-//    NSString *pathToCompress = [documentsDirectory stringByAppendingPathComponent:toCompress];
-//    
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    if ([fileManager fileExistsAtPath:pathToCompress isDirectory:&isDir] && isDir){
-//        subpaths = [fileManager subpathsAtPath:pathToCompress];
-//    } else if ([fileManager fileExistsAtPath:pathToCompress]) {
-//        subpaths = [NSArray arrayWithObject:pathToCompress];
-//    }
-//    
-//    NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:@"myZipFileName.zip"];
-//    
-//    ZipArchive *za = [[ZipArchive alloc] init];
-//    [za CreateZipFile2:zipFilePath];
-//    if (isDir) {
-//        for(NSString *path in subpaths){ 
-//            NSString *fullPath = [pathToCompress stringByAppendingPathComponent:path];
-//            if([fileManager fileExistsAtPath:fullPath isDirectory:&isDir] && !isDir){
-//                [za addFileToZip:fullPath newname:path]; 
-//            }
-//        }
-//    } else {
-//        [za addFileToZip:pathToCompress newname:toCompress];
-//    }
-//    
-//    BOOL successCompressing = [za CloseZipFile2];
+    //NSString *toCompress = @"dirToZip_OR_fileNameToZip";
+    NSString *pathToCompress = forderPath;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:pathToCompress isDirectory:&isDir] && isDir){
+        subpaths = [fileManager subpathsAtPath:pathToCompress];
+    } else if ([fileManager fileExistsAtPath:pathToCompress]) {
+        subpaths = [NSArray arrayWithObject:pathToCompress];
+    }
+    NSString* uniquidFileNameZip = [NSString stringWithFormat:@"%@.zip", uniquidFileName];
+    NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:uniquidFileNameZip];
     
-
+    ZipArchive *za = [[ZipArchive alloc] init];
+    [za CreateZipFile2:zipFilePath];
+    
+    
+    if (isDir) {
+        for(NSString *path in subpaths){ 
+            NSString *fullPath = [pathToCompress stringByAppendingPathComponent:path];
+            if([fileManager fileExistsAtPath:fullPath isDirectory:&isDir] && !isDir){
+                [za addFileToZip:fullPath newname:path]; 
+            }
+        }
+    } else {
+        [za addFileToZip:pathToCompress newname:@"fdfd"];
+    }
+    
+    BOOL successCompressing = [za CloseZipFile2];    
+    
     if(nil == strokesSaved ){
         PRPLog(@"failed to retrieve writed arrayStrokes dictionary from disk \
                -[%@ , %@]",

@@ -104,7 +104,7 @@
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2t0-uA-kKc">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="Eub-t9-qd3"/>
+                                    <constraint firstAttribute="width" constant="280" id="lWs-O9-Y8F"/>
                                 </constraints>
                                 <segments>
                                     <segment title="Short"/>
@@ -202,6 +202,55 @@
                                     <outlet property="delegate" destination="4" id="vOy-Fa-6bm"/>
                                 </connections>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dbz-BK-1Ay">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="189" id="HIW-AD-sQS"/>
+                                    <constraint firstAttribute="height" constant="205" id="hJG-kv-NGb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="gU1-AS-A3O">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="AL6-9t-DVw"/>
+                                    <constraint firstAttribute="width" constant="209" id="pfO-yy-N8N"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWH-a1-OlK">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="174" id="Ifh-L0-Ymo"/>
+                                    <constraint firstAttribute="height" constant="38" id="fut-LX-YmJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Zip Files">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="zip:" destination="4" eventType="touchUpInside" id="k3D-d3-yFl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcf-W0-ak4">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="174" id="QJG-8e-jmf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="unZip Files">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="downLoadUnzip:" destination="4" eventType="touchUpInside" id="x0b-pe-mMu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -209,9 +258,11 @@
                             <constraint firstItem="WkH-uB-Lbi" firstAttribute="leading" secondItem="57j-ZO-EDB" secondAttribute="leading" type="default" id="0zL-zg-V8t"/>
                             <constraint firstItem="fZk-aV-cZP" firstAttribute="trailing" secondItem="5pv-q3-JSL" secondAttribute="trailing" type="default" id="2Si-Kg-sAB"/>
                             <constraint firstItem="WkH-uB-Lbi" firstAttribute="top" secondItem="26" secondAttribute="top" constant="117" id="2ni-vL-3yl"/>
+                            <constraint firstItem="jWH-a1-OlK" firstAttribute="top" secondItem="gU1-AS-A3O" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="2xm-Mq-0rN"/>
                             <constraint firstItem="WEH-ha-E5I" firstAttribute="top" secondItem="26" secondAttribute="top" constant="305" id="3vG-XP-6dw"/>
                             <constraint firstAttribute="bottom" secondItem="AXX-fm-0si" secondAttribute="bottom" constant="96" id="3vI-5r-JH7"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="leading" secondItem="YUK-XQ-kLH" secondAttribute="leading" type="default" id="4ss-M8-5hP"/>
+                            <constraint firstItem="rcf-W0-ak4" firstAttribute="top" secondItem="guB-fP-f8o" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="6TC-ei-9M7"/>
                             <constraint firstItem="JGn-Fw-Vov" firstAttribute="top" secondItem="MSY-yK-Z9H" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="98A-SD-O0j"/>
                             <constraint firstItem="5pv-q3-JSL" firstAttribute="leading" secondItem="MSY-yK-Z9H" secondAttribute="leading" type="default" id="9XM-ik-UhR"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="top" secondItem="26" secondAttribute="top" constant="166" id="9p6-zP-BCA"/>
@@ -221,24 +272,29 @@
                             <constraint firstAttribute="trailing" secondItem="WEH-ha-E5I" secondAttribute="trailing" constant="240" id="CXq-ss-rh2"/>
                             <constraint firstItem="MSY-yK-Z9H" firstAttribute="top" secondItem="5pv-q3-JSL" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="FaP-2a-0dz"/>
                             <constraint firstItem="fZk-aV-cZP" firstAttribute="leading" secondItem="MSY-yK-Z9H" secondAttribute="leading" type="default" id="GFJ-lQ-U8l"/>
-                            <constraint firstAttribute="bottom" secondItem="JGn-Fw-Vov" secondAttribute="bottom" constant="78" id="Gpt-B2-Um4"/>
+                            <constraint firstItem="jWH-a1-OlK" firstAttribute="trailing" secondItem="dbz-BK-1Ay" secondAttribute="trailing" type="default" id="P55-HL-LW0"/>
                             <constraint firstItem="AXX-fm-0si" firstAttribute="trailing" secondItem="MSY-yK-Z9H" secondAttribute="trailing" type="default" id="PsG-j3-ebs"/>
                             <constraint firstItem="qMa-aY-UQD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="26" secondAttribute="leading" type="user" id="Qhy-x8-A67"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="leading" secondItem="5pv-q3-JSL" secondAttribute="leading" type="default" id="S99-OF-46R"/>
                             <constraint firstAttribute="trailing" secondItem="guB-fP-f8o" secondAttribute="trailing" constant="91" id="SKU-lM-ZRL"/>
+                            <constraint firstItem="dbz-BK-1Ay" firstAttribute="top" secondItem="26" secondAttribute="top" constant="187" id="TtF-LL-KHS"/>
                             <constraint firstItem="YUK-XQ-kLH" firstAttribute="top" secondItem="26" secondAttribute="top" constant="242" id="Tv8-kP-USF"/>
                             <constraint firstItem="guB-fP-f8o" firstAttribute="top" secondItem="26" secondAttribute="top" constant="52" id="WF3-0d-Seb"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="trailing" secondItem="WkH-uB-Lbi" secondAttribute="trailing" type="default" id="Xqp-N1-YW2"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="centerY" secondItem="WEH-ha-E5I" secondAttribute="centerY" type="default" id="Xxm-qy-Wfd"/>
+                            <constraint firstItem="jWH-a1-OlK" firstAttribute="top" secondItem="5pv-q3-JSL" secondAttribute="top" type="default" id="Y8r-bs-Fnp"/>
                             <constraint firstItem="qMa-aY-UQD" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" type="user" id="aKj-pv-rXp"/>
+                            <constraint firstItem="jWH-a1-OlK" firstAttribute="top" secondItem="26" secondAttribute="top" constant="464" id="aaE-BB-03i"/>
                             <constraint firstAttribute="trailing" secondItem="iX7-ib-pMy" secondAttribute="trailing" constant="98" id="bht-Ya-crs"/>
                             <constraint firstItem="Dgw-zp-Pvq" firstAttribute="centerX" secondItem="Y21-hd-GWD" secondAttribute="centerX" type="default" id="cGS-oV-j5A"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="leading" secondItem="YUK-XQ-kLH" secondAttribute="leading" type="default" id="cq3-dl-LHe"/>
                             <constraint firstAttribute="bottom" secondItem="iX7-ib-pMy" secondAttribute="bottom" constant="131" id="dYx-TR-3cU"/>
                             <constraint firstItem="57j-ZO-EDB" firstAttribute="top" secondItem="Y21-hd-GWD" secondAttribute="top" type="default" id="fNs-sr-6Bt"/>
+                            <constraint firstAttribute="trailing" secondItem="gU1-AS-A3O" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="gDu-5U-TBU"/>
                             <constraint firstItem="qMa-aY-UQD" firstAttribute="bottom" secondItem="26" secondAttribute="bottom" type="user" id="goM-5V-f5O"/>
                             <constraint firstItem="Y21-hd-GWD" firstAttribute="trailing" secondItem="2t0-uA-kKc" secondAttribute="trailing" type="default" id="iMm-mM-GNG"/>
                             <constraint firstItem="AXX-fm-0si" firstAttribute="leading" secondItem="fZk-aV-cZP" secondAttribute="leading" type="default" id="iiT-Ob-l1U"/>
+                            <constraint firstItem="rcf-W0-ak4" firstAttribute="centerX" secondItem="dbz-BK-1Ay" secondAttribute="centerX" type="default" id="lih-OP-COC"/>
                             <constraint firstAttribute="trailing" secondItem="qMa-aY-UQD" secondAttribute="trailing" type="user" id="mOQ-tu-6pl"/>
                             <constraint firstItem="27" firstAttribute="leading" secondItem="26" secondAttribute="leading" constant="32" id="mdT-at-7HO"/>
                             <constraint firstItem="7On-QT-wRa" firstAttribute="trailing" secondItem="5pv-q3-JSL" secondAttribute="trailing" type="default" id="ozI-S3-DWV"/>
@@ -248,6 +304,7 @@
                             <constraint firstItem="27" firstAttribute="top" secondItem="26" secondAttribute="top" constant="20" symbolic="YES" type="default" id="sy3-74-VmT"/>
                             <constraint firstItem="YUK-XQ-kLH" firstAttribute="trailing" secondItem="57j-ZO-EDB" secondAttribute="trailing" type="default" id="tVO-Vb-GXq"/>
                             <constraint firstItem="2t0-uA-kKc" firstAttribute="centerX" secondItem="qMa-aY-UQD" secondAttribute="centerX" type="default" id="zL0-Rx-h9U"/>
+                            <constraint firstItem="dbz-BK-1Ay" firstAttribute="leading" secondItem="Dgw-zp-Pvq" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="zSS-7i-U67"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
@@ -256,6 +313,8 @@
                     <connections>
                         <outlet property="detailDescriptionLabel" destination="27" id="29"/>
                         <outlet property="imageView" destination="JGn-Fw-Vov" id="qfU-wM-SXP"/>
+                        <outlet property="imageViewZip" destination="dbz-BK-1Ay" id="FYA-Aw-voB"/>
+                        <outlet property="labelZip" destination="gU1-AS-A3O" id="XBO-y5-sec"/>
                         <outlet property="rentSwitch" destination="WEH-ha-E5I" id="Z1l-6c-j7k"/>
                         <outlet property="toolbar" destination="qMa-aY-UQD" id="K1t-fT-ccK"/>
                         <segue destination="Tct-4v-YI2" kind="popover" identifier="ShowPopover" popoverAnchorBarButtonItem="Dys-0Q-biK" id="fmT-hP-uIE">
@@ -763,6 +822,90 @@
         <image name="redo.png" width="20" height="20"/>
         <image name="sword.png" width="70" height="70"/>
     </resources>
+    <classes>
+        <class className="BRCoreViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelAndDismiss:"/>
+                <relationship kind="action" name="navigationBack:"/>
+                <relationship kind="action" name="saveAndDismiss:"/>
+            </relationships>
+        </class>
+        <class className="Canvas" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Canvas.h"/>
+            <relationships>
+                <relationship kind="action" name="clearCanvas"/>
+                <relationship kind="action" name="didClickChoosePhoto"/>
+                <relationship kind="action" name="didClickColorButton"/>
+                <relationship kind="action" name="eraser"/>
+                <relationship kind="action" name="redo"/>
+                <relationship kind="action" name="savePic"/>
+                <relationship kind="action" name="setBrushSize:" candidateClass="UISlider"/>
+                <relationship kind="action" name="undo"/>
+                <relationship kind="outlet" name="buttonColor" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="labelSize" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sliderSize" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="CustomTextField" superclassName="UITextField">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomTextField.h"/>
+        </class>
+        <class className="Detail1ViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Detail1ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="aboutTapped:"/>
+                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="rentSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="DetailViewController_iPad" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController_iPad.h"/>
+            <relationships>
+                <relationship kind="action" name="aboutTapped:"/>
+                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imageViewZip" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="labelZip" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="rentSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SurfsUpViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelAndDismiss:"/>
+                <relationship kind="action" name="navigationBack:"/>
+                <relationship kind="action" name="saveAndDismiss:"/>
+            </relationships>
+        </class>
+        <class className="SurfsUpViewController_iPad" superclassName="SurfsUpViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController_iPad.h"/>
+        </class>
+        <class className="Tab1NavigationController" superclassName="UINavigationController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Tab1NavigationController.h"/>
+        </class>
+        <class className="WWSample1ViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWSample1ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="dismiss:"/>
+            </relationships>
+        </class>
+        <class className="WeaponSelector" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WeaponSelector.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="testInkBrush1ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/testInkBrush1ViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

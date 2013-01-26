@@ -6,6 +6,7 @@
 //  Copyright Chen Li 2010. All rights reserved.
 //
 
+
 @protocol testInkBrush1ViewControllerDelegate
 
 @required

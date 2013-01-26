@@ -21,7 +21,7 @@
 #import "WWSample1ViewController.h"
 #import "testInkBrush1ViewController.h"
 #import "WeaponSelector.h"
-
+#import "ZipArchive.h"
 
 @interface DetailViewController_iPad ()
 <UISplitViewControllerDelegate,
@@ -44,6 +44,8 @@ WeaponSelectorDelegate>
 
 @property (nonatomic, weak) IBOutlet UIImageView  *imageView;
 
+@property(nonatomic, weak) IBOutlet UIImageView *imageViewZip;
+@property(nonatomic, weak) IBOutlet UILabel *labelZip;
 
 
 @end
@@ -292,6 +294,80 @@ WeaponSelectorDelegate>
         [self performSegueWithIdentifier:@"ShowPopover" sender:sender];
     }
 }
+
+- (IBAction)downLoadUnzip:(id)sender {
+
+    dispatch_queue_t queue = dispatch_get_global_queue(
+                                                       DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSURL *url = [NSURL URLWithString:@"http://www.icodeblog.com/wp-content/uploads/2012/08/zipfile.zip"];
+        NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+        
+        if(!error)
+        {        
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+            NSString *path = [paths objectAtIndex:0];
+            NSString *zipPath = [path stringByAppendingPathComponent:@"zipfile.zip"];
+            
+            [data writeToFile:zipPath options:0 error:&error];
+            
+            if(!error)
+            {
+                ZipArchive *za = [[ZipArchive alloc] init];
+                if ([za UnzipOpenFile: zipPath]) {            
+                    BOOL ret = [za UnzipFileTo: path overWrite: YES];
+                    if (NO == ret){} [za UnzipCloseFile];
+                    
+                    NSString *imageFilePath = [path stringByAppendingPathComponent:@"photo.png"];
+                    NSString *textFilePath = [path stringByAppendingPathComponent:@"text.txt"];
+                    NSData *imageData = [NSData dataWithContentsOfFile:imageFilePath options:0 error:nil];
+                    UIImage *img = [UIImage imageWithData:imageData];
+                    NSString *textString = [NSString stringWithContentsOfFile:textFilePath encoding:NSASCIIStringEncoding error:nil];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.imageViewZip.image = img;
+                        self.labelZip.text = textString;
+                    });
+                }
+            }
+            else
+            {
+                NSLog(@"Error saving file %@",error);
+            }
+        }
+        else
+        {
+            NSLog(@"Error downloading zip file: %@", error);
+        }
+        
+    });
+
+}
+
+
+- (IBAction)zip:(id)sender {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docspath = [paths objectAtIndex:0];
+    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachePath = [paths objectAtIndex:0];
+    
+    NSString *zipFile = [docspath stringByAppendingPathComponent:@"newzipfile.zip"];
+    
+    ZipArchive *za = [[ZipArchive alloc] init];
+    [za CreateZipFile2:zipFile];
+    
+    NSString *imagePath = [cachePath stringByAppendingPathComponent:@"photo.png"];
+    NSString *textPath = [cachePath stringByAppendingPathComponent:@"text.txt"];
+    
+    [za addFileToZip:imagePath newname:@"NewPhotoName.png"];
+    [za addFileToZip:textPath newname:@"NewTextName.txt"];
+    
+    BOOL success = [za CloseZipFile2];
+    
+    NSLog(@"Zipped file with result %d",success);   
+}
+
 
 
 #pragma mark Segues

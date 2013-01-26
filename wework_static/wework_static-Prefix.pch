@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'wework_static' target in the 'wework_static' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
