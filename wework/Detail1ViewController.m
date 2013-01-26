@@ -14,24 +14,22 @@
 // THE SOFTWARE.
 //
 
-#import "DetailViewController_iPad.h"
+#import "Detail1ViewController.h"
 #import "AboutBackgroundView.h"
 #import "AboutViewController.h"
 #import "CitiesViewController.h"
 #import "WWSample1ViewController.h"
-#import "testInkBrush1ViewController.h"
 #import "WeaponSelector.h"
 
 
-@interface DetailViewController_iPad ()
+@interface Detail1ViewController ()
 <UISplitViewControllerDelegate,
- UIPopoverControllerDelegate,
+UIPopoverControllerDelegate,
 CitiesViewControllerDelegate,
 WWSample1ViewControllerDelegate,
-testInkBrush1ViewControllerDelegate,
 WeaponSelectorDelegate>
 {
-
+    
 }
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (nonatomic, assign) UIPopoverController *popOverSample1;
@@ -50,9 +48,7 @@ WeaponSelectorDelegate>
 
 
 
-@implementation DetailViewController_iPad
-
-
+@implementation DetailViewController
 
 #pragma mark - Private behavior
 - (void)showAboutPopover
@@ -60,8 +56,8 @@ WeaponSelectorDelegate>
 	if ([[self aboutPopover] isPopoverVisible] == NO) 
     {
 		[[self aboutPopover] presentPopoverFromBarButtonItem:self.lastTappedButton 
-                               permittedArrowDirections:UIPopoverArrowDirectionAny 
-                                               animated:YES];
+                                    permittedArrowDirections:UIPopoverArrowDirectionAny 
+                                                    animated:YES];
 	}
 	else 
     {
@@ -78,29 +74,16 @@ WeaponSelectorDelegate>
 
 - (IBAction)presentTapped:(id)sender
 {
-    
+    //init with - (void)loadView
+    //WWSample1ViewController *sample1VC = [[WWSample1ViewController alloc] init];
     
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                   bundle:nil];
-    testInkBrush1ViewController* brushVC =(testInkBrush1ViewController*) [sb instantiateViewControllerWithIdentifier:@"testInkBrush1ViewController"];
-    brushVC.delegate = self;
-    brushVC.modalPresentationStyle = UIModalPresentationPageSheet;
-   
-    [self presentViewController:brushVC animated:YES completion:^{
+    WWSample1ViewController* sample1VC =(WWSample1ViewController*) [sb instantiateViewControllerWithIdentifier:@"WWSample1ViewController"];
+    sample1VC.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:sample1VC animated:YES completion:^{
         
     }];
-    
-    
-    //init with - (void)loadView
-    //WWSample1ViewController *sample1VC = [[WWSample1ViewController alloc] init];
-//    
-//    UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
-//                                                  bundle:nil];
-//    WWSample1ViewController* sample1VC =(WWSample1ViewController*) [sb instantiateViewControllerWithIdentifier:@"WWSample1ViewController"];
-//    sample1VC.modalPresentationStyle = UIModalPresentationFormSheet;
-//    [self presentViewController:sample1VC animated:YES completion:^{
-//    
-//    }];
 }
 
 
@@ -119,12 +102,12 @@ WeaponSelectorDelegate>
     [self.navigationItem setRightBarButtonItem:aboutButton animated:YES]; 
     
     UIBarButtonItem *presentButton = [[UIBarButtonItem alloc] initWithTitle:@"Present"
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self 
-                                                                   action:@selector(presentTapped:)];    
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self 
+                                                                     action:@selector(presentTapped:)];    
     [self.navigationItem setLeftBarButtonItem:presentButton animated:YES]; 
-
-
+    
+    
     
     // Initialize popover
     AboutViewController *aboutVC = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
@@ -233,7 +216,7 @@ WeaponSelectorDelegate>
     self.citiesViewController.data = [NSArray arrayWithObjects:@"Plano", @"Austin", @"Dallas", nil];
     [self.citiesPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
-//    [self.citiesPopoverController presentPopoverFromRect:[self.toolbar bounds] inView:self.toolbar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    //    [self.citiesPopoverController presentPopoverFromRect:[self.toolbar bounds] inView:self.toolbar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (IBAction) california:(UIBarButtonItem*)sender{
@@ -258,20 +241,6 @@ WeaponSelectorDelegate>
     self.popOverSample1 = nil;
 }
 
-#pragma mark - testInkBrush1ViewControllerDelegate
-- (void) testInkBrush1ViewControllerDelegateDidCancel
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-    
-    }];
-}
-- (void) testInkBrush1ViewControllerDelegateDidFinish:(NSString*) str
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
-
 #pragma mark WeaponSelectorDelegate
 - (void)weaponChanged:(Weapon)weapon {
     
@@ -294,6 +263,8 @@ WeaponSelectorDelegate>
 }
 
 
+
+
 #pragma mark Segues
 //- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
 //    
@@ -309,14 +280,17 @@ WeaponSelectorDelegate>
 {
     NSString *identifier = segue.identifier;
     if ([identifier isEqualToString:@"ShowPopover"]) {
-
+        
         self.popOverSample1 = [(UIStoryboardPopoverSegue *)segue popoverController];
         WWSample1ViewController* sample1VC = (WWSample1ViewController*)self.popOverSample1.contentViewController;
         sample1VC.delegate = self;
-//        self.citiesViewController.data = [NSArray arrayWithObjects:@"San Jose", @"San Diego", @"Sacramento","Plano", @"Austin", @"Dallas", nil];
-//        self.citiesViewController.caller = self;
+        //        self.citiesViewController.data = [NSArray arrayWithObjects:@"San Jose", @"San Diego", @"Sacramento","Plano", @"Austin", @"Dallas", nil];
+        //        self.citiesViewController.caller = self;
         self.popOverSample1.delegate = self;
     }
 }
+
+
+
 
 @end

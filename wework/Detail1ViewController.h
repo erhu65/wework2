@@ -14,7 +14,7 @@
 // THE SOFTWARE.
 //
 #import "BRCoreViewController.h"
-@interface DetailViewController_iPad : BRCoreViewController 
+@interface Detail1ViewController : BRCoreViewController 
 {    
     IBOutlet UISwitch   *rentSwitch;
 }

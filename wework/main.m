@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Peter2. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "WWAppDelegate.h"
 
 int main(int argc, char *argv[])

@@ -33,9 +33,7 @@
     [[self tableView] selectRowAtIndexPath:initialPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 //    self.detailVC = (DetailViewController_iPad *)[[self.splitViewController.viewControllers lastObject] topViewController];
     [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:initialPath]];
- 
 }
-
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

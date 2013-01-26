@@ -9,6 +9,7 @@
 #import "WWAppDelegate.h"
 #import "SurfsUpViewController_iPad.h"
 #import "DetailViewController_iPad.h"
+#import "Detail1ViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
@@ -137,6 +138,8 @@ void exceptionHandler(NSException *exception)
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     NSString * tempToken = [deviceToken description];

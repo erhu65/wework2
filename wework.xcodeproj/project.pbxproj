@@ -15,12 +15,21 @@
 		B753CEDD16AFE5EA00DC42B9 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CED916AFE5EA00DC42B9 /* Icon-72@2x.png */; };
 		B753CEDE16AFE5EA00DC42B9 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CEDA16AFE5EA00DC42B9 /* Icon-Small-50.png */; };
 		B753CEDF16AFE5EA00DC42B9 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CEDB16AFE5EA00DC42B9 /* Icon-Small-50@2x.png */; };
+		B7887E3E16B3A48000670C77 /* testInkBrush1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E3D16B3A48000670C77 /* testInkBrush1ViewController.m */; };
+		B7887E4616B3A61800670C77 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E4216B3A61800670C77 /* Canvas.m */; };
+		B7887E4716B3A61800670C77 /* ColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E4416B3A61800670C77 /* ColorPickerController.m */; };
+		B7887E4816B3A61800670C77 /* ColorPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4516B3A61800670C77 /* ColorPickerController.xib */; };
+		B7887E4C16B3A91400670C77 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4916B3A91400670C77 /* redo.png */; };
+		B7887E4D16B3A91400670C77 /* picUndo.png in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4A16B3A91400670C77 /* picUndo.png */; };
+		B7887E4E16B3A91400670C77 /* picEraser.png in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4B16B3A91400670C77 /* picEraser.png */; };
+		B7887E5016B3AFAC00670C77 /* colorWheel.png in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4F16B3AFAC00670C77 /* colorWheel.png */; };
+		B7887E5316B3C39A00670C77 /* UIImagePickerController+NonRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E5216B3C39A00670C77 /* UIImagePickerController+NonRotating.m */; };
+		B7887E5B16B3C93400670C77 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E5A16B3C93400670C77 /* DetailViewController.m */; };
 		B78C000716B10C2F000043EB /* NSDictionary+RWFlatten.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000016B10C2F000043EB /* NSDictionary+RWFlatten.m */; };
 		B78C000816B10C2F000043EB /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000216B10C2F000043EB /* Item.m */; };
 		B78C000916B10C2F000043EB /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000416B10C2F000043EB /* Section.m */; };
 		B78C000A16B10C2F000043EB /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000616B10C2F000043EB /* DataModel.m */; };
 		B78C000F16B10C3D000043EB /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000C16B10C3D000043EB /* MasterViewController.m */; };
-		B78C001016B10C3D000043EB /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000E16B10C3D000043EB /* DetailViewController.m */; };
 		B78C001216B10C63000043EB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78C001116B10C62000043EB /* CoreData.framework */; };
 		B78C001416B10C70000043EB /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78C001316B10C70000043EB /* MediaPlayer.framework */; };
 		B78C001B16B10CA2000043EB /* LBYouTubeExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C001816B10CA2000043EB /* LBYouTubeExtractor.m */; };
@@ -228,6 +237,22 @@
 		B78CFFF616B10BE3000043EB /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78CFFEC16B10BE3000043EB /* MyNavigationController.m */; };
 		B78CFFFB16B10C07000043EB /* AutoLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78CFFF916B10C07000043EB /* AutoLayoutViewController.m */; };
 		B78CFFFC16B10C07000043EB /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B78CFFFA16B10C07000043EB /* ViewController.xib */; };
+		B78DDCC216B277770043ECD8 /* CitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DDCC016B277770043ECD8 /* CitiesViewController.m */; };
+		B78DDCCB16B277B70043ECD8 /* Sacramento.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCC516B277B70043ECD8 /* Sacramento.png */; };
+		B78DDCCC16B277B70043ECD8 /* San Diego.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCC616B277B70043ECD8 /* San Diego.png */; };
+		B78DDCCD16B277B70043ECD8 /* Dallas.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCC716B277B70043ECD8 /* Dallas.png */; };
+		B78DDCCE16B277B70043ECD8 /* Austin.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCC816B277B70043ECD8 /* Austin.png */; };
+		B78DDCCF16B277B70043ECD8 /* San Jose.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCC916B277B70043ECD8 /* San Jose.png */; };
+		B78DDCD016B277B70043ECD8 /* Plano.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCCA16B277B70043ECD8 /* Plano.png */; };
+		B78DDCD316B282E10043ECD8 /* WWSample1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DDCD216B282E00043ECD8 /* WWSample1ViewController.m */; };
+		B78DDCE116B292690043ECD8 /* WeaponInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DDCDD16B292650043ECD8 /* WeaponInputViewController.m */; };
+		B78DDCE216B292690043ECD8 /* WeaponInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCDE16B292670043ECD8 /* WeaponInputViewController.xib */; };
+		B78DDCE316B292690043ECD8 /* WeaponSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DDCE016B292680043ECD8 /* WeaponSelector.m */; };
+		B78DDCE916B2928C0043ECD8 /* blowgun.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE416B2928C0043ECD8 /* blowgun.png */; };
+		B78DDCEA16B2928C0043ECD8 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE516B2928C0043ECD8 /* fire.png */; };
+		B78DDCEB16B2928C0043ECD8 /* ninjastar.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE616B2928C0043ECD8 /* ninjastar.png */; };
+		B78DDCEC16B2928C0043ECD8 /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE716B2928C0043ECD8 /* smoke.png */; };
+		B78DDCED16B2928C0043ECD8 /* sword.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE816B2928C0043ECD8 /* sword.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -239,6 +264,23 @@
 		B753CED916AFE5EA00DC42B9 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		B753CEDA16AFE5EA00DC42B9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		B753CEDB16AFE5EA00DC42B9 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		B7887E3C16B3A48000670C77 /* testInkBrush1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testInkBrush1ViewController.h; sourceTree = "<group>"; };
+		B7887E3D16B3A48000670C77 /* testInkBrush1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testInkBrush1ViewController.m; sourceTree = "<group>"; };
+		B7887E4116B3A61800670C77 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
+		B7887E4216B3A61800670C77 /* Canvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Canvas.m; sourceTree = "<group>"; };
+		B7887E4316B3A61800670C77 /* ColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPickerController.h; sourceTree = "<group>"; };
+		B7887E4416B3A61800670C77 /* ColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPickerController.m; sourceTree = "<group>"; };
+		B7887E4516B3A61800670C77 /* ColorPickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPickerController.xib; sourceTree = "<group>"; };
+		B7887E4916B3A91400670C77 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
+		B7887E4A16B3A91400670C77 /* picUndo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picUndo.png; sourceTree = "<group>"; };
+		B7887E4B16B3A91400670C77 /* picEraser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picEraser.png; sourceTree = "<group>"; };
+		B7887E4F16B3AFAC00670C77 /* colorWheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colorWheel.png; sourceTree = "<group>"; };
+		B7887E5116B3C39A00670C77 /* UIImagePickerController+NonRotating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+NonRotating.h"; sourceTree = "<group>"; };
+		B7887E5216B3C39A00670C77 /* UIImagePickerController+NonRotating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+NonRotating.m"; sourceTree = "<group>"; };
+		B7887E5716B3C8A600670C77 /* Detail1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Detail1ViewController.h; sourceTree = "<group>"; };
+		B7887E5816B3C8A600670C77 /* Detail1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Detail1ViewController.m; sourceTree = "<group>"; };
+		B7887E5916B3C93400670C77 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		B7887E5A16B3C93400670C77 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		B78C000016B10C2F000043EB /* NSDictionary+RWFlatten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+RWFlatten.m"; sourceTree = "<group>"; };
 		B78C000116B10C2F000043EB /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		B78C000216B10C2F000043EB /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
@@ -248,8 +290,6 @@
 		B78C000616B10C2F000043EB /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
 		B78C000B16B10C3C000043EB /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		B78C000C16B10C3D000043EB /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		B78C000D16B10C3D000043EB /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		B78C000E16B10C3D000043EB /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		B78C001116B10C62000043EB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B78C001316B10C70000043EB /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		B78C001616B10CA2000043EB /* LBYouTube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTube.h; sourceTree = "<group>"; };
@@ -542,6 +582,26 @@
 		B78CFFF916B10C07000043EB /* AutoLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoLayoutViewController.m; sourceTree = "<group>"; };
 		B78CFFFA16B10C07000043EB /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		B78CFFFF16B10C2F000043EB /* NSDictionary+RWFlatten.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+RWFlatten.h"; sourceTree = "<group>"; };
+		B78DDCBF16B277770043ECD8 /* CitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesViewController.h; sourceTree = "<group>"; };
+		B78DDCC016B277770043ECD8 /* CitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesViewController.m; sourceTree = "<group>"; };
+		B78DDCC516B277B70043ECD8 /* Sacramento.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sacramento.png; sourceTree = "<group>"; };
+		B78DDCC616B277B70043ECD8 /* San Diego.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "San Diego.png"; sourceTree = "<group>"; };
+		B78DDCC716B277B70043ECD8 /* Dallas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dallas.png; sourceTree = "<group>"; };
+		B78DDCC816B277B70043ECD8 /* Austin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Austin.png; sourceTree = "<group>"; };
+		B78DDCC916B277B70043ECD8 /* San Jose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "San Jose.png"; sourceTree = "<group>"; };
+		B78DDCCA16B277B70043ECD8 /* Plano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Plano.png; sourceTree = "<group>"; };
+		B78DDCD116B282E00043ECD8 /* WWSample1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWSample1ViewController.h; sourceTree = "<group>"; };
+		B78DDCD216B282E00043ECD8 /* WWSample1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWSample1ViewController.m; sourceTree = "<group>"; };
+		B78DDCDC16B292650043ECD8 /* WeaponInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponInputViewController.h; sourceTree = "<group>"; };
+		B78DDCDD16B292650043ECD8 /* WeaponInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponInputViewController.m; sourceTree = "<group>"; };
+		B78DDCDE16B292670043ECD8 /* WeaponInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeaponInputViewController.xib; sourceTree = "<group>"; };
+		B78DDCDF16B292670043ECD8 /* WeaponSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponSelector.h; sourceTree = "<group>"; };
+		B78DDCE016B292680043ECD8 /* WeaponSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponSelector.m; sourceTree = "<group>"; };
+		B78DDCE416B2928C0043ECD8 /* blowgun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blowgun.png; sourceTree = "<group>"; };
+		B78DDCE516B2928C0043ECD8 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		B78DDCE616B2928C0043ECD8 /* ninjastar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninjastar.png; sourceTree = "<group>"; };
+		B78DDCE716B2928C0043ECD8 /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
+		B78DDCE816B2928C0043ECD8 /* sword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -570,6 +630,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B7887E4016B3A48900670C77 /* Brush */ = {
+			isa = PBXGroup;
+			children = (
+				B7887E3C16B3A48000670C77 /* testInkBrush1ViewController.h */,
+				B7887E3D16B3A48000670C77 /* testInkBrush1ViewController.m */,
+				B7887E4116B3A61800670C77 /* Canvas.h */,
+				B7887E4216B3A61800670C77 /* Canvas.m */,
+				B7887E4316B3A61800670C77 /* ColorPickerController.h */,
+				B7887E4416B3A61800670C77 /* ColorPickerController.m */,
+				B7887E4516B3A61800670C77 /* ColorPickerController.xib */,
+			);
+			name = Brush;
+			sourceTree = "<group>";
+		};
 		B78C001516B10C91000043EB /* LBYouTubeView */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +750,7 @@
 		B78C005C16B10E2E000043EB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				B78DDCC416B277960043ECD8 /* others */,
 				B78C00F216B1223B000043EB /* iPhoneiPadShare */,
 				B78C006016B10EBF000043EB /* indicator.png */,
 				B78C006116B10EBF000043EB /* indicator@2x.png */,
@@ -787,6 +862,10 @@
 		B78C00F216B1223B000043EB /* iPhoneiPadShare */ = {
 			isa = PBXGroup;
 			children = (
+				B7887E4F16B3AFAC00670C77 /* colorWheel.png */,
+				B7887E4916B3A91400670C77 /* redo.png */,
+				B7887E4A16B3A91400670C77 /* picUndo.png */,
+				B7887E4B16B3A91400670C77 /* picEraser.png */,
 				B78C010316B122AF000043EB /* attribution.txt */,
 				B78C010416B122AF000043EB /* bg_sand.png */,
 				B78C010516B122AF000043EB /* button_back_textured_24.png */,
@@ -980,6 +1059,8 @@
 				B78CFF9116B1097C000043EB /* UIImageView+RemoteFile.m */,
 				B78CFF9216B1097C000043EB /* NSMutableArray+Shuffling.h */,
 				B78CFF9316B1097C000043EB /* NSMutableArray+Shuffling.m */,
+				B7887E5116B3C39A00670C77 /* UIImagePickerController+NonRotating.h */,
+				B7887E5216B3C39A00670C77 /* UIImagePickerController+NonRotating.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -1073,6 +1154,7 @@
 		B78CFFC416B10AB9000043EB /* view-controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B7887E4016B3A48900670C77 /* Brush */,
 				B78C00DF16B11025000043EB /* BRPostToFacebookWallViewController.h */,
 				B78C00E016B11026000043EB /* BRPostToFacebookWallViewController.m */,
 				B78C003116B10CF8000043EB /* FriendsList */,
@@ -1088,11 +1170,22 @@
 				B78C014A16B124BF000043EB /* SurfsUpViewController_iPad.m */,
 				B78C014B16B124C0000043EB /* DetailViewController_iPad.h */,
 				B78C014C16B124C1000043EB /* DetailViewController_iPad.m */,
+				B7887E5716B3C8A600670C77 /* Detail1ViewController.h */,
+				B7887E5816B3C8A600670C77 /* Detail1ViewController.m */,
 				B78C014F16B124EC000043EB /* AboutViewController.h */,
 				B78C015016B124ED000043EB /* AboutViewController.m */,
 				B78C015116B124EE000043EB /* AboutBackgroundView.h */,
 				B78C015216B124F0000043EB /* AboutBackgroundView.m */,
 				B78C015316B124F1000043EB /* AboutView.xib */,
+				B78DDCBF16B277770043ECD8 /* CitiesViewController.h */,
+				B78DDCC016B277770043ECD8 /* CitiesViewController.m */,
+				B78DDCD116B282E00043ECD8 /* WWSample1ViewController.h */,
+				B78DDCD216B282E00043ECD8 /* WWSample1ViewController.m */,
+				B78DDCDF16B292670043ECD8 /* WeaponSelector.h */,
+				B78DDCE016B292680043ECD8 /* WeaponSelector.m */,
+				B78DDCDC16B292650043ECD8 /* WeaponInputViewController.h */,
+				B78DDCDD16B292650043ECD8 /* WeaponInputViewController.m */,
+				B78DDCDE16B292670043ECD8 /* WeaponInputViewController.xib */,
 				B78CFFCE16B10ADF000043EB /* MainCategory */,
 			);
 			name = "view-controllers";
@@ -1153,8 +1246,8 @@
 			children = (
 				B78C000B16B10C3C000043EB /* MasterViewController.h */,
 				B78C000C16B10C3D000043EB /* MasterViewController.m */,
-				B78C000D16B10C3D000043EB /* DetailViewController.h */,
-				B78C000E16B10C3D000043EB /* DetailViewController.m */,
+				B7887E5916B3C93400670C77 /* DetailViewController.h */,
+				B7887E5A16B3C93400670C77 /* DetailViewController.m */,
 				B78CFFFE16B10C26000043EB /* Model */,
 			);
 			name = subscripting;
@@ -1173,6 +1266,24 @@
 				B78C000616B10C2F000043EB /* DataModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		B78DDCC416B277960043ECD8 /* others */ = {
+			isa = PBXGroup;
+			children = (
+				B78DDCC516B277B70043ECD8 /* Sacramento.png */,
+				B78DDCC616B277B70043ECD8 /* San Diego.png */,
+				B78DDCC716B277B70043ECD8 /* Dallas.png */,
+				B78DDCC816B277B70043ECD8 /* Austin.png */,
+				B78DDCC916B277B70043ECD8 /* San Jose.png */,
+				B78DDCCA16B277B70043ECD8 /* Plano.png */,
+				B78DDCE416B2928C0043ECD8 /* blowgun.png */,
+				B78DDCE516B2928C0043ECD8 /* fire.png */,
+				B78DDCE616B2928C0043ECD8 /* ninjastar.png */,
+				B78DDCE716B2928C0043ECD8 /* smoke.png */,
+				B78DDCE816B2928C0043ECD8 /* sword.png */,
+			);
+			name = others;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1347,6 +1458,23 @@
 				B78C014116B122AF000043EB /* thumb.png in Resources */,
 				B78C014216B122AF000043EB /* title.png in Resources */,
 				B78C015616B124F2000043EB /* AboutView.xib in Resources */,
+				B78DDCCB16B277B70043ECD8 /* Sacramento.png in Resources */,
+				B78DDCCC16B277B70043ECD8 /* San Diego.png in Resources */,
+				B78DDCCD16B277B70043ECD8 /* Dallas.png in Resources */,
+				B78DDCCE16B277B70043ECD8 /* Austin.png in Resources */,
+				B78DDCCF16B277B70043ECD8 /* San Jose.png in Resources */,
+				B78DDCD016B277B70043ECD8 /* Plano.png in Resources */,
+				B78DDCE216B292690043ECD8 /* WeaponInputViewController.xib in Resources */,
+				B78DDCE916B2928C0043ECD8 /* blowgun.png in Resources */,
+				B78DDCEA16B2928C0043ECD8 /* fire.png in Resources */,
+				B78DDCEB16B2928C0043ECD8 /* ninjastar.png in Resources */,
+				B78DDCEC16B2928C0043ECD8 /* smoke.png in Resources */,
+				B78DDCED16B2928C0043ECD8 /* sword.png in Resources */,
+				B7887E4816B3A61800670C77 /* ColorPickerController.xib in Resources */,
+				B7887E4C16B3A91400670C77 /* redo.png in Resources */,
+				B7887E4D16B3A91400670C77 /* picUndo.png in Resources */,
+				B7887E4E16B3A91400670C77 /* picEraser.png in Resources */,
+				B7887E5016B3AFAC00670C77 /* colorWheel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,7 +1538,6 @@
 				B78C000916B10C2F000043EB /* Section.m in Sources */,
 				B78C000A16B10C2F000043EB /* DataModel.m in Sources */,
 				B78C000F16B10C3D000043EB /* MasterViewController.m in Sources */,
-				B78C001016B10C3D000043EB /* DetailViewController.m in Sources */,
 				B78C001B16B10CA2000043EB /* LBYouTubeExtractor.m in Sources */,
 				B78C001C16B10CA2000043EB /* LBYouTubePlayerController.m in Sources */,
 				B78C002416B10CD1000043EB /* FbChatRoomViewController.m in Sources */,
@@ -1443,6 +1570,15 @@
 				B78C014E16B124C3000043EB /* DetailViewController_iPad.m in Sources */,
 				B78C015416B124F2000043EB /* AboutViewController.m in Sources */,
 				B78C015516B124F2000043EB /* AboutBackgroundView.m in Sources */,
+				B78DDCC216B277770043ECD8 /* CitiesViewController.m in Sources */,
+				B78DDCD316B282E10043ECD8 /* WWSample1ViewController.m in Sources */,
+				B78DDCE116B292690043ECD8 /* WeaponInputViewController.m in Sources */,
+				B78DDCE316B292690043ECD8 /* WeaponSelector.m in Sources */,
+				B7887E3E16B3A48000670C77 /* testInkBrush1ViewController.m in Sources */,
+				B7887E4616B3A61800670C77 /* Canvas.m in Sources */,
+				B7887E4716B3A61800670C77 /* ColorPickerController.m in Sources */,
+				B7887E5316B3C39A00670C77 /* UIImagePickerController+NonRotating.m in Sources */,
+				B7887E5B16B3C93400670C77 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
