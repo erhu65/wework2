@@ -8,11 +8,17 @@
 
 #import "testInkBrush1ViewController.h"
 #import "Canvas.h"
-#import "Utils.h"
-#import "ZipArchive.h"
+#import "WWPhotoMenuViewController.h"
+
+
+@interface testInkBrush1ViewController ()
+<WWPhotoMenuViewControllerDelegate>
+
+@property (nonatomic, strong) UIPopoverController *popOverPhotoMenu;
+
+@end
 
 @implementation testInkBrush1ViewController
-
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -30,7 +36,6 @@
 }
 */
 
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,15 +45,23 @@
 	canvasView.owner = self;
 }
 
-
-// Override to allow orientations other than the default portrait orientation.
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if([self.popOverPhotoMenu isPopoverVisible]){
+        [self.popOverPhotoMenu dismissPopoverAnimated:YES];
+        self.popOverPhotoMenu = nil;
+    }
 }
 
+// Override to allow orientations other than the default portrait orientation.
+- (void)didReceiveMemoryWarning 
+{
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];	
+	// Release any cached data, images, etc that aren't in use.
+}
 - (IBAction)cancel:(id)sender {
     
     if(nil != self.delegate){
@@ -62,138 +75,45 @@
     }
 }
 
-
 - (IBAction)send:(id)sender {
-
+        
     Canvas* canvasView = (Canvas*)self.view;
-    
     if(nil == canvasView.arrayStrokes 
        ||canvasView.arrayStrokes.count == 0){
        
         [self cancel:nil];
         return;
     }
-    NSString* uniquidFileName = [Utils createUUID:nil];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString *forderPath = [documentsDirectory stringByAppendingPathComponent:uniquidFileName];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:forderPath]){
-        NSError* error;
-        if( [[NSFileManager defaultManager] createDirectoryAtPath:forderPath withIntermediateDirectories:NO attributes:nil error:&error])
-            ;// success
-        else
-        {
-            PRPLog(@"ERROR: attempting to write create forder directory \
-                   -[%@ , %@]",
-                   NSStringFromClass([self class]),
-                   NSStringFromSelector(_cmd));
-            NSAssert(FALSE, @"Failed to create directory maybe out of disk space?");
-        }
-    }
+    [self.delegate testInkBrush1ViewControllerDelegateDidFinish: canvasView.pickedImage arrayStrokes:canvasView.arrayStrokes];
 
-
-    UIImage* imageSaved;
-    //NSDictionary* strokes = (NSDictionary* )canvasView.arrayStrokes;
-    NSData * dataToWrite = [NSKeyedArchiver archivedDataWithRootObject:canvasView.arrayStrokes];
-    NSString* filePath_arrayStrokes = [Utils filePathInDocument:@"strokes" withSuffix:@".plist"];
-    
-    [dataToWrite writeToFile:filePath_arrayStrokes atomically:YES];
-    NSString* filePath_arrayStrokes_new = [NSString stringWithFormat:@"%@/%@", forderPath, @"strokes.plist"];
-    [[NSFileManager defaultManager] moveItemAtPath:filePath_arrayStrokes toPath:filePath_arrayStrokes_new error:nil];
-    
-    
-    NSData * dataRestored = [NSData dataWithContentsOfFile:filePath_arrayStrokes_new];
-    NSMutableArray* strokesSaved =   (NSMutableArray*)[NSKeyedUnarchiver unarchiveObjectWithData:dataRestored];
-    
-    if(nil != canvasView.pickedImage){
-        
-        NSString* filePath_pickedImage = [Utils filePathInDocument:@"bg" withSuffix:@".png"];   
-        //I do this in the didFinishPickingImage:(UIImage *)img method
-        NSData* imageData = UIImageJPEGRepresentation(canvasView.pickedImage, 1.0);
-        //save to the default 100Apple(Camera Roll) folder.   
-        [imageData writeToFile:filePath_pickedImage atomically:NO]; 
-        NSString* filePath_pickedImage_new = [NSString stringWithFormat:@"%@/%@", forderPath, @"bg.png"];
-        [[NSFileManager defaultManager] moveItemAtPath:filePath_pickedImage toPath:filePath_pickedImage_new error:nil];
-        NSData * dataRestored = [NSData dataWithContentsOfFile:filePath_pickedImage_new];
-        imageSaved = [UIImage imageWithData:dataRestored];
-    }
-    
-    BOOL isDir = YES;
-    NSArray *subpaths;
-    //dfdf
-    //NSString *toCompress = @"dirToZip_OR_fileNameToZip";
-    NSString *pathToCompress = forderPath;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:pathToCompress isDirectory:&isDir] && isDir){
-        subpaths = [fileManager subpathsAtPath:pathToCompress];
-    } else if ([fileManager fileExistsAtPath:pathToCompress]) {
-        subpaths = [NSArray arrayWithObject:pathToCompress];
-    }
-    NSString* uniquidFileNameZip = [NSString stringWithFormat:@"%@.zip", uniquidFileName];
-    NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:uniquidFileNameZip];
-    
-    ZipArchive *za = [[ZipArchive alloc] init];
-    [za CreateZipFile2:zipFilePath];
-    
-    
-    if (isDir) {
-        for(NSString *path in subpaths){ 
-            NSString *fullPath = [pathToCompress stringByAppendingPathComponent:path];
-            if([fileManager fileExistsAtPath:fullPath isDirectory:&isDir] && !isDir){
-                [za addFileToZip:fullPath newname:path]; 
-            }
-        }
-    } else {
-        [za addFileToZip:pathToCompress newname:@"fdfd"];
-    }
-    
-    BOOL successCompressing = [za CloseZipFile2];    
-    
-    if(nil == strokesSaved ){
-        PRPLog(@"failed to retrieve writed arrayStrokes dictionary from disk \
-               -[%@ , %@]",
-               canvasView.pickedImage,
-               strokesSaved,
-               NSStringFromClass([self class]),
-               NSStringFromSelector(_cmd));
-    } else {
-        PRPLog(@"filePath_arrayStrokes: %@ \n \
-               writed arrayStrokes: %@ \n \
-               -[%@ , %@]",
-               filePath_arrayStrokes,
-               strokesSaved,
-               NSStringFromClass([self class]),
-               NSStringFromSelector(_cmd));
-        
-        if(nil != imageSaved){
-            PRPLog(@"imageSaved: %@ \n \
-                   -[%@ , %@]",
-                   imageSaved,
-                   NSStringFromClass([self class]),
-                   NSStringFromSelector(_cmd));
-        }
-    }
-    
-    
-    if(nil != self.delegate){
-        
-    [self.delegate testInkBrush1ViewControllerDelegateDidFinish:@"some string"];    
-        
-    
-    } else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
-        
-    }
-
-    
-
-
-    
 }
 
 
+#pragma mark - WWPhotoMenuViewControllerDelegate
+- (void) WWPhotoMenuViewControllerDelegateDidChooseType:(menuSelectedType)type{
+    
+     Canvas* canvasView = (Canvas*)self.view;
+    [self.popOverPhotoMenu dismissPopoverAnimated:YES];
+    self.popOverPhotoMenu = nil;
+    
+    if(type == menuSelectedTypeCamera){
+       
+        [canvasView didClickTakePhoto];
+    } else if(type == menuSelectedTypePhotoLibrary) {
+        [canvasView didClickChoosePhoto];
+    }
+}
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSString *identifier = segue.identifier;
+    if([identifier isEqualToString:@"seguePhotoMenu"]){
+        self.popOverPhotoMenu = [(UIStoryboardPopoverSegue *)segue popoverController];
+        WWPhotoMenuViewController* phtotoMenuVC = (WWPhotoMenuViewController*)self.popOverPhotoMenu.contentViewController;
+        phtotoMenuVC.delegate = self;
+        //self.popOverPhotoMenu.delegate = self;
+        
+    }
+}
 
 @end

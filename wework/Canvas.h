@@ -42,6 +42,7 @@
 -(void) viewJustLoaded;
 
 -(IBAction) didClickChoosePhoto;
+-(IBAction) didClickTakePhoto;
 -(IBAction) setBrushSize:(UISlider*)sender;
 -(void) setColor:(UIColor*)theColor;
 -(IBAction) eraser;

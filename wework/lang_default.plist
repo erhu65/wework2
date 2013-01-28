@@ -80,6 +80,8 @@
 	<string>Leave</string>
 	<key>infoConnectFBFirst</key>
 	<string>Plearse Connect Facebook First</string>
+	<key>infoJoinRoomFirst</key>
+	<string>Please Join chat room first</string>
 	<key>info</key>
 	<string>Info</string>
 	<key>error</key>
@@ -114,7 +116,21 @@
 	<string>Main Categories</string>
 	<key>actionCancel</key>
 	<string>Cancel</string>
+	<key>actionChange</key>
+	<string>Change</string>
+	<key>actionAdd</key>
+	<string>Add</string>
+	<key>actionEdit</key>
+	<string>Edit</string>
+	<key>actionDone</key>
+	<string>Done</string>
 	<key>titleVideos</key>
 	<string>Videos</string>
+	<key>titleMySubject</key>
+	<string>My Subjects</string>
+	<key>titleChangeSubjectName</key>
+	<string>Change Subject Name</string>
+	<key>titleWhatIsYourSubjectName</key>
+	<string>What is your subject Nmae?</string>
 </dict>
 </plist>

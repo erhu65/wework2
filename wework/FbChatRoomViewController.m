@@ -23,6 +23,10 @@ BRCellfBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 @property (weak, nonatomic) IBOutlet UITextView* tvOutPut;
+@property (weak, nonatomic) IBOutlet UITextField *tfMsg;
+
+
+
 @property (weak, nonatomic) IBOutlet UIButton* joinRoomButton;
 @property (weak, nonatomic) IBOutlet UIButton* chatButton;
 @property (strong, nonatomic) WebViewJavascriptBridge *javascriptBridge;
@@ -73,14 +77,6 @@ BRCellfBChatDelegate>
 }
 
 
--(NSString*)currentPlaybackTime{
-    if([_currentPlaybackTime isEqualToString:@"nan"])
-        
-        _currentPlaybackTime = @"0";
-    return _currentPlaybackTime;
-}
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -128,6 +124,8 @@ BRCellfBChatDelegate>
     self.activityChatRoom.hidden = YES;
     
     self.tbFbChat.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
+    self.tfMsg.clearButtonMode = UITextFieldViewModeWhileEditing;
     [BRStyleSheet styleLabel:self.lbRoomCount withType:BRLabelTypeLarge];
 }
 
@@ -145,13 +143,16 @@ BRCellfBChatDelegate>
     [super viewWillDisappear:animated];
     
     if(self.isLeaving){
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:[BRDModel sharedInstance]];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-        //Clear A UIWebView to trigger window.onunload
-        [self.webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"http://google.com"]];    
+        [self leaveRoom];
     }
+}
 
+-(void) leaveRoom{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:[BRDModel sharedInstance]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    //Clear A UIWebView to trigger window.onunload
+    [self.webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"http://google.com"]];   
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification
@@ -179,10 +180,9 @@ BRCellfBChatDelegate>
 - (void)callJsSendMsgHandler:(NSString*)newMsg  {
     
     if([self.delegate respondsToSelector:@selector(getOutterInfo)]){
-        [self.delegate getOutterInfo];
-        PRPLog(@"self.currentYoutubeKey:%@  self.currentPlaybackTime:%@ -[%@ , %@] \n ",
-               self.currentYoutubeKey,
-               self.currentPlaybackTime,
+        [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
+        PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
+               self.uniquDataKey,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
@@ -190,12 +190,13 @@ BRCellfBChatDelegate>
     NSDictionary* data = @{@"msg": newMsg,
                            @"senderFbId": kSharedModel.fbId,
                            @"fbId":  kSharedModel.fbId,
-                           @"currentYoutubeKey": self.currentYoutubeKey,
-                           @"currentPlaybackTime": self.currentPlaybackTime,
+                           @"uniquDataKey": self.uniquDataKey
     };
     
     [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
         NSLog(@"JsSendMsgHandler responded: %@", response);
+        self.tfMsg.text = @"";
+        [self.tfMsg resignFirstResponder];
     }];
 }
 
@@ -203,27 +204,20 @@ BRCellfBChatDelegate>
                              toRoom:(NSString*)room
                             withFbId:(NSString*)fbId{
     
-    if([self.delegate respondsToSelector:@selector(getOutterInfo)]){
-        [self.delegate getOutterInfo];
-        PRPLog(@"self.currentYoutubeKey:%@  self.currentPlaybackTime:%@ -[%@ , %@] \n ",
-               self.currentYoutubeKey,
-               self.currentPlaybackTime,
+    if([self.delegate respondsToSelector:@selector(FbChatRoomViewControllerDelegateGetOutterInfo)]){
+        [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
+        
+        PRPLog(@"uniquDataKey:%@   -[%@ , %@] \n ",
+               self.uniquDataKey,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
-    
-    PRPLog(@"self.currentYoutubeKey:%@  self.currentPlaybackTime:%@ -[%@ , %@] \n ",
-           self.currentYoutubeKey,
-           self.currentPlaybackTime,
-           NSStringFromClass([self class]),
-           NSStringFromSelector(_cmd));
     
     NSDictionary* data =  @{@"newName": newName,
                             @"newRoom": room,
                             @"newFbId": fbId,
                             @"senderFbId": [BRDModel sharedInstance].fbId,
-                            @"currentYoutubeKey": self.currentYoutubeKey,
-                            @"currentPlaybackTime": self.currentPlaybackTime};
+                            @"uniquDataKey": self.uniquDataKey};
     
     [_bridge callHandler:@"JsJoinRoomHandler" 
                     data:data 
@@ -242,33 +236,52 @@ BRCellfBChatDelegate>
     [tfTemp resignFirstResponder];
     //[tfTemp setText:@""];
 }
--(void)_sendMsgToRoom
-{
-    self.barBtnTalk.enabled = FALSE;
-    self.activityChatRoom.hidden = NO;
-    [self.activityChatRoom startAnimating];
-    UITextField* tfTemp = (UITextField*)[self.tb viewWithTag:KTempTfInKeyboard];
-    if(tfTemp.text.length == 0){
-        [self showMsg:self.lang[@"warnEmptyText"] type:msgLevelWarn];
-        return;
-    } 
+
+-(IBAction)_presentBrush{
     
+    [self.delegate FbChatRoomViewControllerDelegateTriggerOuterAction2];
+     //self.barBtnTalk.enabled = YES;
+}
+-(IBAction)_sendMsgToRoom
+{
+    self.barBtnTalk.enabled = NO;
+    
+//    UITextField* tfTemp = (UITextField*)[self.tb viewWithTag:KTempTfInKeyboard];
+//    if(tfTemp.text.length == 0){
+//        [self showMsg:self.lang[@"warnEmptyText"] type:msgLevelWarn];
+//        return;
+//    }
+
     if(!self.isJoinFbChatRoom){
-        [self showMsg:self.lang[@"infoConnectFBFirst"] type:msgLevelInfo];
+        [self showMsg:self.lang[@"infoJoinRoomFirst"] type:msgLevelInfo];
         [self.activityChatRoom stopAnimating];
         self.activityChatRoom.hidden = YES;
         self.barBtnTalk.enabled = YES;
-        [tfTemp resignFirstResponder];
+        [self.tfMsg resignFirstResponder];
         return;
     }
     
-    [self callJsSendMsgHandler: tfTemp.text];
-    [tfTemp resignFirstResponder];
+    self.activityChatRoom.hidden = NO;
+    [self.activityChatRoom startAnimating];
+    
+    [self callJsSendMsgHandler: self.tfMsg.text];
+    //[tfTemp resignFirstResponder];
+    
+   
 }
 
 -(IBAction)_prepareTextForSendMsgToRoom:(id)sender
 {
     self.barBtnTalk.enabled = NO;
+    double delayInSeconds = 2.0;
+    
+    __block __weak FbChatRoomViewController* weakSelf = (FbChatRoomViewController*)self;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        weakSelf.barBtnTalk.enabled = YES;
+    });
+    
+    
     [self.tfChat becomeFirstResponder];
 }
 
@@ -385,11 +398,25 @@ BRCellfBChatDelegate>
 	self.tb .tintColor = [UIColor darkGrayColor];
 	NSMutableArray *items = [NSMutableArray array];
 	[items addObject:BARBUTTON(@"Cancel", @selector(_cancelSendMsg))];
-	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
-	[items addObject:BARBUTTON(@"Send", @selector(_sendMsgToRoom))];
+    [items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
+
+//    [items addObject:BARBUTTON(@"add graffiti", @selector(_presentBrush))];
+//    UIBarButtonItem* fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];  
+//    fixedSpace.width = 100;  
+//    [items addObject:fixedSpace];
+//	[items addObject:BARBUTTON(@"Send", @selector(_sendMsgToRoom))];
     
+
 	self.tb.items = items;	
-    UITextField *tfTemp = [[UITextField alloc] initWithFrame:CGRectMake(85.0, 8.0, 165.0, 30)];
+    
+    int tfWidth = 0;
+    if(IS_IPHONE){
+        tfWidth = 165;
+    } else {
+        tfWidth = 500;
+    }
+
+    UITextField *tfTemp = [[UITextField alloc] initWithFrame:CGRectMake(85.0, 8.0, tfWidth, 30)];
     tfTemp.backgroundColor = [UIColor whiteColor];
     [tfTemp.layer setCornerRadius:18];
     tfTemp.borderStyle = UITextBorderStyleBezel;
@@ -399,7 +426,7 @@ BRCellfBChatDelegate>
 }
 
 - (IBAction)toggleOutterUI:(UIBarButtonItem*)sender {
-    BOOL isZoomed = [self.delegate toggleOutterUI];
+    BOOL isZoomed = [self.delegate FbChatRoomViewControllerDelegateToggleOutterUI];
     if(isZoomed){
         sender.title = self.lang[@"actionSplit"];
     } else {
@@ -411,7 +438,7 @@ BRCellfBChatDelegate>
     
     UIBarButtonItem* barBtnBack = (UIBarButtonItem* )sender;
     barBtnBack.enabled = NO;    
-    [self.delegate triggerOuterGoBack];
+    [self.delegate FbChatRoomViewControllerDelegateTriggerOuterGoBack];
 //    [self dismissViewControllerAnimated:YES completion:^{
 //    
 //    }];
@@ -469,7 +496,7 @@ BRCellfBChatDelegate>
 #pragma mark BRCellfBChatDelegate method
 -(void)BRCellfBChatDelegateCellTapped:(BRRecordFbChat *)record
 {
-    [self.delegate triggerOuterAction1:record];
+    [self.delegate FbChatRoomViewControllerDelegateTriggerOuterAction1:record];
     
 }
 @end

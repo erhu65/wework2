@@ -92,19 +92,30 @@ typedef enum subCategoriesSortType {
 
 @property(nonatomic, strong)NSString* socketUrl;
 
-- (void)fetchVideoMsgsByVideoId:(NSString*)videoId 
-                       withPage:(NSNumber*)page
-                      withBlock:(void (^)(NSDictionary* userInfo))block;
-
-
 - (void)postMsg:(NSString*)message
       ByVideoId:(NSString*) videoId
            fbId:(NSString*)fbId 
          fbName:(NSString*)fbNmae;
-
-
+- (void)fetchVideoMsgsByVideoId:(NSString*)videoId 
+                       withPage:(NSNumber*)page
+                      withBlock:(void (^)(NSDictionary* userInfo))block;
 -(void)delMsgById:(NSString*)msgId
           VideoId:(NSString*)videoId;
+
+
+- (void)postMyRoom:(NSString*)roomName
+              fbId:(NSString*)fbId 
+            fbName:(NSString*)fbNmae
+         withBlock:(void (^)(NSDictionary* userInfo))block;
+- (void)fetchMyRoomsByFbId:(NSString*)fbId 
+                       withPage:(NSNumber*)page
+                      withBlock:(void (^)(NSDictionary* userInfo))block;
+- (void)updMyRoom:(NSString*)roomName
+              _id:(NSString*)_id
+        withBlock:(void (^)(NSDictionary* userInfo))block;
+
+-(void)delMyRoomById:(NSString*)_id
+withBlock:(void (^)(NSDictionary* userInfo))block;
 
 
 

@@ -11,7 +11,8 @@
 
 @required
 - (void) testInkBrush1ViewControllerDelegateDidCancel;
-- (void) testInkBrush1ViewControllerDelegateDidFinish:(NSString*) str;
+- (void) testInkBrush1ViewControllerDelegateDidFinish:(UIImage*) pickedImage 
+    arrayStrokes:(NSMutableArray*)arrayStrokes;
 
 @end
 

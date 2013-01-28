@@ -21,6 +21,9 @@
 #endif
 
 
+#define AWS_S3_ACCESS_KEY_ID          @"AKIAJC63EYWOJ72VK7PA"
+#define AWS_S3_SECRET_KEY             @"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"
+#define AWS_S3_ZIP_BUCKET         @"zip-bucket"
 
 
 #define BRNotificationInAppDidUpdate           @"BRNotificationInAppDidUpdate"
@@ -31,10 +34,7 @@
 #define KUserDefaultLang @"KUserDefaultLang"
 
 
-
-
-//431690400206637
-#define KFacebookKey @"500954283270682"//
+#define KFacebookKey @"495492583830112"//
 
 #define KSyncImagesDone @"syncImagesDone"
 #define KUploadDone @"uploadDone"

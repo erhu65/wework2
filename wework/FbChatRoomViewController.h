@@ -11,16 +11,22 @@
 @protocol FbChatRoomViewControllerDelegate <NSObject>
 
 @optional
--(void)getOutterInfo;
--(BOOL)toggleOutterUI;
--(void)triggerOuterGoBack;
--(void)triggerOuterAction1:(id)record;
+
+-(BOOL)FbChatRoomViewControllerDelegateToggleOutterUI;
+-(void)FbChatRoomViewControllerDelegateTriggerOuterGoBack;
+-(void)FbChatRoomViewControllerDelegateTriggerOuterAction1:(id)record;
+-(void)FbChatRoomViewControllerDelegateTriggerOuterAction2;
+-(void)FbChatRoomViewControllerDelegateGetOutterInfo;
+
 @end
+
 
 @interface FbChatRoomViewController : BRCoreViewController
 @property(nonatomic, strong)NSString* room;
 @property(nonatomic) BOOL isLeaving;
-@property(nonatomic, strong) NSString* currentYoutubeKey;
-@property(nonatomic, strong) NSString* currentPlaybackTime;
+@property(nonatomic, strong) NSString* uniquDataKey;
+
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
+-(void) leaveRoom;
+
 @end

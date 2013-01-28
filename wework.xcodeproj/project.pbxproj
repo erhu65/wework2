@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B713116A16B51A7F0007C279 /* WWPhotoMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B713116916B51A7F0007C279 /* WWPhotoMenuViewController.m */; };
 		B73D5B0E16B4233800BC2D77 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0416B4233800BC2D77 /* ioapi.c */; };
 		B73D5B0F16B4233800BC2D77 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0616B4233800BC2D77 /* mztools.c */; };
 		B73D5B1016B4233800BC2D77 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = B73D5B0816B4233800BC2D77 /* unzip.c */; };
@@ -259,9 +260,14 @@
 		B78DDCEB16B2928C0043ECD8 /* ninjastar.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE616B2928C0043ECD8 /* ninjastar.png */; };
 		B78DDCEC16B2928C0043ECD8 /* smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE716B2928C0043ECD8 /* smoke.png */; };
 		B78DDCED16B2928C0043ECD8 /* sword.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DDCE816B2928C0043ECD8 /* sword.png */; };
+		B78DEE8F16B6389000921C90 /* WWMyRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE8E16B6389000921C90 /* WWMyRoomViewController.m */; };
+		B78DEE9516B638F800921C90 /* WWCellMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9416B638F800921C90 /* WWCellMyRoom.m */; };
+		B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B713116816B51A7F0007C279 /* WWPhotoMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWPhotoMenuViewController.h; sourceTree = "<group>"; };
+		B713116916B51A7F0007C279 /* WWPhotoMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWPhotoMenuViewController.m; sourceTree = "<group>"; };
 		B73D5B0316B4233800BC2D77 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		B73D5B0416B4233800BC2D77 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		B73D5B0516B4233800BC2D77 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -620,6 +626,12 @@
 		B78DDCE616B2928C0043ECD8 /* ninjastar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninjastar.png; sourceTree = "<group>"; };
 		B78DDCE716B2928C0043ECD8 /* smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke.png; sourceTree = "<group>"; };
 		B78DDCE816B2928C0043ECD8 /* sword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword.png; sourceTree = "<group>"; };
+		B78DEE8D16B6389000921C90 /* WWMyRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMyRoomViewController.h; sourceTree = "<group>"; };
+		B78DEE8E16B6389000921C90 /* WWMyRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMyRoomViewController.m; sourceTree = "<group>"; };
+		B78DEE9316B638F800921C90 /* WWCellMyRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWCellMyRoom.h; sourceTree = "<group>"; };
+		B78DEE9416B638F800921C90 /* WWCellMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCellMyRoom.m; sourceTree = "<group>"; };
+		B78DEE9616B63B8200921C90 /* WWRecordMyRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWRecordMyRoom.h; sourceTree = "<group>"; };
+		B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWRecordMyRoom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1201,6 +1213,8 @@
 		B78CFFC416B10AB9000043EB /* view-controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B78DEE8C16B637ED00921C90 /* friendInviteRoom */,
+				B78DEE8A16B6374C00921C90 /* myRoom */,
 				B7887E4016B3A48900670C77 /* Brush */,
 				B78C00DF16B11025000043EB /* BRPostToFacebookWallViewController.h */,
 				B78C00E016B11026000043EB /* BRPostToFacebookWallViewController.m */,
@@ -1228,6 +1242,8 @@
 				B78DDCC016B277770043ECD8 /* CitiesViewController.m */,
 				B78DDCD116B282E00043ECD8 /* WWSample1ViewController.h */,
 				B78DDCD216B282E00043ECD8 /* WWSample1ViewController.m */,
+				B713116816B51A7F0007C279 /* WWPhotoMenuViewController.h */,
+				B713116916B51A7F0007C279 /* WWPhotoMenuViewController.m */,
 				B78DDCDF16B292670043ECD8 /* WeaponSelector.h */,
 				B78DDCE016B292680043ECD8 /* WeaponSelector.m */,
 				B78DDCDC16B292650043ECD8 /* WeaponInputViewController.h */,
@@ -1331,6 +1347,26 @@
 				B78DDCE816B2928C0043ECD8 /* sword.png */,
 			);
 			name = others;
+			sourceTree = "<group>";
+		};
+		B78DEE8A16B6374C00921C90 /* myRoom */ = {
+			isa = PBXGroup;
+			children = (
+				B78DEE8D16B6389000921C90 /* WWMyRoomViewController.h */,
+				B78DEE8E16B6389000921C90 /* WWMyRoomViewController.m */,
+				B78DEE9616B63B8200921C90 /* WWRecordMyRoom.h */,
+				B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */,
+				B78DEE9316B638F800921C90 /* WWCellMyRoom.h */,
+				B78DEE9416B638F800921C90 /* WWCellMyRoom.m */,
+			);
+			name = myRoom;
+			sourceTree = "<group>";
+		};
+		B78DEE8C16B637ED00921C90 /* friendInviteRoom */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = friendInviteRoom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1631,6 +1667,10 @@
 				B73D5B1016B4233800BC2D77 /* unzip.c in Sources */,
 				B73D5B1116B4233800BC2D77 /* zip.c in Sources */,
 				B73D5B1216B4233800BC2D77 /* ZipArchive.mm in Sources */,
+				B713116A16B51A7F0007C279 /* WWPhotoMenuViewController.m in Sources */,
+				B78DEE8F16B6389000921C90 /* WWMyRoomViewController.m in Sources */,
+				B78DEE9516B638F800921C90 /* WWCellMyRoom.m in Sources */,
+				B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

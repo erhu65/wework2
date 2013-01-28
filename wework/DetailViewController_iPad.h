@@ -16,10 +16,9 @@
 #import "BRCoreViewController.h"
 @interface DetailViewController_iPad : BRCoreViewController 
 {    
-    IBOutlet UISwitch   *rentSwitch;
+   
 }
 
-@property (nonatomic, strong) UIPopoverController   *detailPopover;
 @property (nonatomic, strong) UIPopoverController   *aboutPopover;
 @property (nonatomic, strong) id                    lastTappedButton;
 

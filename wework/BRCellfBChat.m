@@ -42,12 +42,12 @@
     
     if([record.type isEqualToString:@"server"]){
 
-        self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon"]];
+        self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon-72"]];
     } else if (record.dataImg == nil) {
         if ([record.strImgUrl length] > 0) {
-            [self.imvThumb setImageWithFbThumb:record.senderFbId placeHolderImage:[UIImage imageNamed:kSharedModel.theme[@"Icon"]]];
+            [self.imvThumb setImageWithFbThumb:record.senderFbId placeHolderImage:[UIImage imageNamed:kSharedModel.theme[@"Icon-72"]]];
         }
-        else self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon"]];
+        else self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon-72"]];
     } else {
         self.imvThumb.image = [UIImage imageWithData:record.dataImg];
     }

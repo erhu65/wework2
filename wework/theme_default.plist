@@ -4,11 +4,17 @@
 <dict>
 	<key>Icon</key>
 	<string>Icon.png</string>
+	<key>Icon-72</key>
+	<string>Icon-72.png</string>
 	<key>eyeball</key>
 	<string>eyeball.png</string>
 	<key>favoriteAdd</key>
 	<string>favoriteAdd.png</string>
 	<key>favoriteRemove</key>
 	<string>favoriteRemove.png</string>
+	<key>bg_sand</key>
+	<string>bg_sand.png</string>
+	<key>bt_pradot</key>
+	<string>app-background.png</string>
 </dict>
 </plist>

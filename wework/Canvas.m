@@ -14,8 +14,8 @@
 #import "Canvas.h"
 #import "ColorPickerController.h"
 #import "QuartzCore/QuartzCore.h"
-
-
+#import "Utils.h"
+#import "WWPhotoMenuViewController.h"
 
 #pragma mark Canvas
 @implementation Canvas
@@ -197,14 +197,27 @@
 }
 
 -(IBAction) didClickChoosePhoto {
+    imagePC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	[imagePopoverController presentPopoverFromRect:CGRectMake(200, 200, 30, 30)\
 											inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
+-(IBAction) didClickTakePhoto {
+    imagePC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+	[imagePopoverController presentPopoverFromRect:CGRectMake(200, 200, 30, 30)\
+											inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+
 -(void) imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary*)info {
-	self.pickedImage = [info valueForKey:@"UIImagePickerControllerOriginalImage"];
-	[imagePopoverController dismissPopoverAnimated:YES];
-	[self setNeedsDisplay];
+    
+    UIImage* imgOriginal = [info valueForKey:@"UIImagePickerControllerOriginalImage"];
+    
+    self.pickedImage = [Utils imageWithImage:imgOriginal scaledToSize:CGSizeMake(768.0f, 768.0f)];
+    [imagePopoverController dismissPopoverAnimated:YES];
+    
+    [self setNeedsDisplay];
 }
 
 -(IBAction) undo {
@@ -267,5 +280,7 @@
 	UIAlertView* alertSheet = [[UIAlertView alloc] initWithTitle:nil message:@"Image Saved" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertSheet show];
 }
+
+
 
 @end

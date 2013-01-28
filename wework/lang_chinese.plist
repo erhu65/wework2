@@ -34,6 +34,8 @@
 	<string>分開</string>
 	<key>onLine</key>
 	<string>線上</string>
+	<key>New item</key>
+	<string></string>
 	<key>warn</key>
 	<string>警告</string>
 	<key>titleFavoriteCategory</key>
@@ -74,6 +76,8 @@
 	<string>離開</string>
 	<key>infoConnectFBFirst</key>
 	<string>請先登入Facebook</string>
+	<key>infoJoinRoomFirst</key>
+	<string>請先登入聊天室</string>
 	<key>info</key>
 	<string>資訊</string>
 	<key>error</key>
