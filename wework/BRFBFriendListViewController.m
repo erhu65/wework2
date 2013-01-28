@@ -26,13 +26,27 @@
 UIAlertViewDelegate>
 //Keeps track of selected rows
 @property(nonatomic, strong)NSMutableArray* docs;
-@property (nonatomic, strong) NSMutableDictionary *selectedIndexPathToBirthday;
 @property(nonatomic, strong)UIAlertView* avInviteFriend;
 @property(nonatomic, weak)BRRecordFriend* selectedRecord;
+
+
+//Keeps track of selected rows
+@property (nonatomic, strong) NSMutableDictionary *selectedIndexPathToBirthday;
+
+
 @end
 
 @implementation BRFBFriendListViewController
 
+
+
+-(NSMutableDictionary *) selectedIndexPathToBirthday
+{
+    if (_selectedIndexPathToBirthday == nil) {
+        _selectedIndexPathToBirthday = [NSMutableDictionary dictionary];
+    }
+    return _selectedIndexPathToBirthday;
+}
 
 
 -(NSMutableArray*)docs{
@@ -56,6 +70,7 @@ UIAlertViewDelegate>
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+ 
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -75,7 +90,12 @@ UIAlertViewDelegate>
         [kSharedModel fetchFacebookBirthdays];//fetch friends list form ios SDK first,
         //then to get the access_token to get another list form node.js server
     }
-    self.title = kSharedModel.lang[@"titleFriendsFavoriteVideos"];
+    self.title = kSharedModel.lang[@"titleInvite"];
+    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:kSharedModel.theme[@"bg_sand"]]];
+    self.view.backgroundColor  = background;
+
 }
 
 
@@ -101,16 +121,37 @@ UIAlertViewDelegate>
     BRRecordFriend *record = self.docs[indexPath.row];
     brTableCell.indexPath = indexPath;
     brTableCell.record = record;
+        
+    UIImageView *imageView;
+    if (record.isSelected) {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-selected.png"]];
+    }else {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-not-selected.png"]];
+    }
+    brTableCell.accessoryView = imageView;
     
     return brTableCell;
 }
 
 #pragma mark UITableViewDelegate
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //prevent toggle the select record, we don't need it here
-    return;
+    BOOL isSelected = [self isSelectedAtIndexPath:indexPath];
+    
+    BRRecordFriend *record = self.docs[indexPath.row];
+    
+    if (isSelected) {//already selected, so deselect
+        [self.selectedIndexPathToBirthday removeObjectForKey:indexPath];
+    }
+    else {//not currently selected, so select
+        [self.selectedIndexPathToBirthday setObject:record forKey:indexPath];
+    }
+    //update the accessory view image
+    [self updateAccessoryForTableCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+    
+    //enable/disable the import button
+    //[self updateImportButton];
 }
 
 -(void)handleFacebookBirthdaysDidUpdate:(NSNotification *)notification
@@ -124,7 +165,6 @@ UIAlertViewDelegate>
     
     NSMutableArray* birthdays = userInfo[@"birthdays"];
     if(birthdays.count == 0) {
-    
         
         [self hideHud:YES];
         return;
@@ -163,6 +203,26 @@ UIAlertViewDelegate>
         }
     }
 }
+
+
+//Helper method to check whether a row is selected or not
+-(BOOL) isSelectedAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.selectedIndexPathToBirthday[indexPath] ? YES : NO;
+}
+//Refreshes the selection tick of a table cell
+- (void)updateAccessoryForTableCell:(UITableViewCell *)tableCell atIndexPath:(NSIndexPath *)indexPath
+{
+    UIImageView *imageView;
+    if ([self isSelectedAtIndexPath:indexPath]) {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-selected.png"]];
+    }else {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-not-selected.png"]];
+    }
+    tableCell.accessoryView = imageView;
+}
+
+
 
 #pragma mark Segues
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender

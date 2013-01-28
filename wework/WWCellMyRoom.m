@@ -50,8 +50,8 @@
     }
     else self.imvFb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon-72"]];
     
-    self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
+    //self.accessoryType = UITableViewCellAccessoryNone;
+  
     if(nil == _record 
        || _record != record){
         _record = record;

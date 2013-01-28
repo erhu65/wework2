@@ -17,7 +17,7 @@
     
     self = [super init];
     if (self) {
-        
+        self.isSelected = NO;
         self.fbId = [dic objectForKey:@"id"];
         self.fbName = [dic objectForKey:@"name"];
         //self.count = (NSNumber*)[dic objectForKey:@"count"];

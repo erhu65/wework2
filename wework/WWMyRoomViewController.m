@@ -330,6 +330,12 @@ WWCellMyRoomDelegate>
     message.tag = [indexPath row];
     [message show];
 }
+-(void)WWCellMyRoomDelegateWillChooseFriends:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath{
+    
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"ImportFacebook"];
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+
+}
 
 #pragma mark UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -357,9 +363,10 @@ WWCellMyRoomDelegate>
 {
     //[tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
-    
+
 }
+
+
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
 // for some items. By default, all items are editable.

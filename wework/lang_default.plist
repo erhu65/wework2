@@ -126,6 +126,8 @@
 	<string>Done</string>
 	<key>titleVideos</key>
 	<string>Videos</string>
+	<key>titleInvite</key>
+	<string>Invite friend</string>
 	<key>titleMySubject</key>
 	<string>My Subjects</string>
 	<key>titleChangeSubjectName</key>

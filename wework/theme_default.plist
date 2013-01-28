@@ -16,5 +16,7 @@
 	<string>bg_sand.png</string>
 	<key>bt_pradot</key>
 	<string>app-background.png</string>
+	<key>users</key>
+	<string>users.png</string>
 </dict>
 </plist>

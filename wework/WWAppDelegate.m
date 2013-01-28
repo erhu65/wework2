@@ -194,6 +194,9 @@ void exceptionHandler(NSException *exception)
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    [settings setBool:NO forKey:@"ExceptionOccurredOnLastRun"];
+    [settings synchronize];
 }
 
 

@@ -263,6 +263,8 @@
 		B78DEE8F16B6389000921C90 /* WWMyRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE8E16B6389000921C90 /* WWMyRoomViewController.m */; };
 		B78DEE9516B638F800921C90 /* WWCellMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9416B638F800921C90 /* WWCellMyRoom.m */; };
 		B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */; };
+		B78DEE9B16B6AED300921C90 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9916B6AEC600921C90 /* users.png */; };
+		B78DEE9C16B6AED300921C90 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9A16B6AECD00921C90 /* users@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -632,6 +634,8 @@
 		B78DEE9416B638F800921C90 /* WWCellMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCellMyRoom.m; sourceTree = "<group>"; };
 		B78DEE9616B63B8200921C90 /* WWRecordMyRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWRecordMyRoom.h; sourceTree = "<group>"; };
 		B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWRecordMyRoom.m; sourceTree = "<group>"; };
+		B78DEE9916B6AEC600921C90 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = users.png; sourceTree = "<group>"; };
+		B78DEE9A16B6AECD00921C90 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "users@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -811,6 +815,8 @@
 				B78C00F216B1223B000043EB /* iPhoneiPadShare */,
 				B78C006016B10EBF000043EB /* indicator.png */,
 				B78C006116B10EBF000043EB /* indicator@2x.png */,
+				B78DEE9916B6AEC600921C90 /* users.png */,
+				B78DEE9A16B6AECD00921C90 /* users@2x.png */,
 				B78C006216B10EBF000043EB /* favoriteAdd@2x.png */,
 				B78C006316B10EBF000043EB /* favoriteAdd.png */,
 				B78C006416B10EBF000043EB /* favoriteRemove@2x.png */,
@@ -1558,6 +1564,8 @@
 				B7887E4D16B3A91400670C77 /* picUndo.png in Resources */,
 				B7887E4E16B3A91400670C77 /* picEraser.png in Resources */,
 				B7887E5016B3AFAC00670C77 /* colorWheel.png in Resources */,
+				B78DEE9B16B6AED300921C90 /* users.png in Resources */,
+				B78DEE9C16B6AED300921C90 /* users@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

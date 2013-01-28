@@ -12,6 +12,8 @@
 
 -(void)WWCellMyRoomDelegateDidEditMode:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath;
 
+-(void)WWCellMyRoomDelegateWillChooseFriends:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath;
+
 @end
 
 @interface WWCellMyRoom : UITableViewCell
