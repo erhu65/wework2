@@ -41,7 +41,7 @@
 {
     _record = record;
     self.nameLabel.text = _record.fbName;
-    self.lbCount.text = [NSString stringWithFormat:@"%d videos", [_record.count integerValue]];
+//    self.lbCount.text = [NSString stringWithFormat:@"%d videos", [_record.count integerValue]];
     UIImage *backgroundImage = (self.indexPath.row == 0) ? [UIImage imageNamed:@"table-row-background.png"] : [UIImage imageNamed:@"table-row-icing-background.png"];
     self.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
     //self.accessoryView = imageView;

@@ -21,6 +21,7 @@
         self.fbId = [dic objectForKey:@"fbId"];
         self.created_at = (NSDate*)[dic objectForKey:@"created_at"];
         self.roomName = [dic objectForKey:@"roomName"];
+        self.invitedCount = (NSNumber*)[dic objectForKey:@"invitedCount"];
         
         self.strImgUrl = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?", self.fbId];   
         

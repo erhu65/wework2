@@ -32,6 +32,7 @@
 		B7887E5016B3AFAC00670C77 /* colorWheel.png in Resources */ = {isa = PBXBuildFile; fileRef = B7887E4F16B3AFAC00670C77 /* colorWheel.png */; };
 		B7887E5316B3C39A00670C77 /* UIImagePickerController+NonRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E5216B3C39A00670C77 /* UIImagePickerController+NonRotating.m */; };
 		B7887E5B16B3C93400670C77 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E5A16B3C93400670C77 /* DetailViewController.m */; };
+		B78BF76716B7F40500249F83 /* WWFriendInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78BF76616B7F40500249F83 /* WWFriendInviteViewController.m */; };
 		B78C000716B10C2F000043EB /* NSDictionary+RWFlatten.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000016B10C2F000043EB /* NSDictionary+RWFlatten.m */; };
 		B78C000816B10C2F000043EB /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000216B10C2F000043EB /* Item.m */; };
 		B78C000916B10C2F000043EB /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B78C000416B10C2F000043EB /* Section.m */; };
@@ -307,6 +308,8 @@
 		B7887E5816B3C8A600670C77 /* Detail1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Detail1ViewController.m; sourceTree = "<group>"; };
 		B7887E5916B3C93400670C77 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		B7887E5A16B3C93400670C77 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		B78BF76516B7F40500249F83 /* WWFriendInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFriendInviteViewController.h; sourceTree = "<group>"; };
+		B78BF76616B7F40500249F83 /* WWFriendInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFriendInviteViewController.m; sourceTree = "<group>"; };
 		B78C000016B10C2F000043EB /* NSDictionary+RWFlatten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+RWFlatten.m"; sourceTree = "<group>"; };
 		B78C000116B10C2F000043EB /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		B78C000216B10C2F000043EB /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
@@ -1371,6 +1374,8 @@
 		B78DEE8C16B637ED00921C90 /* friendInviteRoom */ = {
 			isa = PBXGroup;
 			children = (
+				B78BF76516B7F40500249F83 /* WWFriendInviteViewController.h */,
+				B78BF76616B7F40500249F83 /* WWFriendInviteViewController.m */,
 			);
 			name = friendInviteRoom;
 			sourceTree = "<group>";
@@ -1679,6 +1684,7 @@
 				B78DEE8F16B6389000921C90 /* WWMyRoomViewController.m in Sources */,
 				B78DEE9516B638F800921C90 /* WWCellMyRoom.m in Sources */,
 				B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */,
+				B78BF76716B7F40500249F83 /* WWFriendInviteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

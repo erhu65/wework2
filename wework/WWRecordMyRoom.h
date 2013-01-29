@@ -16,6 +16,8 @@
 @property(nonatomic, strong)NSString* roomName;
 @property(nonatomic, strong)NSDate* created_at;
 
+@property(nonatomic, strong)NSNumber* invitedCount;
+
 
 -(id)initWithJsonDic:(NSDictionary *)dic;
 @end

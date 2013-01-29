@@ -10,7 +10,7 @@
 
 @property(nonatomic, strong)NSString* fbId;
 @property(nonatomic, strong)NSString* fbName;
-@property(nonatomic, assign) BOOL isSelected;
+@property(nonatomic, assign) BOOL isJoint;
 @property(nonatomic, strong)NSNumber* count;
 
 -(id)initWithJsonDic:(NSDictionary *)dic;

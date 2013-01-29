@@ -7,6 +7,7 @@
 //
 
 #import "WWMyRoomViewController.h"
+#import "BRFBFriendListViewController.h"
 #import "BRDModel.h"
 #import "WWRecordMyRoom.h"
 #import "WWCellMyRoom.h"
@@ -18,6 +19,8 @@ UIScrollViewDelegate,
 UIAlertViewDelegate,
 WWCellMyRoomDelegate>
 
+
+
 @property (nonatomic, strong) NSMutableArray* docs;
 @property (weak, nonatomic) IBOutlet UITableView *tb;
 
@@ -26,7 +29,7 @@ WWCellMyRoomDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnEdit;
-
+@property(weak, nonatomic)WWCellMyRoom* cellTemp;
 @end
 
 @implementation WWMyRoomViewController
@@ -365,8 +368,6 @@ WWCellMyRoomDelegate>
     
 
 }
-
-
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
 // for some items. By default, all items are editable.
@@ -440,5 +441,40 @@ WWCellMyRoomDelegate>
 	if (scrollView.contentOffset.y < -125.0f )
 		addItemsTrigger = YES;
 }
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:@"segueFriendsInvited"])
+	{
+        UIButton* btnFriendsInvited = (UIButton*)sender;
+        WWCellMyRoom* cell =(WWCellMyRoom*) btnFriendsInvited.superview.superview;
+       ;
+		BRFBFriendListViewController* BRFBFriendListViewController = segue.destinationViewController;
+        BRFBFriendListViewController.myRoomId =  cell.record._id;
+        self.cellTemp = cell;
+	} 
+}
+
+
+-(IBAction)unwindBackToMyRoomlViewController:(UIStoryboardSegue *)segue
+{
+     NSString *identifier = segue.identifier;
+    if ([identifier isEqualToString:@"unwindBackToMyRoomlViewController"])
+	{
+        BRFBFriendListViewController* BRFBFriendListViewController = segue.sourceViewController;
+        int count = BRFBFriendListViewController.selectedIndexPathToBirthday.count;
+        self.cellTemp.btnInvite.titleLabel.text = [NSString stringWithFormat:@"%d", count];
+        
+        PRPLog(@"%BRFBFriendListViewController.selectedIndexPathToBirthday.count: %d-[%@ , %@]",
+               count,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+	} 
+
+
+    
+}
+
 
 @end

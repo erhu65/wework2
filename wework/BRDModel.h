@@ -96,7 +96,20 @@ typedef enum subCategoriesSortType {
       ByVideoId:(NSString*) videoId
            fbId:(NSString*)fbId 
          fbName:(NSString*)fbNmae;
-- (void)fetchVideoMsgsByVideoId:(NSString*)videoId 
+
+
+- (void)fetchFbFriendsInvited:(NSString*)access_token 
+                         fbId:(NSString*)fbId
+                     myRoomId:(NSString*)myRoomId
+                    withBlock:(void (^)(NSDictionary* userInfo))block;
+- (void)toggleInvitedFriend:(NSString*)fbId
+                 joinRoomId:(NSString*)joinRoomId 
+                  isInvited:(BOOL)isInvited
+                  withBlock:(void (^)(NSDictionary* userInfo))block;
+
+
+
+- (void)fetchVideoMsgsByVideoId:(NSString*)videoId
                        withPage:(NSNumber*)page
                       withBlock:(void (^)(NSDictionary* userInfo))block;
 -(void)delMsgById:(NSString*)msgId

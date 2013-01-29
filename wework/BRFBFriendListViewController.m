@@ -30,8 +30,6 @@ UIAlertViewDelegate>
 @property(nonatomic, weak)BRRecordFriend* selectedRecord;
 
 
-//Keeps track of selected rows
-@property (nonatomic, strong) NSMutableDictionary *selectedIndexPathToBirthday;
 
 
 @end
@@ -70,7 +68,19 @@ UIAlertViewDelegate>
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIBarButtonItem *btnBack = [[UIBarButtonItem alloc]
+                                initWithTitle:self.lang[@"actionBack"] 
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(_unWindBack:)];
+    self.navigationItem.leftBarButtonItem = btnBack;
+
  
+}
+-(void)_unWindBack:(id)sender  {
+    
+    [self performSegueWithIdentifier:@"unwindBackToMyRoomlViewController" sender:sender];
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -123,8 +133,10 @@ UIAlertViewDelegate>
     brTableCell.record = record;
         
     UIImageView *imageView;
-    if (record.isSelected) {
+    if (record.isJoint) {
+        
         imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-selected.png"]];
+        [self.selectedIndexPathToBirthday setObject:record forKey:indexPath];
     }else {
         imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-import-not-selected.png"]];
     }
@@ -139,17 +151,36 @@ UIAlertViewDelegate>
     //prevent toggle the select record, we don't need it here
     BOOL isSelected = [self isSelectedAtIndexPath:indexPath];
     
-    BRRecordFriend *record = self.docs[indexPath.row];
+    __weak __block BRRecordFriend *record = self.docs[indexPath.row];
     
-    if (isSelected) {//already selected, so deselect
-        [self.selectedIndexPathToBirthday removeObjectForKey:indexPath];
-    }
-    else {//not currently selected, so select
-        [self.selectedIndexPathToBirthday setObject:record forKey:indexPath];
-    }
-    //update the accessory view image
-    [self updateAccessoryForTableCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+    [self showHud:YES];
+    __weak __block BRFBFriendListViewController* weakSelf = self;
     
+    [kSharedModel toggleInvitedFriend:record.fbId 
+                           joinRoomId:self.myRoomId 
+                            isInvited:!isSelected
+                            withBlock:^(NSDictionary* res){
+                       
+                       [weakSelf hideHud:YES];
+                       
+                       if(nil != res 
+                          && nil != res[@"error"]){
+                           [self showMsg:res[@"error"] type:msgLevelError];
+                           
+                           return;
+                       }
+        record.isJoint = !record.isJoint; 
+        if (isSelected) {//already selected, so deselect
+            [weakSelf.selectedIndexPathToBirthday removeObjectForKey:indexPath];
+        }
+        else {//not currently selected, so select
+            [weakSelf.selectedIndexPathToBirthday setObject:record forKey:indexPath];
+        }
+        //update the accessory view image
+        [weakSelf updateAccessoryForTableCell:[weakSelf.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            
+    }];
+        
     //enable/disable the import button
     //[self updateImportButton];
 }
@@ -170,7 +201,10 @@ UIAlertViewDelegate>
         return;
     }
     __weak __block BRFBFriendListViewController *weakSelf = self;
-    [kSharedModel fetchFbFriendsWithVideosCount:kSharedModel.access_token fbId:kSharedModel.fbId withBlock:^(NSDictionary* res){
+    [kSharedModel fetchFbFriendsInvited:kSharedModel.access_token 
+                                   fbId:kSharedModel.fbId 
+                                   myRoomId: self.myRoomId
+                              withBlock:^(NSDictionary* res){
         NSString* errMsg = res[@"error"];
         if(nil != errMsg){
             [self handleErrMsg:errMsg];
@@ -186,6 +220,7 @@ UIAlertViewDelegate>
 
     }];
 }
+
 #pragma mark UIAlertViewDelegate 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -221,8 +256,6 @@ UIAlertViewDelegate>
     }
     tableCell.accessoryView = imageView;
 }
-
-
 
 #pragma mark Segues
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender

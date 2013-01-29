@@ -17,7 +17,9 @@
     
     self = [super init];
     if (self) {
-        self.isSelected = NO;
+        
+        NSNumber* isJoint = (NSNumber*) [dic objectForKey:@"isJoin"];
+        self.isJoint = [isJoint boolValue];
         self.fbId = [dic objectForKey:@"id"];
         self.fbName = [dic objectForKey:@"name"];
         //self.count = (NSNumber*)[dic objectForKey:@"count"];

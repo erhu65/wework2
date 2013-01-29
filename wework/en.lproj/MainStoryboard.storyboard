@@ -382,7 +382,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="m47-Oq-3bi" kind="push" id="t67-BS-kUS"/>
+                                                        <segue destination="m47-Oq-3bi" kind="push" identifier="segueFriendsInvited" id="MEc-H7-BCj"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -405,6 +405,7 @@
                                             <constraint firstItem="mN1-nT-Tbm" firstAttribute="top" secondItem="wcG-7V-nhL" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ul2-qO-O3K"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="btnInvite" destination="8vF-iV-VyK" id="Cqr-Gd-MYS"/>
                                             <outlet property="imvFb" destination="VPT-vm-r38" id="TA2-bz-bvP"/>
                                             <outlet property="lbChatDatetime" destination="mN1-nT-Tbm" id="E72-tB-2RU"/>
                                             <outlet property="lbFbName" destination="ngw-FJ-tNv" id="IVb-bc-rcc"/>
@@ -480,7 +481,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="lbCount" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7pK-qv-UUp">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="lbCount" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7pK-qv-UUp">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="VNT-U8-5dQ"/>
                                                         <constraint firstAttribute="width" constant="110" id="eBD-lk-RlQ"/>
@@ -525,9 +526,11 @@
                     <navigationItem key="navigationItem" id="94A-Xi-UUX"/>
                     <connections>
                         <outlet property="tableView" destination="kdh-FW-fxc" id="6Kc-wI-bBC"/>
+                        <segue destination="HIp-fv-9QP" kind="unwind" identifier="unwindBackToMyRoomlViewController" unwindAction="unwindBackToMyRoomlViewController:" id="q0H-Vm-nwp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fG-ya-FML" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="HIp-fv-9QP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2263" y="-1078"/>
         </scene>
@@ -1334,9 +1337,13 @@
         <class className="Tab1NavigationController" superclassName="UINavigationController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/Tab1NavigationController.h"/>
         </class>
+        <class className="UIStoryboardSegue" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIStoryboardSegue.h"/>
+        </class>
         <class className="WWCellMyRoom" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WWCellMyRoom.h"/>
             <relationships>
+                <relationship kind="outlet" name="btnInvite" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imvFb" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lbChatDatetime" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="lbFbName" candidateClass="UILabel"/>
@@ -1346,6 +1353,7 @@
         <class className="WWMyRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WWMyRoomViewController.h"/>
             <relationships>
+                <relationship kind="action" name="unwindBackToMyRoomlViewController:" candidateClass="UIStoryboardSegue"/>
                 <relationship kind="outlet" name="barBtnEdit" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="tb" candidateClass="UITableView"/>
             </relationships>

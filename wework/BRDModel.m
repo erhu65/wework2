@@ -279,11 +279,9 @@ static BRDModel *_sharedInstance = nil;
         return;
     }
     
-    
     //We've got an authenticated Facebook Account if the code executes here
     NSURL *requestURL = [NSURL URLWithString:@"https://graph.facebook.com/me/friends"];
     NSDictionary *params = @{@"fields" : @"name, id, birthday"};
-    
     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:requestURL parameters:params];
     
     request.account = self.facebookAccount;
@@ -338,9 +336,6 @@ static BRDModel *_sharedInstance = nil;
                    NSStringFromClass([self class]),NSStringFromSelector(_cmd)
                    );
             self.access_token = access_token;
-            
-            
-            
             int birthdayCount = [birthdayDictionaries count];
             NSDictionary *facebookDictionary;
             
@@ -380,8 +375,11 @@ static BRDModel *_sharedInstance = nil;
     }];
 }
 
-- (void)fetchFbFriendsWithVideosCount:(NSString*)access_token 
+
+
+- (void)fetchFbFriendsInvited:(NSString*)access_token 
                                  fbId:(NSString*)fbId
+                             myRoomId:(NSString*)myRoomId
                             withBlock:(void (^)(NSDictionary* userInfo))block{
     
     if (nil == self.fbId) {
@@ -397,8 +395,7 @@ static BRDModel *_sharedInstance = nil;
      random numbers to the disk before, generate these numbers now
      and then save them to the disk in an array */
     dispatch_async(concurrentQueue, ^{
-        
-        NSString* urlMainCategores = [NSString stringWithFormat:@"%@/friends-videos-with-count?access_token=%@&fbId=%@", BASE_URL, self.access_token, self.fbId];
+        NSString* urlMainCategores = [NSString stringWithFormat:@"%@/coffeecup/FriendList?access_token=%@&fbId=%@&myRoomId=%@", BASE_URL, access_token, fbId, myRoomId];
         NSURL *url = [NSURL URLWithString:urlMainCategores];
         NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
         [urlRequest setTimeoutInterval:30.0f];
@@ -517,11 +514,130 @@ static BRDModel *_sharedInstance = nil;
             block(userInfo); 
             
         });
-        
-        
+    
     });
+}
+
+- (void)toggleInvitedFriend:(NSString*)fbId
+             joinRoomId:(NSString*)joinRoomId 
+                  isInvited:(BOOL)isInvited
+            withBlock:(void (^)(NSDictionary* userInfo))block{
     
-    
+    dispatch_queue_t concurrentQueue = 
+    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        
+        NSString* urlInViteFriend = [NSString stringWithFormat:@"%@/coffeecup/FriendList/create", BASE_URL];
+        PRPLog(@"http url urlInViteFriend : %@\n  -[%@ , %@]",
+               urlInViteFriend,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        NSURL *url = [NSURL URLWithString:urlInViteFriend];
+        //NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+        [urlRequest setTimeoutInterval:30.0f];
+        [urlRequest setHTTPMethod:@"POST"];
+        NSString* action = (isInvited)?@"add":@"del";
+        NSString *body = [NSString stringWithFormat:@"joinRoomId=%@&fbId=%@&action=%@", joinRoomId, fbId, action];
+        [urlRequest setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+        NSURLResponse *response;
+        NSError *error;
+        NSString* errMsg;
+        NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                             returningResponse:&response
+                                                         error:&error];
+        if ([data length] > 0 &&
+            error == nil){
+            
+            NSString*  resStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            PRPLog(@"%lu bytes of data was returned \n resStr: %@\n-[%@ , %@]",
+                   (unsigned long)[data length],
+                   resStr,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            error = nil;
+            id jsonObject = [NSJSONSerialization 
+                             JSONObjectWithData:data
+                             options:NSJSONReadingAllowFragments
+                             error:&error];
+            
+            if (jsonObject != nil &&
+                error == nil){
+                
+                PRPLog(@"Successfully deserialized....-[%@ , %@]",
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+                
+                if ([jsonObject isKindOfClass:[NSDictionary class]]){
+                    
+                    NSDictionary *deserializedDictionary = (NSDictionary *)jsonObject;
+                    if([deserializedDictionary objectForKey:@"error"]){
+                        errMsg = [deserializedDictionary objectForKey:@"error"];
+                    } else {
+                        PRPLog(@"Deserialized JSON Dictionary = %@ \n -[%@ , %@]",
+                               deserializedDictionary,
+                               NSStringFromClass([self class]),
+                               NSStringFromSelector(_cmd));
+                        
+                        
+                    }
+                    
+                } else if ([jsonObject isKindOfClass:[NSArray class]]){
+                    
+                    NSArray *deserializedArray = (NSArray *)jsonObject;
+                    PRPLog(@"Deserialized JSON Array = %@-[%@ , %@]",
+                           deserializedArray,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd)); 
+                    
+                } else {
+                    /* Some other object was returned. We don't know how to deal
+                     with this situation as the deserializer only returns dictionaries
+                     or arrays */
+                    PRPLog(@"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries-[%@ , %@]",
+                           error,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));
+                    errMsg = @"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries";
+                }
+                
+            }else if (error != nil){
+                
+                PRPLog(@"An error happened while deserializing the JSON data.\n %@-[%@ , %@]",
+                       error,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));    
+                errMsg = [NSString stringWithFormat:@"An error happened while deserializing the JSON data %@",  [error description]];
+            }
+            
+        }
+        else if ([data length] == 0 &&
+                 error == nil){
+            PRPLog(@"No data was returned.-[%@ , %@]",
+                   (unsigned long)[data length],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = @"No data was returned.";
+        }
+        else if (error != nil){
+            PRPLog(@"Error happened = %@-[%@ , %@]",
+                   [error description],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = [NSString stringWithFormat:@"Error happened = %@",  [error description]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSDictionary *res;
+            if(nil != errMsg){
+                res = @{@"error":errMsg};
+            }  else {
+               
+            }
+            block(res);   
+        });
+    });
 }
 
 - (void)fetchFacebookMe

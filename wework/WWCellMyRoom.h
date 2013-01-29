@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imvFb;
 @property (weak, nonatomic) IBOutlet UILabel *lbChatDatetime;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnInvite;
 @property(nonatomic, weak) id <WWCellMyRoomDelegate> delegate;
 
 @end
