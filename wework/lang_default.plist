@@ -130,6 +130,8 @@
 	<string>Invite friend</string>
 	<key>titleMySubject</key>
 	<string>My Subjects</string>
+	<key>titleFriendInvite</key>
+	<string>Friends Invite</string>
 	<key>titleChangeSubjectName</key>
 	<string>Change Subject Name</string>
 	<key>titleWhatIsYourSubjectName</key>

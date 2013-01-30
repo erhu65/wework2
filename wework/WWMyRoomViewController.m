@@ -12,14 +12,11 @@
 #import "WWRecordMyRoom.h"
 #import "WWCellMyRoom.h"
 
-
 @interface WWMyRoomViewController ()
 <UITableViewDataSource,UITableViewDelegate,
 UIScrollViewDelegate, 
 UIAlertViewDelegate,
 WWCellMyRoomDelegate>
-
-
 
 @property (nonatomic, strong) NSMutableArray* docs;
 @property (weak, nonatomic) IBOutlet UITableView *tb;
@@ -27,16 +24,16 @@ WWCellMyRoomDelegate>
 @property(nonatomic, strong)NSNumber* page;
 @property(nonatomic)BOOL isLastPage;
 
-
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnEdit;
 @property(weak, nonatomic)WWCellMyRoom* cellTemp;
+
 @end
 
 @implementation WWMyRoomViewController
 {
-    
     BOOL addItemsTrigger;
 }
+
 -(NSMutableArray*)docs{
     
     if(nil == _docs){
@@ -45,7 +42,6 @@ WWCellMyRoomDelegate>
     return _docs;
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -53,6 +49,7 @@ WWCellMyRoomDelegate>
         //self.imvThumb = nil;
     }
 }
+
 -(id)initWithCoder:(NSCoder *)aDecoder{
     
     self = [super initWithCoder:aDecoder];
@@ -62,8 +59,8 @@ WWCellMyRoomDelegate>
         self.title = kSharedModel.lang[@"titleMySubject"];
         self.page = @0;
         self.isLastPage = YES;
-        
     }
+    
     return self;
 }
 

@@ -203,7 +203,7 @@
 	// save off what's visible now
 	firstVisibleElement = firstNeededElement;
 	lastVisibleElement  = lastNeededElement;
-
+    
 	// determine if scroll view needs to shift in response to resizing?
 	if (currentSelectedIndex > -1 && [self centerOfElementAtIndex:currentSelectedIndex] != [self currentCenter].x) {
 		if (adjustWhenFinished) {
@@ -731,20 +731,25 @@
 @synthesize selectedElement, selectedStateColor, normalStateColor;
 
 - (void)setSelectedElement:(BOOL)selected {
+    
 	if (selectedElement != selected) {
-		if (selected) {
+	
+        if (selected) {
 			self.textColor = self.selectedStateColor;
 		} else {
 			self.textColor = self.normalStateColor;
 		}
+        
 		selectedElement = selected;
 		[self setNeedsLayout];
 	}
 }
 
 - (void)setNormalStateColor:(UIColor *)color {
+    
 	if (normalStateColor != color) {
-		normalStateColor = color;
+	    
+        normalStateColor = color;
 		self.textColor = normalStateColor;
 		[self setNeedsLayout];
 	}

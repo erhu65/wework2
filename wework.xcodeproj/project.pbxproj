@@ -22,6 +22,7 @@
 		B753CEDD16AFE5EA00DC42B9 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CED916AFE5EA00DC42B9 /* Icon-72@2x.png */; };
 		B753CEDE16AFE5EA00DC42B9 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CEDA16AFE5EA00DC42B9 /* Icon-Small-50.png */; };
 		B753CEDF16AFE5EA00DC42B9 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B753CEDB16AFE5EA00DC42B9 /* Icon-Small-50@2x.png */; };
+		B76A0FC916B924C8002C7964 /* HorizontalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A0FC716B924C8002C7964 /* HorizontalTableViewCell.m */; };
 		B7887E3E16B3A48000670C77 /* testInkBrush1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E3D16B3A48000670C77 /* testInkBrush1ViewController.m */; };
 		B7887E4616B3A61800670C77 /* Canvas.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E4216B3A61800670C77 /* Canvas.m */; };
 		B7887E4716B3A61800670C77 /* ColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7887E4416B3A61800670C77 /* ColorPickerController.m */; };
@@ -291,6 +292,8 @@
 		B753CED916AFE5EA00DC42B9 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		B753CEDA16AFE5EA00DC42B9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		B753CEDB16AFE5EA00DC42B9 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		B76A0FC616B924C8002C7964 /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableViewCell.h; sourceTree = "<group>"; };
+		B76A0FC716B924C8002C7964 /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableViewCell.m; sourceTree = "<group>"; };
 		B7887E3C16B3A48000670C77 /* testInkBrush1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testInkBrush1ViewController.h; sourceTree = "<group>"; };
 		B7887E3D16B3A48000670C77 /* testInkBrush1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testInkBrush1ViewController.m; sourceTree = "<group>"; };
 		B7887E4116B3A61800670C77 /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
@@ -692,6 +695,15 @@
 				B73D5B0B16B4233800BC2D77 /* zip.h */,
 			);
 			path = minizip;
+			sourceTree = "<group>";
+		};
+		B76A0FC316B924BC002C7964 /* HorizontalTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B76A0FC616B924C8002C7964 /* HorizontalTableViewCell.h */,
+				B76A0FC716B924C8002C7964 /* HorizontalTableViewCell.m */,
+			);
+			name = HorizontalTableViewCell;
 			sourceTree = "<group>";
 		};
 		B7887E4016B3A48900670C77 /* Brush */ = {
@@ -1159,6 +1171,7 @@
 		B78CFFA816B109D0000043EB /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				B76A0FC316B924BC002C7964 /* HorizontalTableViewCell */,
 				B73D5B0116B4233800BC2D77 /* ZipArchive */,
 				B78C004A16B10DB0000043EB /* components */,
 				B78C004416B10D91000043EB /* user-interface */,
@@ -1685,6 +1698,7 @@
 				B78DEE9516B638F800921C90 /* WWCellMyRoom.m in Sources */,
 				B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */,
 				B78BF76716B7F40500249F83 /* WWFriendInviteViewController.m in Sources */,
+				B76A0FC916B924C8002C7964 /* HorizontalTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

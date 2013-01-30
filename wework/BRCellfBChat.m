@@ -33,8 +33,8 @@
 
 -(void)setRecord:(BRRecordFbChat *)record{
     
-    self.lbFbUserName.text =  record.sender;
-    self.lbFbUserMsg.text = record.message;
+    self.lbFbUserName.text =  record.fbName;
+    self.lbFbUserMsg.text = record.msg;
     
     NSString *formattedDateString = [self.dateFormatter stringFromDate:record.created_at];
     self.lbChatDatetime.text = formattedDateString;
@@ -45,7 +45,7 @@
         self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon-72"]];
     } else if (record.dataImg == nil) {
         if ([record.strImgUrl length] > 0) {
-            [self.imvThumb setImageWithFbThumb:record.senderFbId placeHolderImage:[UIImage imageNamed:kSharedModel.theme[@"Icon-72"]]];
+            [self.imvThumb setImageWithFbThumb:record.fbId placeHolderImage:[UIImage imageNamed:kSharedModel.theme[@"Icon-72"]]];
         }
         else self.imvThumb.image = [UIImage imageNamed:kSharedModel.theme[@"Icon-72"]];
     } else {
@@ -54,7 +54,7 @@
     
     if([record.type isEqualToString:@"chat"]){
         
-       self.lbVideoName.text = record.videoName;
+      
        self.accessoryView = [self _makeDetailDisclosureButton];
     } else {
         self.accessoryType = UITableViewCellAccessoryNone;

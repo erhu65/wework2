@@ -15,13 +15,22 @@
 #import "QuartzCore/QuartzCore.h"
 #import "UIView+position.h"
 
+#import "HorizontalTableViewCell.h"
+#import "Utils.h"
+
 #define KTempTfInKeyboard 7789
+
+#define KTbFriendsOnLine 1342
+
 
 @interface FbChatRoomViewController ()
 <UITableViewDataSource,UITableViewDelegate,
 BRCellfBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
+
+@property (weak, nonatomic) IBOutlet UITableView *tbFriendsOnLine;
+
 @property (weak, nonatomic) IBOutlet UITextView* tvOutPut;
 @property (weak, nonatomic) IBOutlet UITextField *tfMsg;
 
@@ -34,6 +43,7 @@ BRCellfBChatDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UIToolbar *tb;
+
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBarRoom;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnTalk;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnJoin;
@@ -41,6 +51,9 @@ BRCellfBChatDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lbRoomCount;
 @property (weak, nonatomic) IBOutlet UITableView *tbFbChat;
 @property(strong, nonatomic) NSMutableArray* mArrFbChat;
+@property(strong, nonatomic) NSMutableDictionary* mDicFriendOnLine;
+@property(strong, nonatomic) NSMutableArray* mArrFriendOnLine;
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityChatRoom;
 
 
@@ -61,6 +74,34 @@ BRCellfBChatDelegate>
     
 }
 @synthesize javascriptBridge = _bridge;
+
+
+-(NSMutableDictionary*)mDicFriendOnLine
+{
+    if(nil == _mDicFriendOnLine){
+        _mDicFriendOnLine = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _mDicFriendOnLine;
+}
+-(NSMutableArray*)mArrFriendOnLine
+{
+    if(nil == _mArrFriendOnLine){
+        _mArrFriendOnLine = [[NSMutableArray alloc] init];
+    }
+    [_mArrFriendOnLine removeAllObjects];
+    
+    [self.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+        NSString* fbId = (NSString*)key;
+        NSString* fbName = (NSString*)object;
+        NSDictionary* friend = @{@"fbId": fbId,
+                                 @"fbName": fbName};
+        [_mArrFriendOnLine addObject:friend];
+
+    }];
+    
+    return _mArrFriendOnLine;
+}
 
 
 -(void)setIsLeaving:(BOOL)isLeaving{
@@ -127,6 +168,13 @@ BRCellfBChatDelegate>
     self.view.backgroundColor = [UIColor clearColor];
     self.tfMsg.clearButtonMode = UITextFieldViewModeWhileEditing;
     [BRStyleSheet styleLabel:self.lbRoomCount withType:BRLabelTypeLarge];
+    
+	CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
+	self.tbFriendsOnLine.transform = rotateTable;
+	self.tbFriendsOnLine.frame = CGRectMake(0, 500, self.tbFriendsOnLine.frame.size.width, self.tbFriendsOnLine.frame.size.height);
+    UIImage* backgroundImage = [UIImage imageNamed:@"tool-bar-background.png"];
+    self.tbFriendsOnLine.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -187,9 +235,10 @@ BRCellfBChatDelegate>
                NSStringFromSelector(_cmd));
     }
     
-    NSDictionary* data = @{@"msg": newMsg,
-                           @"senderFbId": kSharedModel.fbId,
+    NSDictionary* data = @{@"type": @"chat",
+                           @"msg": newMsg,
                            @"fbId":  kSharedModel.fbId,
+                           @"fbName": kSharedModel.fbName,
                            @"uniquDataKey": self.uniquDataKey
     };
     
@@ -200,23 +249,21 @@ BRCellfBChatDelegate>
     }];
 }
 
-- (void)callJsJoinRoomHandler:(NSString*)newName
+- (void)callJsJoinRoomHandler:(NSString*)fbName
                              toRoom:(NSString*)room
                             withFbId:(NSString*)fbId{
     
     if([self.delegate respondsToSelector:@selector(FbChatRoomViewControllerDelegateGetOutterInfo)]){
         [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
-        
         PRPLog(@"uniquDataKey:%@   -[%@ , %@] \n ",
                self.uniquDataKey,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
     
-    NSDictionary* data =  @{@"newName": newName,
-                            @"newRoom": room,
-                            @"newFbId": fbId,
-                            @"senderFbId": [BRDModel sharedInstance].fbId,
+    NSDictionary* data =  @{@"room": room,
+                            @"fbId": fbId,
+                            @"fbName": fbName,
                             @"uniquDataKey": self.uniquDataKey};
     
     [_bridge callHandler:@"JsJoinRoomHandler" 
@@ -308,41 +355,94 @@ BRCellfBChatDelegate>
         [_bridge registerHandler:@"iosGetMsgCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         
             NSDictionary* resDic = (NSDictionary*)data;
-            NSLog(@"iosGetMsgCallback called: %@", resDic);
-            //NSString* type = resDic[@"type"];
-            NSString* roomCount = (NSString*)resDic[@"roomCount"];
-            NSString* sender = (NSString*)resDic[@"sender"];
-            //NSString* senderFbId =  (NSString*)resDic[@"senderFbId"];
-            NSString* message = (NSString*)resDic[@"message"];
-            NSString* fbId = (NSString*)resDic[@"fbId"];
-            
-//            NSString* currentYoutubeKey = (NSString*)resDic[@"currentYoutubeKey"];
-//            NSString* currentPlaybackTime = (NSString*)resDic[@"currentPlaybackTime"];
+            PRPLog(@"iosGetMsgCallback called :%@  -[%@ , %@] \n ",
+                   resDic,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
 
-            if([sender isEqualToString:@"me"]) fbId = kSharedModel.fbId;
             
-            if([sender isEqualToString:@"server"]
-               && [message rangeOfString:@"Good to see your"].location != NSNotFound){
-                self.isJoinFbChatRoom = YES;
+            NSString* type = resDic[@"type"];
+            if([type isEqualToString:@"chat"] 
+            || [type isEqualToString:@"server"]){
+            
+                //NSString* type = resDic[@"type"];
+                NSString* roomCount = (NSString*)resDic[@"roomCount"];
+                NSString* fbName = (NSString*)resDic[@"fbName"];
+                //NSString* senderFbId =  (NSString*)resDic[@"senderFbId"];
+                NSString* msg = (NSString*)resDic[@"msg"];
+                NSString* fbId = (NSString*)resDic[@"fbId"];
+                if([type isEqualToString:@"chat"]){
+                    NSString* uniquDataKey = resDic[@"uniquDataKey"];
+                
+                
+                }
+                
+                if([type isEqualToString:@"server"]){
+                    
+                    __weak  FbChatRoomViewController* weakSelf = (FbChatRoomViewController* ) self;
+                    NSDictionary* friendsOnLine = resDic[@"friendsOnLine"];
+                    
+                    if(nil != friendsOnLine){
+                       
+                        [friendsOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+                            NSString* fbId = (NSString*)key;
+                            NSString* fbName = (NSString*)object;
+                            
+                            [weakSelf.mDicFriendOnLine setObject:fbName forKey:fbId];
+                            [weakSelf.tbFriendsOnLine reloadData];
+                            
+                        }];
+
+                    }
+                    
+                    NSString* friendFbName = [self.mDicFriendOnLine objectForKey:fbId];
+                    NSString* subType = resDic[@"subType"];
+                    if(nil != subType 
+                       && [subType isEqualToString:@"userJoin"]
+                       && nil == friendFbName){
+                        NSString* userJoinFbName = resDic[@"userJoinFbName"];
+                        
+                        [self.mDicFriendOnLine setObject:userJoinFbName forKey:fbId];
+                         [weakSelf.tbFriendsOnLine reloadData];
+                    } else if(nil != subType 
+                              && [subType isEqualToString:@"userLeave"]
+                        && nil != friendFbName) {
+                       
+                        [self.mDicFriendOnLine removeObjectForKey:fbId];
+                        [weakSelf.tbFriendsOnLine reloadData];
+                    }
+                    PRPLog(@"self.mDicFriendOnLine :%@ \n\
+                           self.mArrFriendOnLine :%@\n\
+                           -[%@ , %@] \n ",
+                           self.mDicFriendOnLine ,
+                           self.mArrFriendOnLine ,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));
+                }
+                
+                if([fbName isEqualToString:@"me"]) fbId = kSharedModel.fbId;
+                
+                if([fbName isEqualToString:@"server"]
+                   && [msg rangeOfString:@"Good to see your"].location != NSNotFound){
+                    self.isJoinFbChatRoom = YES;
+                }
+   
+                self.lbRoomCount.text = [NSString stringWithFormat:@"%@: %@",kSharedModel.lang[@"onLine"], roomCount];
+                BRRecordFbChat* recordNew = [[BRRecordFbChat alloc] initWithJsonDic:resDic];
+                [self.mArrFbChat insertObject:recordNew atIndex:0];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                NSArray* arrIndexPathNew = @[indexPath];
+                
+                [[self tbFbChat] beginUpdates];
+                [self.tbFbChat insertRowsAtIndexPaths:arrIndexPathNew withRowAnimation:UITableViewRowAnimationAutomatic];
+                [[self tbFbChat] endUpdates];
+                [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
+                self.activityChatRoom.hidden = YES;
+                [self.activityChatRoom stopAnimating];
+                self.barBtnTalk.enabled = YES;
+                self.barBtnJoin.enabled = YES;
             }
-//            NSString* strOutput = [NSString stringWithFormat:@"%@(%@) say: %@ key:%@, playback:%@ at %@ count:%@", sender, fbId, message, currentYoutubeKey, currentPlaybackTime, [NSDate date] , roomCount];
-            //NSString* strOutputOriginal = self.tvOutPut.text;
-            //NSString* strOutputNew = [NSString stringWithFormat:@"%@ \n %@", strOutput, strOutputOriginal];
-            //self.tvOutPut.text = strOutputNew;
-            self.lbRoomCount.text = [NSString stringWithFormat:@"%@: %@",kSharedModel.lang[@"onLine"], roomCount];
-            BRRecordFbChat* recordNew = [[BRRecordFbChat alloc] initWithJsonDic:resDic];
-            [self.mArrFbChat insertObject:recordNew atIndex:0];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            NSArray* arrIndexPathNew = @[indexPath];
-            
-            [[self tbFbChat] beginUpdates];
-            [self.tbFbChat insertRowsAtIndexPaths:arrIndexPathNew withRowAnimation:UITableViewRowAnimationAutomatic];
-            [[self tbFbChat] endUpdates];
-            [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
-            self.activityChatRoom.hidden = YES;
-            [self.activityChatRoom stopAnimating];
-            self.barBtnTalk.enabled = YES;
-            self.barBtnJoin.enabled = YES;
+
             responseCallback(@"Response from iosGetMsgCallback: ios got chatroom msg");
         }];
         [_bridge send:@"A string sent from ObjC before Webview has loaded." responseCallback:^(id responseData) {
@@ -447,23 +547,50 @@ BRCellfBChatDelegate>
 #pragma mark UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BRCellfBChat *cellfBChat = (BRCellfBChat *)[self.tbFbChat dequeueReusableCellWithIdentifier:@"BRCellfBChat"];
-    
-    cellfBChat.tb = tableView;
-    BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
-    cellfBChat.record = record;
-    cellfBChat.indexPath = indexPath;
-    
-    cellfBChat.deletate = self;
-    UIImage *backgroundImage = [UIImage imageNamed:@"table-row-background.png"];
-    cellfBChat.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-    
-    return cellfBChat;
-}
+    if(tableView.tag == KTbFriendsOnLine){
+        
+        HorizontalTableViewCell *cellFriend = (HorizontalTableViewCell *)[self.tbFriendsOnLine dequeueReusableCellWithIdentifier:@"HorizontalTableViewCell"];
+        NSDictionary* record = [self.mArrFriendOnLine objectAtIndex:[indexPath row]];
+        cellFriend.lbFbName.text = record[@"fbName"];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/picture",record[@"fbId"]];
+        [Utils showImageAsync:cellFriend.imvFb  fromUrl:url cacheName:record[@"fbId"]];
 
+        return cellFriend;    
+        
+    } else {
+        BRCellfBChat *cellfBChat = (BRCellfBChat *)[self.tbFbChat dequeueReusableCellWithIdentifier:@"BRCellfBChat"];
+        
+        cellfBChat.tb = tableView;
+        BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
+        cellfBChat.record = record;
+        cellfBChat.indexPath = indexPath;
+        
+        cellfBChat.deletate = self;
+        UIImage *backgroundImage = [UIImage imageNamed:@"table-row-background.png"];
+        cellfBChat.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+        
+        return cellfBChat;
+    }
+    
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.mArrFbChat count];
+    if(tableView.tag == KTbFriendsOnLine){
+        PRPLog(@"[self.mArrFriendOnLine count]: %d-[%@ , %@] \n ",
+                [self.mArrFriendOnLine count],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+
+        return [self.mArrFriendOnLine count];
+    } else {
+         return [self.mArrFbChat count];
+    }
+   
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

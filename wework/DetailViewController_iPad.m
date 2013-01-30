@@ -49,6 +49,8 @@ AmazonServiceRequestDelegate>
 
 @implementation DetailViewController_iPad
 
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -64,11 +66,10 @@ AmazonServiceRequestDelegate>
     
     self = [super initWithCoder:aDecoder];
     if(self){
-        
+        self.isDisableInAppNotification = YES;
     }
     return self;
 }
-
 
 #pragma mark - Private behavior
 - (void)showAboutPopover

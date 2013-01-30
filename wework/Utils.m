@@ -474,8 +474,6 @@ static NSFileManager * _fileManager = nil;
                fromUrl:(NSString*)url_
              cacheName:(NSString*)cacheName
 {
-   
-    
     if(nil == _fileManager) {
         _fileManager = [[NSFileManager alloc] init];
     }

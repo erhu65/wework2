@@ -16,21 +16,24 @@
     if (self) {
         
         self.type = [dic objectForKey:@"type"];
-        self.sender = [dic objectForKey:@"sender"];
-        self.socketOwnerFbId = [dic objectForKey:@"senderFbId"];
-        self.senderFbId = [dic objectForKey:@"senderFbId"];
-        self.message = [dic objectForKey:@"message"];
-        self.currentYoutubeKey = [dic objectForKey:@"currentYoutubeKey"];
+        self.fbId = [dic objectForKey:@"fbId"];
+        self.fbName = [dic objectForKey:@"fbName"];
+        self.uniquDataKey = [dic objectForKey:@"uniquDataKey"];
+        
+        //self.socketOwnerFbId = [dic objectForKey:@"senderFbId"];
+        //self.senderFbId = [dic objectForKey:@"senderFbId"];
+        self.msg = [dic objectForKey:@"msg"];
+        //self.currentYoutubeKey = [dic objectForKey:@"currentYoutubeKey"];
 //        if([self.currentYoutubeKey length] > 0){
 //            BRRecordVideo* video =  [kSharedModel findVideoByYoutubeKey:self.currentYoutubeKey];
 //            self.videoName = video.name;
 //        } else {
 //            
-        self.videoName = @"";
-        self.currentPlaybackTime = [dic objectForKey:@"currentPlaybackTime"];
+        //self.videoName = @"";
+        //self.currentPlaybackTime = [dic objectForKey:@"currentPlaybackTime"];
         self.created_at = [NSDate date];
         
-        self.strImgUrl = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?", self.senderFbId];
+        self.strImgUrl = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?", self.fbId];
         
         PRPLog(@"[self description]:%@  -[%@ , %@] \n ",
                [self description],
@@ -44,6 +47,13 @@
 -(NSString*)description
 {
     [super description];
-    return [NSString stringWithFormat:@"self.type: %@ \n self.socketOwnerFbId: %@ \n self.senderFbId: %@ \n self.message: %@", self.type, self.socketOwnerFbId, self.senderFbId, self.message];
+    return [NSString stringWithFormat:@"self.type: %@ \n\
+            self.fbId: %@ \n\
+            self.msg: %@ \n\
+            self.uniquDataKey %@",
+            self.type,
+            self.fbId,
+            self.msg,
+            self.uniquDataKey];
 }
 @end
