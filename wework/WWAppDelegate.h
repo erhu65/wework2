@@ -9,13 +9,17 @@
 #import "SurfsUpAppDelegate.h"
 #import "WebViewJavascriptBridge.h"
 #import "Utils.h"
+@class DetailViewController_iPad;
 
 @interface WWAppDelegate : SurfsUpAppDelegate <UIApplicationDelegate>
+
 
 @property (strong, nonatomic) UIWindow *window;
 @property(strong, nonatomic)NSString* token;
 
 @property (strong, nonatomic) UIWebView *webview;
 @property (strong, nonatomic) WebViewJavascriptBridge *javascriptBridge;
+
+@property (nonatomic, weak)DetailViewController_iPad* detail;
 
 @end

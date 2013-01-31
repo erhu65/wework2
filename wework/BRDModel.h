@@ -50,6 +50,7 @@ typedef enum subCategoriesSortType {
 
 + (BRDModel*)sharedInstance;
 
+
 @property (nonatomic, strong) ACAccount* facebookAccount;
 @property(nonatomic, strong)NSDictionary* lang;
 @property(nonatomic, strong)NSDictionary* theme;
@@ -133,6 +134,24 @@ withBlock:(void (^)(NSDictionary* userInfo))block;
                       withPage:(NSNumber*)page
                      withBlock:(void (^)(NSDictionary* userInfo))block;
 
+- (void)postChat:(NSString*)type
+               msg:(NSString*)msg
+        uniquDataKey:(NSString*)uniquDataKey
+              fbId:(NSString*)fbId 
+            fbName:(NSString*)fbNmae
+            roomId:(NSString*)roomId
+         withBlock:(void (^)(NSDictionary* userInfo))block;
+
+- (void)fetchChatByRoom:(NSString*)roomId 
+                  withPage:(NSNumber*)page
+                 withBlock:(void (^)(NSDictionary* userInfo))block;
+
+- (void)updMyChat:(NSString*)msg
+              _id:(NSString*)_id
+        withBlock:(void (^)(NSDictionary* userInfo))block;
+
+-(void)delChat:(NSString*)_id
+           withBlock:(void (^)(NSDictionary* userInfo))block;
 
 - (void)getSocketUrl;
 - (void)registerUdid:(NSString*)udid;

@@ -15,22 +15,12 @@
     self = [super init];
     if (self) {
         
+        self._id = [dic objectForKey:@"_id"];
         self.type = [dic objectForKey:@"type"];
         self.fbId = [dic objectForKey:@"fbId"];
         self.fbName = [dic objectForKey:@"fbName"];
         self.uniquDataKey = [dic objectForKey:@"uniquDataKey"];
-        
-        //self.socketOwnerFbId = [dic objectForKey:@"senderFbId"];
-        //self.senderFbId = [dic objectForKey:@"senderFbId"];
         self.msg = [dic objectForKey:@"msg"];
-        //self.currentYoutubeKey = [dic objectForKey:@"currentYoutubeKey"];
-//        if([self.currentYoutubeKey length] > 0){
-//            BRRecordVideo* video =  [kSharedModel findVideoByYoutubeKey:self.currentYoutubeKey];
-//            self.videoName = video.name;
-//        } else {
-//            
-        //self.videoName = @"";
-        //self.currentPlaybackTime = [dic objectForKey:@"currentPlaybackTime"];
         self.created_at = [NSDate date];
         
         self.strImgUrl = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?", self.fbId];

@@ -8,6 +8,8 @@
 
 #import "WWFriendInviteViewController.h"
 #import "BRDModel.h"
+#import "WWAppDelegate.h"
+#import "DetailViewController_iPad.h"
 #import "WWRecordMyRoom.h"
 #import "WWCellMyRoom.h"
 
@@ -169,8 +171,9 @@ UIAlertViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
+    WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
+    kAppDelegate.detail.room = record._id;
+
 }
 
 #pragma mark UIScrollViewDelegate

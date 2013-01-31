@@ -1019,7 +1019,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="85" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PuE-ut-dIB" userLabel="tbFbChat">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="472" id="lao-6B-Odi"/>
+                                    <constraint firstAttribute="height" constant="502" id="ic3-uY-29z"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="BRCellfBChat" rowHeight="85" id="Cxb-0V-WXV" userLabel="cellFbChat" customClass="BRCellfBChat">
@@ -1148,8 +1148,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="81" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ka7-kY-PFh">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ka7-kY-PFh">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="kWx-9T-ybn"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -1163,10 +1166,11 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="ka7-kY-PFh" secondAttribute="bottom" constant="5" id="T4z-8B-DjV"/>
+                                            <constraint firstAttribute="bottom" secondItem="ka7-kY-PFh" secondAttribute="bottom" constant="1" id="MC4-lT-0i0"/>
                                             <constraint firstItem="6fQ-0T-wLy" firstAttribute="leading" secondItem="aaE-dc-93P" secondAttribute="leading" constant="7" id="Z8G-ne-qya"/>
                                             <constraint firstItem="6fQ-0T-wLy" firstAttribute="top" secondItem="aaE-dc-93P" secondAttribute="top" constant="4" id="ogj-Vg-DN7"/>
-                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="leading" secondItem="aaE-dc-93P" secondAttribute="leading" constant="17" id="r5h-Gv-HBw"/>
+                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="trailing" secondItem="6fQ-0T-wLy" secondAttribute="trailing" type="default" id="xzs-kF-LqO"/>
+                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="leading" secondItem="6fQ-0T-wLy" secondAttribute="leading" type="default" id="yFX-Tf-Fc6"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imvFb" destination="6fQ-0T-wLy" id="z91-9I-t1X"/>
@@ -1504,6 +1508,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FbChatRoomViewController.h"/>
             <relationships>
                 <relationship kind="action" name="_prepareTextForSendMsgToRoom:"/>
+                <relationship kind="action" name="joinRoomWithFBAccount:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="activityChatRoom" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="barBtnJoin" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="barBtnTalk" candidateClass="UIBarButtonItem"/>

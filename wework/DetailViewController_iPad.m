@@ -45,11 +45,20 @@ AmazonServiceRequestDelegate>
 
 @end
 
-
-
 @implementation DetailViewController_iPad
 
+-(void)setRoom:(NSString *)room{
+    
+    if(nil == _room 
+       || room != _room ){
+        _room = room;
+        [self.fbChatRoomViewController leaveRoom];
+        [self FbChatRoomViewControllerDelegateGetOutterInfo];
 
+        [self.fbChatRoomViewController joinRoomWithFBAccount:nil];
+    }
+
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -467,7 +476,12 @@ AmazonServiceRequestDelegate>
 #pragma mark FbChatRoomViewControllerDelegate method
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo
 {
-    self.fbChatRoomViewController.uniquDataKey = @"uniquDataKey";
+    PRPLog(@"self.room: %@ -[%@ , %@]",
+           _room,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd)); 
+    self.fbChatRoomViewController.room = _room;
+
 }
 
 -(void)FbChatRoomViewControllerDelegateTriggerOuterAction2{
@@ -493,7 +507,7 @@ AmazonServiceRequestDelegate>
 	{
 		self.fbChatRoomViewController = segue.destinationViewController;
         self.fbChatRoomViewController.delegate = self;
-        self.fbChatRoomViewController.room = @"globalRoom";
+        //self.fbChatRoomViewController.room = self.room;
 	} 
 }
 

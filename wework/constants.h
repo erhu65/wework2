@@ -50,7 +50,7 @@
 
 #define app_logo @"http://erhu65.phpfogapp.com/public/images/icon_tagsale_57.png"
 
-#define kAppDelegate ((AppDelegate *) [[UIApplication sharedApplication] delegate])
+#define kAppDelegate ((WWAppDelegate *) [[UIApplication sharedApplication] delegate])
 #define kSharedModel ((BRDModel *) [BRDModel sharedInstance])
 
 #define isiPhone ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)

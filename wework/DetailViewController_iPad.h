@@ -18,7 +18,7 @@
 {    
    
 }
-
+@property(nonatomic, strong)NSString* room;
 @property (nonatomic, strong) UIPopoverController   *aboutPopover;
 @property (nonatomic, strong) id                    lastTappedButton;
 
@@ -27,5 +27,5 @@
 
 @property (strong, nonatomic) id detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
-
+-(void)FbChatRoomViewControllerDelegateGetOutterInfo;
 @end

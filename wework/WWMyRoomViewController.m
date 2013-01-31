@@ -8,9 +8,12 @@
 
 #import "WWMyRoomViewController.h"
 #import "BRFBFriendListViewController.h"
+#import "DetailViewController_iPad.h"
 #import "BRDModel.h"
+#import "DetailViewController_iPad.h"
 #import "WWRecordMyRoom.h"
 #import "WWCellMyRoom.h"
+#import "WWAppDelegate.h"
 
 @interface WWMyRoomViewController ()
 <UITableViewDataSource,UITableViewDelegate,
@@ -199,7 +202,7 @@ WWCellMyRoomDelegate>
                            if(nil != res 
                               && nil != res[@"error"]){
                                
-                               [self showMsg:res[@"error"] type:msgLevelError];
+                               [weakSelf showMsg:res[@"error"] type:msgLevelError];
                                return;
                            }
 
@@ -211,7 +214,7 @@ WWCellMyRoomDelegate>
                            weakSelf.isLastPage = [((NSNumber*)res[@"isLastPage"]) boolValue];
                            weakSelf.page = res[@"page"];
                            
-                           if(self.docs.count > 0){
+                           if(weakSelf.docs.count > 0){
                                
                                PRPLog(@"self.docs.count: %d-[%@ , %@]",
                                       weakSelf.docs.count,
@@ -252,7 +255,7 @@ WWCellMyRoomDelegate>
                 //[weakSelf.tb reloadData];
                NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0
                                                             inSection:0];
-            [self.tb insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [weakSelf.tb insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
 }
 
@@ -282,10 +285,10 @@ WWCellMyRoomDelegate>
              recordUpded,
              NSStringFromClass([self class]),
              NSStringFromSelector(_cmd));
-            self.docs[row] = recordUpded;
+            weakSelf.docs[row] = recordUpded;
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row
                                                                    inSection:0];
-            [self.tb reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]  withRowAnimation:UITableViewRowAnimationAutomatic];              
+            [weakSelf.tb reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]  withRowAnimation:UITableViewRowAnimationAutomatic];              
     }];
 }
 
@@ -302,15 +305,15 @@ WWCellMyRoomDelegate>
       if(nil != res 
          && nil != res[@"error"]){
           
-          [self showMsg:res[@"error"] type:msgLevelError];
+          [weakSelf showMsg:res[@"error"] type:msgLevelError];
           return;
       }
       
-      WWRecordMyRoom* record = [self.docs objectAtIndex:row];
-      [self.docs removeObject:record];
+      WWRecordMyRoom* record = [weakSelf.docs objectAtIndex:row];
+      [weakSelf.docs removeObject:record];
       NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row
                                                    inSection:0];
-      [self.tb deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];  
+      [weakSelf.tb deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];  
       
     }];
   
@@ -346,7 +349,6 @@ WWCellMyRoomDelegate>
     WWCellMyRoom.delegate = self;
     WWCellMyRoom.record = record;
     WWCellMyRoom.indexPath = indexPath;
-    
     UIImage *backgroundImage = [UIImage imageNamed:@"table-row-background.png"];
     WWCellMyRoom.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
     
@@ -362,8 +364,8 @@ WWCellMyRoomDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-
+    WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
+    kAppDelegate.detail.room = record._id;
 }
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO

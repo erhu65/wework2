@@ -27,6 +27,8 @@
 @property(nonatomic, strong) NSString* uniquDataKey;
 
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
+- (IBAction)joinRoomWithFBAccount:(UIBarButtonItem*)sender;
 -(void) leaveRoom;
+
 
 @end

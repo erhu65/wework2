@@ -10,7 +10,7 @@
 
 @interface BRRecordFbChat : BRRecordBase
 
-
+@property(nonatomic, strong)NSString* _id;
 @property(nonatomic, strong)NSString* type;
 @property(nonatomic, strong)NSString* fbId;
 @property(nonatomic, strong)NSString* fbName;

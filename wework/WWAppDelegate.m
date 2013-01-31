@@ -7,6 +7,7 @@
 //
 
 #import "WWAppDelegate.h"
+#import "DetailViewController_iPad.h"
 #import "SurfsUpViewController_iPad.h"
 #import "DetailViewController_iPad.h"
 #import "Detail1ViewController.h"
@@ -72,9 +73,6 @@ void exceptionHandler(NSException *exception)
         freopen([stderrPath cStringUsingEncoding:NSASCIIStringEncoding], "w", stderr);
     }
 #endif
-    
-
-    
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UITabBarController *navigationControllerMasterTab = [splitViewController.viewControllers objectAtIndex:0];
@@ -87,6 +85,7 @@ void exceptionHandler(NSException *exception)
   
     UINavigationController *navigationControllerDetail = [splitViewController.viewControllers lastObject];
    DetailViewController_iPad* detail = (DetailViewController_iPad*)navigationControllerDetail.topViewController;
+    self.detail = detail;
     [master setDetailVC:detail];
 
     splitViewController.delegate = (id)navigationControllerDetail.topViewController;
