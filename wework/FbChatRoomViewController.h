@@ -22,6 +22,7 @@
 
 
 @interface FbChatRoomViewController : BRCoreViewController
+@property (nonatomic) BOOL isJoinFbChatRoom;
 @property(nonatomic, strong)NSString* room;
 @property(nonatomic) BOOL isLeaving;
 @property(nonatomic, strong) NSString* uniquDataKey;
@@ -29,6 +30,6 @@
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
 - (IBAction)joinRoomWithFBAccount:(UIBarButtonItem*)sender;
 -(void) leaveRoom;
-
+-(void) toggleChatRoomEdit:(BOOL)isEditing;
 
 @end

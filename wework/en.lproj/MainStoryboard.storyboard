@@ -354,7 +354,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcG-7V-nhL">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="Bma-Fy-CzR"/>
+                                                        <constraint firstAttribute="height" constant="25" id="arT-rd-NvA"/>
                                                         <constraint firstAttribute="width" constant="30" id="s2X-jj-a5m"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -371,11 +371,10 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vF-iV-VyK">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="28" id="HWh-ge-N4o"/>
-                                                        <constraint firstAttribute="width" constant="40" id="MjB-a3-GiC"/>
+                                                        <constraint firstAttribute="width" constant="29" id="Mfh-uD-Mfl"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="2" image="users.png">
+                                                    <state key="normal" image="users.png">
                                                         <color key="titleColor" red="0.76216457199999998" green="0.57175357019999995" blue="0.44210529640000001" alpha="0.57999999999999996" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -386,23 +385,35 @@
                                                         <segue destination="m47-Oq-3bi" kind="push" identifier="segueFriendsInvited" id="MEc-H7-BCj"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugV-68-HfE">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="10" id="cgb-YP-Cye"/>
+                                                        <constraint firstAttribute="height" constant="21" id="ygJ-au-3VS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.76216457199999998" green="0.57175357019999995" blue="0.44210529640000001" alpha="0.57999999999999996" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="wcG-7V-nhL" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="26" id="8CU-1W-Bmd"/>
-                                            <constraint firstItem="8vF-iV-VyK" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="25" id="AfP-14-jud"/>
-                                            <constraint firstItem="8vF-iV-VyK" firstAttribute="trailing" secondItem="mN1-nT-Tbm" secondAttribute="trailing" type="default" id="DfA-NT-yk1"/>
-                                            <constraint firstAttribute="trailing" secondItem="8vF-iV-VyK" secondAttribute="trailing" constant="3" id="Etd-wS-tzp"/>
+                                            <constraint firstItem="wcG-7V-nhL" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="26" id="0rT-cW-UIT"/>
+                                            <constraint firstItem="ugV-68-HfE" firstAttribute="leading" secondItem="8vF-iV-VyK" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="4eH-Kj-Uew"/>
+                                            <constraint firstAttribute="trailing" secondItem="wcG-7V-nhL" secondAttribute="trailing" constant="58" id="7or-1m-pLV"/>
+                                            <constraint firstItem="ugV-68-HfE" firstAttribute="centerY" secondItem="8vF-iV-VyK" secondAttribute="centerY" type="default" id="Dw7-DP-NDE"/>
                                             <constraint firstItem="ngw-FJ-tNv" firstAttribute="top" secondItem="mN1-nT-Tbm" secondAttribute="top" type="default" id="LHb-Vz-ZXN"/>
                                             <constraint firstItem="Rgd-or-OVh" firstAttribute="leading" secondItem="eOi-Wo-l7j" secondAttribute="leading" constant="76" id="LZA-qN-LKs"/>
                                             <constraint firstItem="VPT-vm-r38" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="20" type="default" id="M4c-PP-wpQ"/>
-                                            <constraint firstItem="Rgd-or-OVh" firstAttribute="trailing" secondItem="wcG-7V-nhL" secondAttribute="trailing" type="default" id="SYg-Nd-HQ9"/>
+                                            <constraint firstItem="mN1-nT-Tbm" firstAttribute="top" secondItem="8vF-iV-VyK" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="NBT-Zg-e1v"/>
+                                            <constraint firstItem="ugV-68-HfE" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="29" id="Vym-4M-oS3"/>
                                             <constraint firstItem="ngw-FJ-tNv" firstAttribute="baseline" secondItem="mN1-nT-Tbm" secondAttribute="baseline" type="default" id="XRb-PP-6fc"/>
                                             <constraint firstItem="ngw-FJ-tNv" firstAttribute="leading" secondItem="eOi-Wo-l7j" secondAttribute="leading" constant="13" id="XXM-Wc-Kyd"/>
                                             <constraint firstItem="Rgd-or-OVh" firstAttribute="top" secondItem="eOi-Wo-l7j" secondAttribute="top" constant="20" type="default" id="Zg8-h4-8X6"/>
                                             <constraint firstItem="VPT-vm-r38" firstAttribute="leading" secondItem="eOi-Wo-l7j" secondAttribute="leading" constant="9" id="gEG-kZ-Opf"/>
                                             <constraint firstItem="VPT-vm-r38" firstAttribute="bottom" secondItem="Rgd-or-OVh" secondAttribute="bottom" type="default" id="iqc-rk-Vhb"/>
+                                            <constraint firstAttribute="trailing" secondItem="mN1-nT-Tbm" secondAttribute="trailing" constant="3" id="t3Z-ry-1hQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="ugV-68-HfE" secondAttribute="trailing" constant="10" id="uZK-Ir-DsR"/>
                                             <constraint firstItem="mN1-nT-Tbm" firstAttribute="top" secondItem="wcG-7V-nhL" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ul2-qO-O3K"/>
                                         </constraints>
                                         <connections>
@@ -410,6 +421,7 @@
                                             <outlet property="imvFb" destination="VPT-vm-r38" id="TA2-bz-bvP"/>
                                             <outlet property="lbChatDatetime" destination="mN1-nT-Tbm" id="E72-tB-2RU"/>
                                             <outlet property="lbFbName" destination="ngw-FJ-tNv" id="IVb-bc-rcc"/>
+                                            <outlet property="lbInviteCount" destination="ugV-68-HfE" id="efS-zq-G57"/>
                                             <outlet property="lbRoomName" destination="Rgd-or-OVh" id="Byq-Vf-jkh"/>
                                         </connections>
                                     </tableViewCell>
@@ -1019,7 +1031,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="85" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PuE-ut-dIB" userLabel="tbFbChat">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="502" id="ic3-uY-29z"/>
+                                    <constraint firstAttribute="height" constant="472" id="lao-6B-Odi"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="BRCellfBChat" rowHeight="85" id="Cxb-0V-WXV" userLabel="cellFbChat" customClass="BRCellfBChat">
@@ -1507,7 +1519,6 @@
         <class className="FbChatRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FbChatRoomViewController.h"/>
             <relationships>
-                <relationship kind="action" name="_prepareTextForSendMsgToRoom:"/>
                 <relationship kind="action" name="joinRoomWithFBAccount:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="activityChatRoom" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="barBtnJoin" candidateClass="UIBarButtonItem"/>
@@ -1562,6 +1573,7 @@
                 <relationship kind="outlet" name="imvFb" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lbChatDatetime" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="lbFbName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbInviteCount" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="lbRoomName" candidateClass="UILabel"/>
             </relationships>
         </class>
@@ -1574,8 +1586,6 @@
         <class className="WWMyRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WWMyRoomViewController.h"/>
             <relationships>
-                <relationship kind="action" name="showAddMyRoomAlertView:"/>
-                <relationship kind="action" name="toggleEditOrDone:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="unwindBackToMyRoomlViewController:" candidateClass="UIStoryboardSegue"/>
                 <relationship kind="outlet" name="barBtnEdit" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="tb" candidateClass="UITableView"/>

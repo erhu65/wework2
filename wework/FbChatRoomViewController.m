@@ -60,7 +60,6 @@ BRCellfBChatDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityChatRoom;
 
 
-@property (nonatomic) BOOL isJoinFbChatRoom;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnZoom;
 @property(nonatomic) BOOL isZoomed;
@@ -94,14 +93,17 @@ BRCellfBChatDelegate>
     }
     [_mArrFriendOnLine removeAllObjects];
     
-    [self.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-        NSString* fbId = (NSString*)key;
-        NSString* fbName = (NSString*)object;
-        NSDictionary* friend = @{@"fbId": fbId,
-                                 @"fbName": fbName};
-        [_mArrFriendOnLine addObject:friend];
+    if(self.isJoinFbChatRoom){
+        [self.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+            NSString* fbId = (NSString*)key;
+            NSString* fbName = (NSString*)object;
+            NSDictionary* friend = @{@"fbId": fbId,
+                                     @"fbName": fbName};
+            [_mArrFriendOnLine addObject:friend];
+            
+        }];
 
-    }];
+    }
     
     return _mArrFriendOnLine;
 }
@@ -207,6 +209,10 @@ BRCellfBChatDelegate>
         [self leaveRoom];
     }
 }
+-(void) toggleChatRoomEdit:(BOOL)isEditing
+{
+    self.tbFbChat.editing = isEditing;
+}
 
 -(void) leaveRoom{
     
@@ -229,6 +235,8 @@ BRCellfBChatDelegate>
     NSURL* url = [[NSURL alloc] initWithString:@"http://google.com"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [self.webview loadRequest:request];  
+    self.activityChatRoom.hidden = YES;
+    [self.activityChatRoom stopAnimating];
 }
 
 
@@ -257,32 +265,34 @@ BRCellfBChatDelegate>
 }
 
 #pragma mark node.js socekt helper methods
-- (void)callJsSendMsgHandler:(NSString*)newMsg  {
-    
-    if([self.delegate respondsToSelector:@selector(getOutterInfo)]){
-        [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
-        PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
-               self.uniquDataKey,
-               NSStringFromClass([self class]),
-               NSStringFromSelector(_cmd));
-    }
+-(void)_callJsDelMsgHandler:(NSString*)_id{
     
     NSDictionary* data = @{@"type": @"chat",
-                           @"msg": newMsg,
-                           @"fbId":  kSharedModel.fbId,
-                           @"fbName": kSharedModel.fbName,
-                           @"uniquDataKey": self.uniquDataKey
-    };
+                           @"action": @"del",
+                           @"fbId": kSharedModel.fbId,
+                           @"_id": _id
+                           };
     
     [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
         NSLog(@"JsSendMsgHandler responded: %@", response);
-        self.tfMsg.text = @"";
-        [self.tfMsg resignFirstResponder];
+        
     }];
 }
 
+- (void)callJsSendMsgHandler:(NSString*)newMsg  {
+    
+    
+    NSString* uniquDataKey = @"uniquDataKey defaut";
+    [self _postChat:@"chat" msg:newMsg uniquDataKey:uniquDataKey fbId:kSharedModel.fbId
+             fbName:kSharedModel.fbName roomId:self.room];    
+}
+
+
+
 - (void)callJsJoinRoomHandler:(NSString*)fbName
                             withFbId:(NSString*)fbId{
+    
+    if(nil == self.room) return;
     
     if([self.delegate respondsToSelector:@selector(FbChatRoomViewControllerDelegateGetOutterInfo)]){
         [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
@@ -291,6 +301,7 @@ BRCellfBChatDelegate>
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
+    
     self.uniquDataKey = @"uniquDataKey1";
     
     NSDictionary* data =  @{@"room": self.room,
@@ -321,6 +332,8 @@ BRCellfBChatDelegate>
     [self.delegate FbChatRoomViewControllerDelegateTriggerOuterAction2];
      //self.barBtnTalk.enabled = YES;
 }
+
+
 -(IBAction)_sendMsgToRoom
 {
     self.barBtnTalk.enabled = NO;
@@ -390,6 +403,8 @@ BRCellfBChatDelegate>
                    resDic,
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
+            
+            
 
             
             NSString* type = resDic[@"type"];
@@ -405,12 +420,8 @@ BRCellfBChatDelegate>
                 
                 if([type isEqualToString:@"chat"]){
                     
-                    
                     if([kSharedModel.fbId isEqualToString:fbId]){
                         
-                        NSString* uniquDataKey = resDic[@"uniquDataKey"];
-                        [self _postChat:type msg:msg uniquDataKey:uniquDataKey fbId:fbId
-                                 fbName:fbName roomId:self.room];
                     }
 
                 }
@@ -463,14 +474,38 @@ BRCellfBChatDelegate>
                     self.isJoinFbChatRoom = YES;
                     
                     [self _fetchChatByRoom:self.room withPage:self.page];
+                    [self.tbFriendsOnLine reloadData];
                 }
                 if(nil != roomCount){
                     self.lbRoomCount.text = [NSString stringWithFormat:@"%@: %@",kSharedModel.lang[@"onLine"], roomCount];
                 }
+                 NSString* action = (NSString*)resDic[@"action"];
                 
+                if([type isEqualToString:@"chat"] 
+                   && nil != action 
+                   && [action isEqualToString:@"del"]
+                   && ![fbId isEqualToString:kSharedModel.fbId]
+                   ){
+                    
+                    NSString* _id = (NSString*)resDic[@"_id"];
+                    PRPLog(@"the chat creator del chat by _id :%@  -[%@ , %@] \n ",
+                           _id,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));  
+                    BRRecordFbChat* recordFound = [self _findChatById:_id];
+                    
+                    if(nil != recordFound){
+                        NSUInteger* indexFound = [self.mArrFbChat indexOfObject:recordFound];
+                        [self.mArrFbChat removeObject:recordFound];
+                        NSIndexPath * indexPathFound = [NSIndexPath indexPathForRow:indexFound inSection:0];
+                        [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
+                    }
+  
 
-                
-                if(([type isEqualToString:@"chat"] && ![fbId isEqualToString:kSharedModel.fbId] ) 
+                    
+
+                } else if (([type isEqualToString:@"chat"] 
+                    && ![fbId isEqualToString:kSharedModel.fbId] ) 
                    || [type isEqualToString:@"server"]){
                     
                     BRRecordFbChat* recordNew = [[BRRecordFbChat alloc] initWithJsonDic:resDic];
@@ -635,13 +670,34 @@ BRCellfBChatDelegate>
    
 }
 
+// Override to support conditional editing of the table view.
+// This only needs to be implemented if you are going to be returning NO
+// for some items. By default, all items are editable.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
+    NSString* type = record.type;
+    
+    if([type isEqualToString:@"chat"] 
+       && [record.fbId isEqualToString:kSharedModel.fbId])return YES;
+    return NO;
+}
+
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleInsert) {
         
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    }
+    } else if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
+        [self _delChat:record._id atRow:[indexPath row]];
+        
+        
+    }    
 }
+
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -699,6 +755,32 @@ BRCellfBChatDelegate>
                      //[weakSelf.tbFbChat reloadData];
                      NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                      [weakSelf.tbFbChat insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                     
+                     
+                     if([self.delegate respondsToSelector:@selector(getOutterInfo)]){
+                         [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
+                         PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
+                                self.uniquDataKey,
+                                NSStringFromClass([self class]),
+                                NSStringFromSelector(_cmd));
+                     }
+                     
+                     NSDictionary* data = @{@"type": @"chat",
+                                            @"msg": recordAdded.msg,
+                                            @"fbId":  kSharedModel.fbId,
+                                            @"fbName": kSharedModel.fbName,
+                                            @"uniquDataKey": self.uniquDataKey,
+                                            @"_id": recordAdded._id
+                                            };
+                     
+                     [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
+                         NSLog(@"JsSendMsgHandler responded: %@", response);
+                         weakSelf.tfMsg.text = @"";
+                         [weakSelf.tfMsg resignFirstResponder];
+                     }];
+           
+                     
+                     
                  }];
 }
 
@@ -707,7 +789,7 @@ BRCellfBChatDelegate>
                withPage:(NSNumber*)page{
     
     [self showHud:YES];
-    __weak __block FbChatRoomViewController* weakSelf = self;
+    __weak __block FbChatRoomViewController* weakSelf = (FbChatRoomViewController*)self;
     [kSharedModel fetchChatByRoom:roomId
                             withPage:page 
                            withBlock:^(NSDictionary* res) {
@@ -742,6 +824,65 @@ BRCellfBChatDelegate>
                                
                            }];
 }
+
+-(void)_delChat:(NSString*)_id
+            atRow:(int) row
+{
+    
+    [self showHud:YES];
+    __weak __block FbChatRoomViewController* weakSelf = (FbChatRoomViewController*)self;
+    [kSharedModel delChat:_id 
+                      withBlock:^(NSDictionary* res){
+                          
+                          [weakSelf hideHud:YES];
+                          if(nil != res 
+                             && nil != res[@"error"]){
+                              
+                              [weakSelf showMsg:res[@"error"] type:msgLevelError];
+                              return;
+                          }
+                          
+                          BRRecordFbChat* record = [weakSelf.mArrFbChat objectAtIndex:row];
+                          [weakSelf.mArrFbChat removeObject:record];
+                          NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+                          [weakSelf.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                          [weakSelf _callJsDelMsgHandler:record._id];
+                          
+                      }];
+    
+}
+
+-(void)_delByChatId:(NSString*)_id{
+    
+    
+//    BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:row];
+//    [self.mArrFbChat removeObject:record];
+//    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row
+//                                                 inSection:0];
+//    
+//    [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    [self _callJsDelMsgHandler:record._id];
+
+
+}
+
+-(BRRecordFbChat*)_findChatById:(NSString*)_id
+{
+    __block BRRecordFbChat* recordFound;
+    [self.mArrFbChat enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+        BRRecordFbChat* record = (BRRecordFbChat*) obj;
+        NSString* __id = record._id;
+        
+        if([__id isEqualToString:_id]) {
+            stop = YES;
+            recordFound = record;
+        }
+    }];
+    
+    return recordFound;
+}
+
+
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {

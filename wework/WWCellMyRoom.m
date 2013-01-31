@@ -44,7 +44,9 @@
     self.lbRoomName.text =  record.roomName;
     self.lbChatDatetime.text = [record.created_at description];
     self.lbFbName.text = record.fbName;
-    self.btnInvite.titleLabel.text = [record.invitedCount stringValue];
+    //self.btnInvite.titleLabel.text = [record.invitedCount stringValue];
+    self.lbInviteCount.text =  [record.invitedCount stringValue];
+    
     if ([record.strImgUrl length] > 0) {
         [self.imvFb setImageWithFbThumb:record.fbId placeHolderImage:[UIImage imageNamed:kSharedModel.theme[@"Icon-72"]]];
     }

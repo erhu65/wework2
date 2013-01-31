@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbChatDatetime;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnInvite;
+@property (weak, nonatomic) IBOutlet UILabel *lbInviteCount;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnEdit;
 
 @property(nonatomic, weak) id <WWCellMyRoomDelegate> delegate;

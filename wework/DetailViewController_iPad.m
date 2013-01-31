@@ -98,10 +98,30 @@ AmazonServiceRequestDelegate>
 #pragma mark - IBActions
 - (IBAction)aboutTapped:(id)sender
 {
+    
     [self setLastTappedButton:sender];
     [self showAboutPopover];
 }
 
+- (IBAction)toggleEditOrDone:(UIBarButtonItem *)sender {
+    
+    if([sender.title isEqualToString:kSharedModel.lang[@"actionEdit"]]){
+        
+        sender.title = kSharedModel.lang[@"actionDone"];
+        
+        [self.fbChatRoomViewController toggleChatRoomEdit:YES];
+    } else {
+        sender.title = kSharedModel.lang[@"actionEdit"];
+        [self.fbChatRoomViewController toggleChatRoomEdit:NO];
+    }
+    
+    
+}
+
+
+-(BOOL)isJoinFbChatRoom{
+    return self.fbChatRoomViewController.isJoinFbChatRoom;
+}
 - (IBAction)presentTapped:(id)sender
 {
     
@@ -138,10 +158,10 @@ AmazonServiceRequestDelegate>
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_sand"]]];
 
     // About button
-    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About"
+    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:kSharedModel.lang[@"actionEdit"]
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self 
-                                                                   action:@selector(aboutTapped:)];    
+                                                                   action:@selector(toggleEditOrDone:)];    
     [self.navigationItem setRightBarButtonItem:aboutButton animated:YES]; 
     
     UIBarButtonItem *presentButton = [[UIBarButtonItem alloc] initWithTitle:@"Present"
@@ -481,12 +501,14 @@ AmazonServiceRequestDelegate>
            NSStringFromClass([self class]),
            NSStringFromSelector(_cmd)); 
     self.fbChatRoomViewController.room = _room;
-
 }
 
 -(void)FbChatRoomViewControllerDelegateTriggerOuterAction2{
     
     [self presentTapped:nil];
+}
+-(void) leaveRoom{
+    [self.fbChatRoomViewController leaveRoom];
 }
 
 #pragma mark Segues

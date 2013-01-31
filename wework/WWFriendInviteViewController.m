@@ -69,6 +69,7 @@ UIAlertViewDelegate>
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    
     [[self tb] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tb.backgroundColor = [UIColor clearColor];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:kSharedModel.theme[@"bg_sand"]]];
@@ -77,11 +78,16 @@ UIAlertViewDelegate>
     [self _fetchFriendInviteRooms:self.page fbId:kSharedModel.fbId];
 }
 
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+}
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:kSharedModel];
+    [self.tb deselectRowAtIndexPath:[self.tb indexPathForSelectedRow] animated:animated]; 
+    [kAppDelegate.detail leaveRoom];
+ 
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification

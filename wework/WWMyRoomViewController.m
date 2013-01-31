@@ -84,16 +84,17 @@ WWCellMyRoomDelegate>
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleFacebookMeDidUpdate:) name:BRNotificationFacebookMeDidUpdate object:kSharedModel];
-    
-    
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [self.tb deselectRowAtIndexPath:[self.tb indexPathForSelectedRow] animated:animated];   
     [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:kSharedModel];
+    [kAppDelegate.detail leaveRoom];
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification
@@ -308,12 +309,13 @@ WWCellMyRoomDelegate>
           [weakSelf showMsg:res[@"error"] type:msgLevelError];
           return;
       }
-      
+                     
       WWRecordMyRoom* record = [weakSelf.docs objectAtIndex:row];
       [weakSelf.docs removeObject:record];
       NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row
                                                    inSection:0];
       [weakSelf.tb deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];  
+          [kAppDelegate.detail leaveRoom];           
       
     }];
   
@@ -363,9 +365,10 @@ WWCellMyRoomDelegate>
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
     kAppDelegate.detail.room = record._id;
+    
 }
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
@@ -463,8 +466,7 @@ WWCellMyRoomDelegate>
 	{
         BRFBFriendListViewController* BRFBFriendListViewController = segue.sourceViewController;
         int count = BRFBFriendListViewController.selectedIndexPathToBirthday.count;
-        self.cellTemp.btnInvite.titleLabel.text = [NSString stringWithFormat:@"%d", count];
-        
+        self.cellTemp.lbInviteCount.text = [NSString stringWithFormat:@"%d", count];
         PRPLog(@"%BRFBFriendListViewController.selectedIndexPathToBirthday.count: %d-[%@ , %@]",
                count,
                NSStringFromClass([self class]),

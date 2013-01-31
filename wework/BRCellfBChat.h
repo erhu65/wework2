@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbVideoName;
 @property (weak, nonatomic) IBOutlet UILabel *lbChatDatetime;
 @property(nonatomic, weak)IBOutlet UIImageView* imvThumb;
-
 @property(nonatomic, strong) NSDateFormatter *dateFormatter;
+
 @property (nonatomic, weak)id<BRCellfBChatDelegate>deletate;
 @end

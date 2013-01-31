@@ -24,8 +24,10 @@
 
 
 - (IBAction)aboutTapped:(id)sender;
-
+-(BOOL)isJoinFbChatRoom;
 @property (strong, nonatomic) id detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo;
+-(void) leaveRoom;
+
 @end
