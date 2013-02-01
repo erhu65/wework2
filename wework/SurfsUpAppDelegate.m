@@ -15,7 +15,6 @@
 //
 
 #import "SurfsUpAppDelegate.h"
-
 #import "SurfsUpViewController.h"
 
 @implementation SurfsUpAppDelegate
@@ -78,7 +77,13 @@
     [BRStyleSheet initStyles];
     //[[self window] setRootViewController:[self viewController]];
     //[[self window] makeKeyAndVisible];
+    NSString* dirPath = [Utils filePathInDocument:@"test.txt" withSuffix:nil];
+    PRPLog(@"dirPath: %@-[%@ , %@]",
+           dirPath,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
     
+
     return YES;
 }
 

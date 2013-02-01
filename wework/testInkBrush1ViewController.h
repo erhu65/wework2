@@ -12,7 +12,8 @@
 @required
 - (void) testInkBrush1ViewControllerDelegateDidCancel;
 - (void) testInkBrush1ViewControllerDelegateDidFinish:(UIImage*) pickedImage 
-    arrayStrokes:(NSMutableArray*)arrayStrokes;
+    arrayStrokes:(NSMutableArray*)arrayStrokes
+gratiffiThumb:(UIImage*)gratiffiThumb;
 
 @end
 

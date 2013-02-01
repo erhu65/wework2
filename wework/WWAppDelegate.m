@@ -99,7 +99,6 @@ void exceptionHandler(NSException *exception)
     
     [kSharedModel getSocketUrl];
     //[HMIAPHelper sharedInstance];//restore the pervious purchased products first
-    
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 							

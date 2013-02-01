@@ -20,9 +20,12 @@ UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray* docs;
 @property (weak, nonatomic) IBOutlet UITableView *tb;
+@property(weak, nonatomic)NSIndexPath* indexPathSelectedTemp;
 
 @property(nonatomic, strong)NSNumber* page;
 @property(nonatomic)BOOL isLastPage;
+
+
 
 @end
 
@@ -177,8 +180,12 @@ UIAlertViewDelegate>
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if([self.indexPathSelectedTemp isEqual:indexPath]) return;
+    
     WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
     kAppDelegate.detail.room = record._id;
+    self.indexPathSelectedTemp = [tableView indexPathForSelectedRow];
+
 
 }
 

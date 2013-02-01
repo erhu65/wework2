@@ -8,7 +8,7 @@
 
 #import "SurfsUpAppDelegate.h"
 #import "WebViewJavascriptBridge.h"
-#import "Utils.h"
+
 @class DetailViewController_iPad;
 
 @interface WWAppDelegate : SurfsUpAppDelegate <UIApplicationDelegate>

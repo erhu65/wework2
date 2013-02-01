@@ -7,6 +7,7 @@
 //
 
 #import "BRCoreViewController.h"
+@class BRRecordFbChat;
 
 @protocol FbChatRoomViewControllerDelegate <NSObject>
 
@@ -16,6 +17,8 @@
 -(void)FbChatRoomViewControllerDelegateTriggerOuterGoBack;
 -(void)FbChatRoomViewControllerDelegateTriggerOuterAction1:(id)record;
 -(void)FbChatRoomViewControllerDelegateTriggerOuterAction2;
+-(void)FbChatRoomViewControllerDelegateProcessFileUpload;
+-(void)FbChatRoomViewControllerDelegateProcessFileDownloadUnZip:(BRRecordFbChat*)record;
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo;
 
 @end
@@ -27,9 +30,13 @@
 @property(nonatomic) BOOL isLeaving;
 @property(nonatomic, strong) NSString* uniquDataKey;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imvGratiffiThumb;
+
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
 - (IBAction)joinRoomWithFBAccount:(UIBarButtonItem*)sender;
 -(void) leaveRoom;
 -(void) toggleChatRoomEdit:(BOOL)isEditing;
+-(void)postChatAfterUploadFile;
+-(void)addNewChatFromOthers:(BRRecordFbChat*)chat;
 
 @end

@@ -23,6 +23,7 @@
 #import "WWSample1ViewController.h"
 
 #import "testInkBrush1ViewController.h"
+#import "BRRecordFbChat.h"
 #import "WeaponSelector.h"
 #import "ZipArchive.h"
 #import <AWSiOSSDK/S3/AmazonS3Client.h>
@@ -41,6 +42,10 @@ AmazonServiceRequestDelegate>
 @property(nonatomic, strong) FbChatRoomViewController* fbChatRoomViewController;
 @property (nonatomic, strong) AmazonS3Client *s3;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property(nonatomic, strong) UIImage*pickedImageTemp;
+@property(nonatomic, strong) NSMutableArray*arrayStrokesTemp;
+@property(nonatomic, strong) NSString *uniquuidFileNameTemp;
+
 
 
 @end
@@ -49,14 +54,14 @@ AmazonServiceRequestDelegate>
 
 -(void)setRoom:(NSString *)room{
     
-    if(nil == _room 
+    if(nil != _room 
        || room != _room ){
         _room = room;
-        [self.fbChatRoomViewController leaveRoom];
-        [self FbChatRoomViewControllerDelegateGetOutterInfo];
-
-        [self.fbChatRoomViewController joinRoomWithFBAccount:nil];
     }
+    [self.fbChatRoomViewController leaveRoom];
+    [self FbChatRoomViewControllerDelegateGetOutterInfo];
+    
+    [self.fbChatRoomViewController joinRoomWithFBAccount:nil];
 
 }
 
@@ -75,6 +80,7 @@ AmazonServiceRequestDelegate>
     
     self = [super initWithCoder:aDecoder];
     if(self){
+        self.uniquuidFileNameTemp = @"";
         self.isDisableInAppNotification = YES;
     }
     return self;
@@ -310,14 +316,114 @@ AmazonServiceRequestDelegate>
 }
 - (void) testInkBrush1ViewControllerDelegateDidFinish:(UIImage*) pickedImage 
                                          arrayStrokes:(NSMutableArray*)arrayStrokes
+                                         gratiffiThumb:(UIImage*)gratiffiThumb
 {
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    
+    self.pickedImageTemp = pickedImage;
+    self.arrayStrokesTemp = arrayStrokes;    
+    self.fbChatRoomViewController.imvGratiffiThumb.image = gratiffiThumb;
+    
+    return;
 
+}
+- (void)_processGrandCentralDispatchUpload:(NSData *)zipData uniquiName:(NSString*)uniquiName
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        // Upload image data.  Remember to set the content type.
+        S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:uniquiName
+                                                                 inBucket:AWS_S3_ZIP_BUCKET];
+        //por.contentType = @"image/jpeg";
+        por.contentType = @"application/zip";
+        //por.contentType = @"image/png";
+        por.data        = zipData;
+        // Put the image data into the specified s3 bucket and object.
+        S3PutObjectResponse *putObjectResponse = [self.s3 putObject:por];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self hideHud:YES];
+            // For error information
+            NSError *error;
+            // Create file manager
+            NSFileManager *fileMgr = [NSFileManager defaultManager];
+            NSString* uniquidFileNameZip = [NSString stringWithFormat:@"%@.zip", uniquiName];           
+            NSString* zipFilePath = [Utils filePathInDocument:uniquidFileNameZip withSuffix:nil];
+            // Attempt to delete the file at zipFilePath
+            if ([fileMgr removeItemAtPath:zipFilePath error:&error] != YES){
+                PRPLog(@"Unable to delete file: %@ \n \
+                       -[%@ , %@]",
+                       [error localizedDescription],
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+            }
+            
+            if(putObjectResponse.error != nil)
+            {
+                [self showMsg:[putObjectResponse.error.userInfo objectForKey:@"message"]  type:msgLevelError];
+            }
+            else
+            {
+                //[self showMsg:@"The zip was successfully uploaded." type:msgLevelInfo];
+                PRPLog(@"upload successfully uniquidFileName:%@ -[%@ , %@]",
+                       uniquiName,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));  
+                  self.fbChatRoomViewController.uniquDataKey = uniquiName;
+                 [self.fbChatRoomViewController postChatAfterUploadFile];
+
+            }
+        });
+    });
+}
+
+#pragma mark - AmazonServiceRequestDelegate
+-(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
+{
+    [self showMsg:@"The file was successfully uploaded." type:msgLevelInfo];
+    [self hideHud:YES];
+}
+
+-(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error
+{
+    PRPLog(@"Error: %@ -[%@ , %@]",
+           error,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd)); 
+    [self showMsg:error.description  type:msgLevelError];
+    [self hideHud:YES];
+}
+
+#pragma mark FbChatRoomViewControllerDelegate method
+-(void)FbChatRoomViewControllerDelegateGetOutterInfo
+{
+    PRPLog(@"self.room: %@ -[%@ , %@]",
+           _room,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd)); 
+    self.fbChatRoomViewController.room = _room;
+    self.fbChatRoomViewController.uniquDataKey = self.uniquuidFileNameTemp;
+     self.uniquuidFileNameTemp = @"";
+}
+-(void)FbChatRoomViewControllerDelegateProcessFileUpload{
+    
+    PRPLog(@"self.pickedImageTemp: %@ \
+           self.arrayStrokesTemp %@ \
+           -[%@ , %@]",
+           self.pickedImageTemp,
+           self.arrayStrokesTemp,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+    
+    UIImage* pickedImage = self.pickedImageTemp;
+    NSMutableArray* arrayStrokes = self.arrayStrokesTemp;
+    
     [self showHud:YES];
     
     NSString* uniquidFileName = [Utils createUUID:nil];
+    self.uniquuidFileNameTemp = uniquidFileName;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
     NSString *forderPath = [documentsDirectory stringByAppendingPathComponent:uniquidFileName];
@@ -386,13 +492,10 @@ AmazonServiceRequestDelegate>
                 [za addFileToZip:fullPath newname:path]; 
             }
         }
-        
     } else {
         [za addFileToZip:pathToCompress newname:@"fdfd"];
     }
-    
     [za CloseZipFile2];    
-    
     if(nil == strokesSaved ){
         PRPLog(@"failed to retrieve writed arrayStrokes dictionary from disk \
                -[%@ , %@]",
@@ -401,7 +504,6 @@ AmazonServiceRequestDelegate>
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     } else {
-        
         NSData* zipFileData = [NSData dataWithContentsOfFile:zipFilePath];
         PRPLog(@"filePath_arrayStrokes: %@ \n \
                writed arrayStrokes: %@ \n \
@@ -412,9 +514,7 @@ AmazonServiceRequestDelegate>
                zipFileData,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
-        
         [self _processGrandCentralDispatchUpload:zipFileData uniquiName:uniquidFileName];
-        
         if(nil != imageSaved){
             PRPLog(@"imageSaved: %@ \n \
                    -[%@ , %@]",
@@ -423,90 +523,192 @@ AmazonServiceRequestDelegate>
                    NSStringFromSelector(_cmd));
         }
     }
-
-
+    self.pickedImageTemp = nil;
+    self.arrayStrokesTemp = nil;
 }
-- (void)_processGrandCentralDispatchUpload:(NSData *)zipData uniquiName:(NSString*)uniquiName
-{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        // Upload image data.  Remember to set the content type.
-        S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:uniquiName
-                                                                 inBucket:AWS_S3_ZIP_BUCKET];
-        //por.contentType = @"image/jpeg";
-        por.contentType = @"application/zip";
-        //por.contentType = @"image/png";
-        por.data        = zipData;
-        // Put the image data into the specified s3 bucket and object.
-        S3PutObjectResponse *putObjectResponse = [self.s3 putObject:por];
-        dispatch_async(dispatch_get_main_queue(), ^{
+-(void)FbChatRoomViewControllerDelegateProcessFileDownloadUnZip:(BRRecordFbChat*)newRecord{
+   
+    if([newRecord.type isEqualToString:@"chat"]
+       && ![newRecord.uniquDataKey isEqualToString:@""]){
+       
+       NSString* localPathRes =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:@".zip"];
+        NSString* localPathDir =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:nil];
+        
+       BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathRes];
+        
+       NSURL* DataZipPathUrl = [self _getDataZipPath:newRecord.uniquDataKey];
+        if(!isLocalPathExists && nil != DataZipPathUrl){
             
-            [self hideHud:YES];
-            // For error information
-            NSError *error;
-            // Create file manager
-            NSFileManager *fileMgr = [NSFileManager defaultManager];
-            NSString* uniquidFileNameZip = [NSString stringWithFormat:@"%@.zip", uniquiName];           
-            NSString* zipFilePath = [Utils filePathInDocument:uniquidFileNameZip withSuffix:nil];
-            // Attempt to delete the file at zipFilePath
-            if ([fileMgr removeItemAtPath:zipFilePath error:&error] != YES){
-                PRPLog(@"Unable to delete file: %@ \n \
-                       -[%@ , %@]",
-                       [error localizedDescription],
-                       NSStringFromClass([self class]),
-                       NSStringFromSelector(_cmd));
-            }
+            NSError *error = nil;
+            NSData *data = [NSData dataWithContentsOfURL:DataZipPathUrl options:0 error:&error];
             
-            if(putObjectResponse.error != nil)
-            {
-                [self showMsg:[putObjectResponse.error.userInfo objectForKey:@"message"]  type:msgLevelError];
+            if(!error)
+            {        
+                [data writeToFile:localPathRes options:0 error:&error];
+                if(!error)
+                {
+                    ZipArchive *za = [[ZipArchive alloc] init];
+                    if ([za UnzipOpenFile: localPathRes]) {            
+                        BOOL ret = [za UnzipFileTo: localPathDir overWrite: YES];
+                        if (NO == ret){} [za UnzipCloseFile];
+                        PRPLog(@"download zip file and extract to document: %@ \
+                               -[%@ , %@]",
+                               newRecord.uniquDataKey,
+                               NSStringFromClass([self class]),
+                               NSStringFromSelector(_cmd));
+                        [[NSFileManager defaultManager] removeItemAtPath:localPathRes error:nil];   
+                    }
+                }
+                else
+                {
+                    PRPLog(@"Error saving file %@ \
+                           -[%@ , %@]",
+                           error,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));
+                }
             }
             else
             {
-                //[self showMsg:@"The zip was successfully uploaded." type:msgLevelInfo];
-                PRPLog(@"upload successfully uniquidFileName:%@ -[%@ , %@]",
-                       uniquiName,
+                PRPLog(@"Error downloading zip file: %@ \
+                       -[%@ , %@]",
+                       error,
                        NSStringFromClass([self class]),
-                       NSStringFromSelector(_cmd));  
-
-                
-                
+                       NSStringFromSelector(_cmd));
             }
-        });
-    });
-}
-
-#pragma mark - AmazonServiceRequestDelegate
--(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
-{
-    [self showMsg:@"The zip was successfully uploaded." type:msgLevelInfo];
-    [self hideHud:YES];
-}
-
--(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error
-{
-    PRPLog(@"Error: %@ -[%@ , %@]",
-           error,
-           NSStringFromClass([self class]),
-           NSStringFromSelector(_cmd)); 
-    [self showMsg:error.description  type:msgLevelError];
-    [self hideHud:YES];
-}
-
-#pragma mark FbChatRoomViewControllerDelegate method
--(void)FbChatRoomViewControllerDelegateGetOutterInfo
-{
-    PRPLog(@"self.room: %@ -[%@ , %@]",
-           _room,
-           NSStringFromClass([self class]),
-           NSStringFromSelector(_cmd)); 
-    self.fbChatRoomViewController.room = _room;
+        }
+    }
+    [self.fbChatRoomViewController addNewChatFromOthers:newRecord];
 }
 
 -(void)FbChatRoomViewControllerDelegateTriggerOuterAction2{
     
     [self presentTapped:nil];
 }
+
+-(NSURL* )_getDataZipPath:(NSString*) uniquDataKey
+{
+    // Set the content type so that the browser will treat the URL as an image.
+    S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
+    override.contentType = @"application/zip";
+    
+    // Request a pre-signed URL to picture that has been uplaoded.
+    S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
+    gpsur.key                     = uniquDataKey;
+    gpsur.bucket                  = AWS_S3_ZIP_BUCKET;
+    gpsur.expires                 = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
+    gpsur.responseHeaderOverrides = override;
+    
+    // Get the URL
+    NSError *error;
+    NSURL *url = [self.s3 getPreSignedURL:gpsur error:&error];   
+    if(url == nil)
+    {
+        if(error != nil)
+        {
+            NSLog(@"Error: %@", error);
+            [self showMsg:[error.userInfo objectForKey:@"message"]  type:msgLevelInfo];
+        }
+        PRPLog(@"DataZipPath not exixt: %@ \n \
+               url:%@ \
+               -[%@ , %@]",
+               uniquDataKey,
+               url,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+    else
+    {
+        PRPLog(@"DataZipPath exixt: %@ \n \
+               url:%@ \
+               -[%@ , %@]",
+               uniquDataKey,
+               url,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+    
+    return url;
+}
+-(BOOL)_chkDataPathLocalExist:(NSString*)localPath
+{
+    BOOL isLocalPathExist = NO;
+    BOOL isDir;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDir];
+    if (exists) {
+        /* file exists */
+        if (isDir) {
+            isLocalPathExist = YES;
+            /* file is a directory */
+            PRPLog(@"localPth exixt: %@ \n \
+                   -[%@ , %@]",
+                   localPath,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            
+        }
+    } else {
+        PRPLog(@"localPth not exixt: \n \
+               -[%@ , %@]",
+               localPath,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+    return isLocalPathExist;
+}
+
+
+- (IBAction)downLoadUnzip:(id)sender {
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(
+                                                       DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSURL *url = [NSURL URLWithString:@"http://www.icodeblog.com/wp-content/uploads/2012/08/zipfile.zip"];
+        NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+        
+        if(!error)
+        {        
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+            NSString *path = [paths objectAtIndex:0];
+            NSString *zipPath = [path stringByAppendingPathComponent:@"zipfile.zip"];
+            
+            [data writeToFile:zipPath options:0 error:&error];
+            
+            if(!error)
+            {
+                ZipArchive *za = [[ZipArchive alloc] init];
+                if ([za UnzipOpenFile: zipPath]) {            
+                    BOOL ret = [za UnzipFileTo: path overWrite: YES];
+                    if (NO == ret){} [za UnzipCloseFile];
+                    
+                    NSString *imageFilePath = [path stringByAppendingPathComponent:@"photo.png"];
+                    NSString *textFilePath = [path stringByAppendingPathComponent:@"text.txt"];
+                    NSData *imageData = [NSData dataWithContentsOfFile:imageFilePath options:0 error:nil];
+                    UIImage *img = [UIImage imageWithData:imageData];
+                    NSString *textString = [NSString stringWithContentsOfFile:textFilePath encoding:NSASCIIStringEncoding error:nil];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //self.imageViewZip.image = img;
+                        //self.labelZip.text = textString;
+                    });
+                }
+            }
+            else
+            {
+                NSLog(@"Error saving file %@",error);
+            }
+        }
+        else
+        {
+            NSLog(@"Error downloading zip file: %@", error);
+        }
+        
+    });
+    
+}
+
+
 -(void) leaveRoom{
     [self.fbChatRoomViewController leaveRoom];
 }

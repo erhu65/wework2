@@ -42,12 +42,11 @@ BRCellfBChatDelegate>
 @property (strong, nonatomic) WebViewJavascriptBridge *javascriptBridge;
 @property (weak, nonatomic) IBOutlet UITextField *tfChat;
 
-
 @property (strong, nonatomic) IBOutlet UIToolbar *tb;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBarRoom;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnTalk;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnJoin;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnJoin;
 
 @property (weak, nonatomic) IBOutlet UILabel *lbRoomCount;
 @property (weak, nonatomic) IBOutlet UITableView *tbFbChat;
@@ -57,8 +56,8 @@ BRCellfBChatDelegate>
 @property(strong, nonatomic) NSMutableDictionary* mDicFriendOnLine;
 @property(strong, nonatomic) NSMutableArray* mArrFriendOnLine;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityChatRoom;
-
+//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityChatRoom;
+//
 
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnZoom;
@@ -169,11 +168,12 @@ BRCellfBChatDelegate>
     self.tfChat.frameWidth = 180.0f;
     self.tfChat.frameHeight = 30.0f;
     
-    self.barBtnJoin.title = self.lang[@"actionJoin"];
+//    self.barBtnJoin.title = self.lang[@"actionJoin"];
     self.barBtnTalk.title = self.lang[@"actionTalk"];
     self.btnZoom.title = self.lang[@"actionFull"];
     //hide activityChatRoom first
-    self.activityChatRoom.hidden = YES;
+    //self.activityChatRoom.hidden = YES;
+   
     
     self.tbFbChat.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor clearColor];
@@ -185,6 +185,7 @@ BRCellfBChatDelegate>
 	self.tbFriendsOnLine.frame = CGRectMake(0, 500, self.tbFriendsOnLine.frame.size.width, self.tbFriendsOnLine.frame.size.height);
     UIImage* backgroundImage = [UIImage imageNamed:@"tool-bar-background.png"];
     self.tbFriendsOnLine.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+
     
 }
 
@@ -227,19 +228,18 @@ BRCellfBChatDelegate>
     [self.tbFriendsOnLine reloadData];
      
     
-    self.barBtnJoin.title = self.lang[@"actionJoin"];
-    self.barBtnJoin.enabled = YES;
+    //self.barBtnJoin.title = self.lang[@"actionJoin"];
+    //self.barBtnJoin.enabled = YES;
 
     //Clear A UIWebView to trigger window.onunload
     //Clear A UIWebView to trigger window.onunload
     NSURL* url = [[NSURL alloc] initWithString:@"http://google.com"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [self.webview loadRequest:request];  
-    self.activityChatRoom.hidden = YES;
-    [self.activityChatRoom stopAnimating];
+    //self.activityChatRoom.hidden = YES;
+    //[self.activityChatRoom stopAnimating];
+      [self hideHud:YES];
 }
-
-
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification
 {
@@ -247,8 +247,8 @@ BRCellfBChatDelegate>
     NSString* error = userInfo[@"error"];
     if(nil != error){
         [self showMsg:error type:msgLevelWarn]; 
-        self.barBtnJoin.title = kSharedModel.lang[@"actionJoin"];
-        self.barBtnJoin.enabled = YES;
+        //self.barBtnJoin.title = kSharedModel.lang[@"actionJoin"];
+        //self.barBtnJoin.enabled = YES;
         return;
     }
 
@@ -281,13 +281,29 @@ BRCellfBChatDelegate>
 
 - (void)callJsSendMsgHandler:(NSString*)newMsg  {
     
+    if([self.delegate respondsToSelector:@selector(FbChatRoomViewControllerDelegateGetOutterInfo)]){
+        [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
+        PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
+               self.uniquDataKey,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
     
-    NSString* uniquDataKey = @"uniquDataKey defaut";
-    [self _postChat:@"chat" msg:newMsg uniquDataKey:uniquDataKey fbId:kSharedModel.fbId
-             fbName:kSharedModel.fbName roomId:self.room];    
+    if(nil != self.imvGratiffiThumb.image){
+        [self.delegate FbChatRoomViewControllerDelegateProcessFileUpload];
+        self.imvGratiffiThumb.image = nil;
+    } else {
+        
+        self.uniquDataKey = @"";
+        [self _postChat:@"chat" msg:newMsg fbId:kSharedModel.fbId
+                 fbName:kSharedModel.fbName roomId:self.room];   
+    }
 }
-
-
+-(void)postChatAfterUploadFile{
+   
+    [self _postChat:@"chat" msg:self.tfMsg.text fbId:kSharedModel.fbId
+             fbName:kSharedModel.fbName roomId:self.room];   
+}
 
 - (void)callJsJoinRoomHandler:(NSString*)fbName
                             withFbId:(NSString*)fbId{
@@ -301,8 +317,14 @@ BRCellfBChatDelegate>
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
-    
-    self.uniquDataKey = @"uniquDataKey1";
+    if([self.delegate respondsToSelector:@selector(FbChatRoomViewControllerDelegateGetOutterInfo)]){
+        [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
+        PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
+               self.uniquDataKey,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+
     
     NSDictionary* data =  @{@"room": self.room,
                             @"fbId": fbId,
@@ -328,6 +350,11 @@ BRCellfBChatDelegate>
 }
 
 -(IBAction)_presentBrush{
+    if(nil == self.room){
+    
+        [self showMsg:kSharedModel.lang[@"warnPleaseJoinSubjectFirst"] type:msgLevelWarn];
+        return;
+    }
     
     [self.delegate FbChatRoomViewControllerDelegateTriggerOuterAction2];
      //self.barBtnTalk.enabled = YES;
@@ -336,8 +363,18 @@ BRCellfBChatDelegate>
 
 -(IBAction)_sendMsgToRoom
 {
-    self.barBtnTalk.enabled = NO;
+    if(nil == self.room){
+        [self showMsg:kSharedModel.lang[@"warnPleaseJoinSubjectFirst"] type:msgLevelWarn];
+        return;
+    }
     
+    if(self.tfMsg.text.length == 0 && nil == self.imvGratiffiThumb.image){
+    
+        [self showMsg:kSharedModel.lang[@"warnPleaseAddMsgOrGratiffi"] type:msgLevelWarn];
+        return;
+    }
+    
+    self.barBtnTalk.enabled = NO;
 //    UITextField* tfTemp = (UITextField*)[self.tb viewWithTag:KTempTfInKeyboard];
 //    if(tfTemp.text.length == 0){
 //        [self showMsg:self.lang[@"warnEmptyText"] type:msgLevelWarn];
@@ -346,15 +383,16 @@ BRCellfBChatDelegate>
 
     if(!self.isJoinFbChatRoom){
         [self showMsg:self.lang[@"infoJoinRoomFirst"] type:msgLevelInfo];
-        [self.activityChatRoom stopAnimating];
-        self.activityChatRoom.hidden = YES;
+        //[self.activityChatRoom stopAnimating];
+        //self.activityChatRoom.hidden = YES;
+        [self hideHud:YES];
         self.barBtnTalk.enabled = YES;
         [self.tfMsg resignFirstResponder];
         return;
     }
-    
-    self.activityChatRoom.hidden = NO;
-    [self.activityChatRoom startAnimating];
+    [self showHud:YES];
+    //self.activityChatRoom.hidden = NO;
+    //[self.activityChatRoom startAnimating];
     
     [self callJsSendMsgHandler: self.tfMsg.text];
     //[tfTemp resignFirstResponder];
@@ -500,28 +538,16 @@ BRCellfBChatDelegate>
                         NSIndexPath * indexPathFound = [NSIndexPath indexPathForRow:indexFound inSection:0];
                         [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
                     }
-  
-
-                    
 
                 } else if (([type isEqualToString:@"chat"] 
                     && ![fbId isEqualToString:kSharedModel.fbId] ) 
                    || [type isEqualToString:@"server"]){
                     
                     BRRecordFbChat* recordNew = [[BRRecordFbChat alloc] initWithJsonDic:resDic];
-                    [self.mArrFbChat insertObject:recordNew atIndex:0];
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-                    NSArray* arrIndexPathNew = @[indexPath];
+                    [self.delegate FbChatRoomViewControllerDelegateProcessFileDownloadUnZip:recordNew];
                     
-                    [[self tbFbChat] beginUpdates];
-                    [self.tbFbChat insertRowsAtIndexPaths:arrIndexPathNew withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [[self tbFbChat] endUpdates];
-                    [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
-                    self.activityChatRoom.hidden = YES;
-                    [self.activityChatRoom stopAnimating];
+                    [self hideHud:YES];
                     self.barBtnTalk.enabled = YES;
-                    self.barBtnJoin.enabled = YES;
-
                 }
                 
             }
@@ -539,10 +565,11 @@ BRCellfBChatDelegate>
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
         [self.webview loadRequest:request];
         [_bridge send:@"A string sent from ObjC after Webview has loaded."];
-        self.barBtnJoin.title = self.lang[@"actionLeave"];
-        self.barBtnJoin.enabled = FALSE;
-        self.activityChatRoom.hidden = NO;
-        [self.activityChatRoom startAnimating];
+        //self.barBtnJoin.title = self.lang[@"actionLeave"];
+        //self.barBtnJoin.enabled = FALSE;
+        //self.activityChatRoom.hidden = NO;
+        //[self.activityChatRoom startAnimating];
+        [self showHud:YES];
         if(nil != [BRDModel sharedInstance].fbId){
             
             [self _handleFacebookMeDidUpdate:nil];
@@ -555,6 +582,18 @@ BRCellfBChatDelegate>
 
     } 
 
+}
+
+-(void)addNewChatFromOthers:(BRRecordFbChat *)recordNew{
+    
+    [self.mArrFbChat insertObject:recordNew atIndex:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSArray* arrIndexPathNew = @[indexPath];
+    
+    [[self tbFbChat] beginUpdates];
+    [self.tbFbChat insertRowsAtIndexPaths:arrIndexPathNew withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tbFbChat] endUpdates];
+    [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
 }
 
 #pragma mark chat textfield/keyboard 
@@ -582,10 +621,7 @@ BRCellfBChatDelegate>
 //    fixedSpace.width = 100;  
 //    [items addObject:fixedSpace];
 //	[items addObject:BARBUTTON(@"Send", @selector(_sendMsgToRoom))];
-    
-
 	self.tb.items = items;	
-    
     int tfWidth = 0;
     if(IS_IPHONE){
         tfWidth = 165;
@@ -725,20 +761,18 @@ BRCellfBChatDelegate>
     
 }
 
-
 -(void)_postChat:(NSString*)type
              msg:(NSString*)msg
-    uniquDataKey:(NSString*)uniquDataKey
             fbId:(NSString*)fbId 
           fbName:(NSString*)fbNmae
           roomId:(NSString*)roomId  
 {    
     [self showHud:YES];
-    __weak __block FbChatRoomViewController* weakSelf = self;
+    __weak __block FbChatRoomViewController* weakSelf = self;    
     
     [kSharedModel postChat:type 
                        msg:msg 
-              uniquDataKey:uniquDataKey 
+              uniquDataKey:self.uniquDataKey 
                       fbId:fbId 
                     fbName:fbNmae 
                     roomId:roomId 
@@ -755,16 +789,7 @@ BRCellfBChatDelegate>
                      //[weakSelf.tbFbChat reloadData];
                      NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                      [weakSelf.tbFbChat insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                     
-                     
-                     if([self.delegate respondsToSelector:@selector(getOutterInfo)]){
-                         [self.delegate FbChatRoomViewControllerDelegateGetOutterInfo];
-                         PRPLog(@"uniquDataKey:%@  -[%@ , %@] \n ",
-                                self.uniquDataKey,
-                                NSStringFromClass([self class]),
-                                NSStringFromSelector(_cmd));
-                     }
-                     
+                    
                      NSDictionary* data = @{@"type": @"chat",
                                             @"msg": recordAdded.msg,
                                             @"fbId":  kSharedModel.fbId,
@@ -773,16 +798,17 @@ BRCellfBChatDelegate>
                                             @"_id": recordAdded._id
                                             };
                      
+                     
                      [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
                          NSLog(@"JsSendMsgHandler responded: %@", response);
                          weakSelf.tfMsg.text = @"";
+                         
                          [weakSelf.tfMsg resignFirstResponder];
                      }];
-           
-                     
-                     
                  }];
 }
+
+
 
 
 - (void)_fetchChatByRoom:(NSString*)roomId 
@@ -852,20 +878,6 @@ BRCellfBChatDelegate>
     
 }
 
--(void)_delByChatId:(NSString*)_id{
-    
-    
-//    BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:row];
-//    [self.mArrFbChat removeObject:record];
-//    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row
-//                                                 inSection:0];
-//    
-//    [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    [self _callJsDelMsgHandler:record._id];
-
-
-}
-
 -(BRRecordFbChat*)_findChatById:(NSString*)_id
 {
     __block BRRecordFbChat* recordFound;
@@ -915,6 +927,7 @@ BRCellfBChatDelegate>
 	if (scrollView.contentOffset.y < -125.0f )
 		addItemsTrigger = YES;
 }
+
 
 
 @end

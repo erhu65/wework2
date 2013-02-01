@@ -51,14 +51,14 @@
     } else {
         self.imvThumb.image = [UIImage imageWithData:record.dataImg];
     }
+    self.accessoryType = UITableViewCellAccessoryNone;
+    self.accessoryView = nil;
     
     if([record.type isEqualToString:@"chat"]){
         
-      
-       self.accessoryView = [self _makeDetailDisclosureButton];
-    } else {
-        self.accessoryType = UITableViewCellAccessoryNone;
-        self.accessoryView = nil;
+        if(![record.uniquDataKey isEqualToString:@""]){
+             self.accessoryView = [self _makeDetailDisclosureButton];
+        }
     }
     
     if(nil == _record 

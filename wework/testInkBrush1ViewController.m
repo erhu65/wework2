@@ -9,7 +9,7 @@
 #import "testInkBrush1ViewController.h"
 #import "Canvas.h"
 #import "WWPhotoMenuViewController.h"
-
+#import "Utils.h"
 
 @interface testInkBrush1ViewController ()
 <WWPhotoMenuViewControllerDelegate>
@@ -84,10 +84,11 @@
         [self cancel:nil];
         return;
     }
-    [self.delegate testInkBrush1ViewControllerDelegateDidFinish: canvasView.pickedImage arrayStrokes:canvasView.arrayStrokes];
-
+    canvasView.toolBar.hidden = YES;
+    UIImage* imgGratiffi = [Utils getPNGScreenShotByView:self.view rect:self.view.bounds];
+    canvasView.toolBar.hidden = NO;
+    [self.delegate testInkBrush1ViewControllerDelegateDidFinish: canvasView.pickedImage arrayStrokes:canvasView.arrayStrokes gratiffiThumb:imgGratiffi];
 }
-
 
 #pragma mark - WWPhotoMenuViewControllerDelegate
 - (void) WWPhotoMenuViewControllerDelegateDidChooseType:(menuSelectedType)type{

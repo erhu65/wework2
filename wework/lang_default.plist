@@ -98,6 +98,10 @@
 	<string>You can buy or restore the unlock key to do add/remove your favorite Cateogry or individual video.</string>
 	<key>warnAreYouSore</key>
 	<string>Are you sure?</string>
+	<key>warnPleaseJoinSubjectFirst</key>
+	<string>Please select a subject first.</string>
+	<key>warnPleaseAddMsgOrGratiffi</key>
+	<string>Please add message or gratiffi</string>
 	<key>actionFull</key>
 	<string>Full</string>
 	<key>actionAddFavorite</key>

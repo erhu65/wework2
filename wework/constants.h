@@ -10,20 +10,20 @@
 //
 
 
-#if TARGET_IPHONE_SIMULATOR
+//#if TARGET_IPHONE_SIMULATOR
 
-#define BASE_URL          @"http://localhost:3000"
-
-#else
-
+//#define BASE_URL          @"http://localhost:3000"
+//
+//#else
+//
+//#define BASE_URL          @"http://radiant-hollows-7509.herokuapp.com"
+//
+//#endif
 #define BASE_URL          @"http://radiant-hollows-7509.herokuapp.com"
-
-#endif
-
 
 #define AWS_S3_ACCESS_KEY_ID          @"AKIAJC63EYWOJ72VK7PA"
 #define AWS_S3_SECRET_KEY             @"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"
-#define AWS_S3_ZIP_BUCKET         @"zip-bucket"
+#define AWS_S3_ZIP_BUCKET         @"wework-bucket"
 
 
 #define BRNotificationInAppDidUpdate           @"BRNotificationInAppDidUpdate"

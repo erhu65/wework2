@@ -29,6 +29,7 @@ WWCellMyRoomDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnEdit;
 @property(weak, nonatomic)WWCellMyRoom* cellTemp;
+@property(weak, nonatomic)NSIndexPath* indexPathSelectedTemp;
 
 @end
 
@@ -365,9 +366,14 @@ WWCellMyRoomDelegate>
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if([self.indexPathSelectedTemp isEqual:indexPath]) return;
+       
     WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
     kAppDelegate.detail.room = record._id;
+    self.indexPathSelectedTemp = [tableView indexPathForSelectedRow];
+
+    
     
 }
 // Override to support conditional editing of the table view.

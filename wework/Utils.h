@@ -49,6 +49,7 @@
 +(NSString*)moneyFormatter:(int) sum_ 
                   currancy:(NSString*)_currancy;
 +(void) savePNGForView:(UIView *)targetView rect:(CGRect)rect fileName:(NSString *)fileName;
++(UIImage *) getPNGScreenShotByView:(UIView *)targetView rect:(CGRect)rect;
 + (UIImage*)scaleAndRotateImage:(UIImage *)image;
 + (UIImage *)scale:(UIImage *)image toSize:(CGSize)size;
 + (int)scannNumberFromStr:(NSString *)originalString_ ;

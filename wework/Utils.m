@@ -320,7 +320,22 @@ static NSFileManager * _fileManager = nil;
                NSStringFromSelector(_cmd));    
     }
 }
++(UIImage *) getPNGScreenShotByView:(UIView *)targetView rect:(CGRect)rect{
 
+    UIImage *image;
+    CGPoint pt = rect.origin;
+    
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextConcatCTM(context, CGAffineTransformMakeTranslation(-(int)pt.x, -(int)pt.y - 20));
+    [targetView.layer renderInContext:context];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    NSData *data = UIImagePNGRepresentation(image);
+    image = [UIImage imageWithData:data];
+    return image;
+}
 
 
 + (UIImage*)scaleAndRotateImage:(UIImage *)image
