@@ -1026,7 +1026,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="85" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PuE-ut-dIB" userLabel="tbFbChat">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="472" id="lao-6B-Odi"/>
+                                    <constraint firstAttribute="height" constant="495" id="ltx-ri-3nV"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="BRCellfBChat" rowHeight="85" id="Cxb-0V-WXV" userLabel="cellFbChat" customClass="BRCellfBChat">

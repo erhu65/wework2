@@ -46,11 +46,15 @@ AmazonServiceRequestDelegate>
 @property(nonatomic, strong) NSMutableArray*arrayStrokesTemp;
 @property(nonatomic, strong) NSString *uniquuidFileNameTemp;
 
+@property(nonatomic, strong)NSTimer* timerDownloadQueue;
+@property(nonatomic)BOOL isDownloading;
+
 
 
 @end
 
 @implementation DetailViewController_iPad
+
 
 -(void)setRoom:(NSString *)room{
     
@@ -58,6 +62,7 @@ AmazonServiceRequestDelegate>
        || room != _room ){
         _room = room;
     }
+    self.isDownloading = NO;
     [self.fbChatRoomViewController leaveRoom];
     [self FbChatRoomViewControllerDelegateGetOutterInfo];
     
@@ -73,15 +78,20 @@ AmazonServiceRequestDelegate>
         self.view = nil;
 		[self.fbChatRoomViewController willMoveToParentViewController:nil];
 		[self.fbChatRoomViewController removeFromParentViewController];
-                
     }
 }
 -(id)initWithCoder:(NSCoder *)aDecoder{
     
     self = [super initWithCoder:aDecoder];
     if(self){
+        self.title = kSharedModel.lang[@"titleChatAndGraffiti"];
         self.uniquuidFileNameTemp = @"";
         self.isDisableInAppNotification = YES;
+        self.timerDownloadQueue = [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                                                   target:self
+                                                                 selector:@selector(_chkIfNeedDownload)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
     }
     return self;
 }
@@ -130,8 +140,6 @@ AmazonServiceRequestDelegate>
 }
 - (IBAction)presentTapped:(id)sender
 {
-    
-    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                   bundle:nil];
     testInkBrush1ViewController* brushVC =(testInkBrush1ViewController*) [sb instantiateViewControllerWithIdentifier:@"testInkBrush1ViewController"];
@@ -174,17 +182,14 @@ AmazonServiceRequestDelegate>
                                                                     style:UIBarButtonItemStylePlain
                                                                    target:self 
                                                                    action:@selector(presentTapped:)];    
-    [self.navigationItem setLeftBarButtonItem:presentButton animated:YES]; 
-
-
-    
+    [self.navigationItem setLeftBarButtonItem:presentButton animated:YES];
     // Initialize popover
     AboutViewController *aboutVC = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
     [self setAboutPopover:[[UIPopoverController alloc] initWithContentViewController:aboutVC]];
     [[self aboutPopover] setPopoverBackgroundViewClass:[AboutBackgroundView class]];
     [[self aboutPopover] setDelegate:self];
     
-
+    [self.timerDownloadQueue fire];
     
 }
 
@@ -399,13 +404,17 @@ AmazonServiceRequestDelegate>
 #pragma mark FbChatRoomViewControllerDelegate method
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo
 {
-    PRPLog(@"self.room: %@ -[%@ , %@]",
+    PRPLog(@"self.fbIdRoomOwner: %@  \
+           self.room: %@ \
+           -[%@ , %@]",
+           self.fbIdRoomOwner,
            _room,
            NSStringFromClass([self class]),
            NSStringFromSelector(_cmd)); 
     self.fbChatRoomViewController.room = _room;
+    self.fbChatRoomViewController.fbIdRoomOwner = self.fbIdRoomOwner;
     self.fbChatRoomViewController.uniquDataKey = self.uniquuidFileNameTemp;
-     self.uniquuidFileNameTemp = @"";
+    self.uniquuidFileNameTemp = @"";
 }
 -(void)FbChatRoomViewControllerDelegateProcessFileUpload{
     
@@ -530,15 +539,60 @@ AmazonServiceRequestDelegate>
    
     if([newRecord.type isEqualToString:@"chat"]
        && ![newRecord.uniquDataKey isEqualToString:@""]){
-       
-       NSString* localPathRes =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:@".zip"];
+          //add the record to download queue, insert new cell UI after the file was downloaded
+        [self.fbChatRoomViewController.mArrDownloadQueue addObject:newRecord];        
+    } else {
+        //no file to be lownloaded
+        [self.fbChatRoomViewController addNewChatFromOthers:newRecord];
+    }
+   
+}
+
+-(void)FbChatRoomViewControllerDelegateDelRecord:(BRRecordFbChat*)record
+{
+        
+    NSString* localPathDir =  [Utils filePathInDocument:record.uniquDataKey withSuffix:nil];
+    BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
+    if(isLocalPathExists){
+        
+        NSError *error = nil;
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        // Attempt to delete the file at zipFilePath
+        if ([fileMgr removeItemAtPath:localPathDir error:&error] != YES){
+            PRPLog(@"Unable to delete localPathDir: %@ \n \
+                   -[%@ , %@]",
+                   [error localizedDescription],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+        } else {
+            PRPLog(@"delete localPathDir: %@  successfully \n \
+                   -[%@ , %@]",
+                   localPathDir,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+        }
+        
+    }
+}
+
+-(void)FbChatRoomViewControllerDelegateTriggerOuterAction2{
+    
+    [self presentTapped:nil];
+}
+
+-(void)_processDownloadUnZip:(BRRecordFbChat*)newRecord{
+    
+   
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+                
+        NSString* localPathRes =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:@".zip"];
         NSString* localPathDir =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:nil];
-        
-       BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathRes];
-        
-       NSURL* DataZipPathUrl = [self _getDataZipPath:newRecord.uniquDataKey];
+        BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
+        NSURL* DataZipPathUrl = [self _getDataZipPath:newRecord.uniquDataKey];
         if(!isLocalPathExists && nil != DataZipPathUrl){
             
+            self.isDownloading = YES;
             NSError *error = nil;
             NSData *data = [NSData dataWithContentsOfURL:DataZipPathUrl options:0 error:&error];
             
@@ -551,12 +605,28 @@ AmazonServiceRequestDelegate>
                     if ([za UnzipOpenFile: localPathRes]) {            
                         BOOL ret = [za UnzipFileTo: localPathDir overWrite: YES];
                         if (NO == ret){} [za UnzipCloseFile];
-                        PRPLog(@"download zip file and extract to document: %@ \
-                               -[%@ , %@]",
-                               newRecord.uniquDataKey,
-                               NSStringFromClass([self class]),
-                               NSStringFromSelector(_cmd));
-                        [[NSFileManager defaultManager] removeItemAtPath:localPathRes error:nil];   
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            PRPLog(@"download zip file and extract to document: %@ \
+                                   -[%@ , %@]",
+                                   newRecord.uniquDataKey,
+                                   NSStringFromClass([self class]),
+                                   NSStringFromSelector(_cmd));
+                            [[NSFileManager defaultManager] removeItemAtPath:localPathRes error:nil];  
+                              [self.fbChatRoomViewController addNewChatFromOthers:newRecord];
+                            [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
+                            
+                            if(self.fbChatRoomViewController.mArrDownloadQueue .count>0){
+                                self.isDownloading = YES;
+                                BRRecordFbChat* recordNeedDownload =(BRRecordFbChat*) [self.fbChatRoomViewController.mArrDownloadQueue lastObject];        
+                                [self _processDownloadUnZip:recordNeedDownload];
+                            } else {
+                                self.isDownloading = NO;
+                            }
+
+                        });
+                        
                     }
                 }
                 else
@@ -566,6 +636,8 @@ AmazonServiceRequestDelegate>
                            error,
                            NSStringFromClass([self class]),
                            NSStringFromSelector(_cmd));
+                    [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
+                    self.isDownloading = NO;
                 }
             }
             else
@@ -575,15 +647,22 @@ AmazonServiceRequestDelegate>
                        error,
                        NSStringFromClass([self class]),
                        NSStringFromSelector(_cmd));
+                [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
+                self.isDownloading = NO;
             }
         }
-    }
-    [self.fbChatRoomViewController addNewChatFromOthers:newRecord];
+
+    });
+    
 }
 
--(void)FbChatRoomViewControllerDelegateTriggerOuterAction2{
+-(void)_chkIfNeedDownload{
     
-    [self presentTapped:nil];
+    if(!self.isDownloading 
+       && self.fbChatRoomViewController.mArrDownloadQueue .count>0){
+        BRRecordFbChat* recordNeedDownload =(BRRecordFbChat*) [self.fbChatRoomViewController.mArrDownloadQueue lastObject];        
+        [self _processDownloadUnZip:recordNeedDownload];
+    }
 }
 
 -(NSURL* )_getDataZipPath:(NSString*) uniquDataKey
@@ -648,7 +727,7 @@ AmazonServiceRequestDelegate>
             
         }
     } else {
-        PRPLog(@"localPth not exixt: \n \
+        PRPLog(@"localPth not exixt: %@ \n \
                -[%@ , %@]",
                localPath,
                NSStringFromClass([self class]),
@@ -710,7 +789,9 @@ AmazonServiceRequestDelegate>
 
 
 -(void) leaveRoom{
+    
     [self.fbChatRoomViewController leaveRoom];
+    self.isDownloading = NO;
 }
 
 #pragma mark Segues

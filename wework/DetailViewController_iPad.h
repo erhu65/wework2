@@ -14,11 +14,13 @@
 // THE SOFTWARE.
 //
 #import "BRCoreViewController.h"
+
 @interface DetailViewController_iPad : BRCoreViewController 
 {    
    
 }
 @property(nonatomic, strong)NSString* room;
+@property(nonatomic, strong) NSString* fbIdRoomOwner;
 @property (nonatomic, strong) UIPopoverController   *aboutPopover;
 @property (nonatomic, strong) id                    lastTappedButton;
 

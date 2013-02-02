@@ -140,5 +140,7 @@
 	<string>Change Subject Name</string>
 	<key>titleWhatIsYourSubjectName</key>
 	<string>What is your subject Nmae?</string>
+	<key>titleChatAndGraffiti</key>
+	<string>Chat &amp; Graffiti</string>
 </dict>
 </plist>

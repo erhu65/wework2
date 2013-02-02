@@ -370,11 +370,10 @@ WWCellMyRoomDelegate>
     if([self.indexPathSelectedTemp isEqual:indexPath]) return;
        
     WWRecordMyRoom* record = [self.docs objectAtIndex:[indexPath row]];
+    kAppDelegate.detail.fbIdRoomOwner = record.fbId;
     kAppDelegate.detail.room = record._id;
+    
     self.indexPathSelectedTemp = [tableView indexPathForSelectedRow];
-
-    
-    
 }
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO

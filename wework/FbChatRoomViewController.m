@@ -56,6 +56,8 @@ BRCellfBChatDelegate>
 @property(strong, nonatomic) NSMutableDictionary* mDicFriendOnLine;
 @property(strong, nonatomic) NSMutableArray* mArrFriendOnLine;
 
+
+
 //@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityChatRoom;
 //
 
@@ -75,6 +77,15 @@ BRCellfBChatDelegate>
     BOOL addItemsTrigger;
 }
 @synthesize javascriptBridge = _bridge;
+
+
+-(NSMutableArray*)mArrDownloadQueue{
+    
+    if(nil == _mArrDownloadQueue){
+        _mArrDownloadQueue = [[NSMutableArray alloc] init];
+    }
+    return _mArrDownloadQueue;
+}
 
 
 -(NSMutableDictionary*)mDicFriendOnLine
@@ -226,7 +237,7 @@ BRCellfBChatDelegate>
     [self.mArrFriendOnLine removeAllObjects];
     [self.tbFbChat reloadData];
     [self.tbFriendsOnLine reloadData];
-     
+    [self.mArrDownloadQueue removeAllObjects];
     
     //self.barBtnJoin.title = self.lang[@"actionJoin"];
     //self.barBtnJoin.enabled = YES;
@@ -324,8 +335,6 @@ BRCellfBChatDelegate>
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
     }
-
-    
     NSDictionary* data =  @{@"room": self.room,
                             @"fbId": fbId,
                             @"fbName": fbName,
@@ -441,10 +450,7 @@ BRCellfBChatDelegate>
                    resDic,
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
-            
-            
 
-            
             NSString* type = resDic[@"type"];
             if([type isEqualToString:@"chat"] 
             || [type isEqualToString:@"server"]){
@@ -537,6 +543,8 @@ BRCellfBChatDelegate>
                         [self.mArrFbChat removeObject:recordFound];
                         NSIndexPath * indexPathFound = [NSIndexPath indexPathForRow:indexFound inSection:0];
                         [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.delegate FbChatRoomViewControllerDelegateDelRecord:recordFound];
+                        
                     }
 
                 } else if (([type isEqualToString:@"chat"] 
@@ -715,7 +723,8 @@ BRCellfBChatDelegate>
     NSString* type = record.type;
     
     if([type isEqualToString:@"chat"] 
-       && [record.fbId isEqualToString:kSharedModel.fbId])return YES;
+       && ( [self.fbIdRoomOwner isEqualToString:kSharedModel.fbId] 
+           || [record.fbId isEqualToString:kSharedModel.fbId]))return YES;
     return NO;
 }
 
@@ -830,6 +839,19 @@ BRCellfBChatDelegate>
                                }
                                
                                NSMutableArray* mTempArr =(NSMutableArray*)res[@"mTempArr"];
+                               NSMutableArray* mTempArrTestExist = [mTempArr mutableCopy];
+                               [mTempArrTestExist enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
+                                   
+                                   BRRecordFbChat* newRecord = (BRRecordFbChat*)object;
+                                   NSString* localPathDir =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:nil];
+                                   BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
+                                   if(!isLocalPathExists){
+                                       [mTempArr removeObject:newRecord];
+                                       [weakSelf.mArrDownloadQueue addObject:newRecord];
+                                   }
+                               
+                               }];
+                               
                                NSRange range = NSMakeRange(0, mTempArr.count); 
                                NSMutableIndexSet *indexes = [NSMutableIndexSet indexSetWithIndexesInRange:range];
                                [weakSelf.mArrFbChat insertObjects:mTempArr atIndexes:indexes];
@@ -893,6 +915,34 @@ BRCellfBChatDelegate>
     
     return recordFound;
 }
+
+-(BOOL)_chkDataPathLocalExist:(NSString*)localPath
+{
+    BOOL isLocalPathExist = NO;
+    BOOL isDir;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDir];
+    if (exists) {
+        /* file exists */
+        if (isDir) {
+            isLocalPathExist = YES;
+            /* file is a directory */
+            PRPLog(@"localPth exixt: %@ \n \
+                   -[%@ , %@]",
+                   localPath,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            
+        }
+    } else {
+        PRPLog(@"localPth not exixt: \n \
+               -[%@ , %@]",
+               localPath,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+    return isLocalPathExist;
+}
+
 
 
 #pragma mark UIScrollViewDelegate

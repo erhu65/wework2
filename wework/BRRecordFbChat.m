@@ -38,10 +38,12 @@
 {
     [super description];
     return [NSString stringWithFormat:@"self.type: %@ \n\
-            self.fbId: %@ \n\
-            self.msg: %@ \n\
+            self._id: %@   \n\
+            self.fbId: %@  \n\
+            self.msg: %@   \n\
             self.uniquDataKey %@",
             self.type,
+            self._id,
             self.fbId,
             self.msg,
             self.uniquDataKey];
