@@ -21,6 +21,7 @@
 	UIImagePickerController* imagePC;
 	UIPopoverController* imagePopoverController;
 	UIActivityIndicatorView* activityIndicator;
+    NSTimer* _timerAutoPlay;
 
 }
 
@@ -32,14 +33,30 @@
 @property float currentSize;
 
 
+
+
 @property (nonatomic,weak) IBOutlet UISlider* sliderSize;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnSliderBarButtom;
+
 @property (nonatomic,weak) IBOutlet UIButton* buttonColor;
-@property (nonatomic,weak) IBOutlet UIToolbar* toolBar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnAddBg;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnEraser;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnCancelCanvas;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnSave;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnColorBarButtom;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnShare;
 @property (nonatomic,weak) IBOutlet UILabel* labelSize;
+
+@property (nonatomic,weak) IBOutlet UIToolbar* toolBar;
+@property (nonatomic,strong) NSTimer* timerAutoPlay;
+
+
 
 @property (nonatomic,weak) id owner;
 
 -(void) viewJustLoaded;
+-(void)prepareGraffiti:(NSMutableArray*)graffiti withBg:(UIImage*)bg;
 
 -(IBAction) didClickChoosePhoto;
 -(IBAction) didClickTakePhoto;

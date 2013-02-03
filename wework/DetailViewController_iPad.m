@@ -433,17 +433,25 @@ AmazonServiceRequestDelegate>
     
     NSString* uniquidFileName = [Utils createUUID:nil];
     self.uniquuidFileNameTemp = uniquidFileName;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString *forderPath = [documentsDirectory stringByAppendingPathComponent:uniquidFileName];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:forderPath]){
-        NSError* error;
-        if( [[NSFileManager defaultManager] createDirectoryAtPath:forderPath withIntermediateDirectories:NO attributes:nil error:&error])
-            ;// success
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+//    NSString *forderPath = [documentsDirectory stringByAppendingPathComponent:uniquidFileName];
+    
+    NSString* localPathDir =  [Utils filePathInDocument:self.uniquuidFileNameTemp withSuffix:nil];
+    BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
+    
+    if (!isLocalPathExists){
+        
+        NSError* error = nil;
+        if( [[NSFileManager defaultManager] createDirectoryAtPath:localPathDir withIntermediateDirectories:YES attributes:nil error:&error]){
+            
+            PRPLog(@"create unique data forder..-[%@ , %@]",
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+        }
         else
         {
-            PRPLog(@"ERROR: attempting to write create forder directory \
-                   -[%@ , %@]",
+            PRPLog(@"ERROR: attempting to write create forder directory -[%@ , %@]",
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
             NSAssert(FALSE, @"Failed to create directory maybe out of disk space?");
@@ -457,7 +465,7 @@ AmazonServiceRequestDelegate>
     NSString* filePath_arrayStrokes = [Utils filePathInDocument:@"strokes" withSuffix:@".plist"];
     
     [dataToWrite writeToFile:filePath_arrayStrokes atomically:YES];
-    NSString* filePath_arrayStrokes_new = [NSString stringWithFormat:@"%@/%@", forderPath, @"strokes.plist"];
+    NSString* filePath_arrayStrokes_new = [NSString stringWithFormat:@"%@/%@", localPathDir, @"strokes.plist"];
     [[NSFileManager defaultManager] moveItemAtPath:filePath_arrayStrokes toPath:filePath_arrayStrokes_new error:nil];
     
     
@@ -471,7 +479,7 @@ AmazonServiceRequestDelegate>
         NSData* imageData = UIImageJPEGRepresentation(pickedImage, 1.0);
         //save to the default 100Apple(Camera Roll) folder.   
         [imageData writeToFile:filePath_pickedImage atomically:NO]; 
-        NSString* filePath_pickedImage_new = [NSString stringWithFormat:@"%@/%@", forderPath, @"bg.png"];
+        NSString* filePath_pickedImage_new = [NSString stringWithFormat:@"%@/%@", localPathDir, @"bg.png"];
         [[NSFileManager defaultManager] moveItemAtPath:filePath_pickedImage toPath:filePath_pickedImage_new error:nil];
         NSData * dataRestored = [NSData dataWithContentsOfFile:filePath_pickedImage_new];
         imageSaved = [UIImage imageWithData:dataRestored];
@@ -481,7 +489,7 @@ AmazonServiceRequestDelegate>
     NSArray *subpaths;
     
     //NSString *toCompress = @"dirToZip_OR_fileNameToZip";
-    NSString *pathToCompress = forderPath;
+    NSString *pathToCompress = localPathDir;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:pathToCompress isDirectory:&isDir] && isDir){
         subpaths = [fileManager subpathsAtPath:pathToCompress];
@@ -489,7 +497,8 @@ AmazonServiceRequestDelegate>
         subpaths = [NSArray arrayWithObject:pathToCompress];
     }
     NSString* uniquidFileNameZip = [NSString stringWithFormat:@"%@.zip", uniquidFileName];
-    NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:uniquidFileNameZip];
+    NSString *zipFilePath = [Utils filePathInDocument:uniquidFileNameZip withSuffix:nil];
+    
     
     ZipArchive *za = [[ZipArchive alloc] init];
     [za CreateZipFile2:zipFilePath];
@@ -559,11 +568,13 @@ AmazonServiceRequestDelegate>
         NSFileManager *fileMgr = [NSFileManager defaultManager];
         // Attempt to delete the file at zipFilePath
         if ([fileMgr removeItemAtPath:localPathDir error:&error] != YES){
+            
             PRPLog(@"Unable to delete localPathDir: %@ \n \
                    -[%@ , %@]",
                    [error localizedDescription],
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
+            
         } else {
             PRPLog(@"delete localPathDir: %@  successfully \n \
                    -[%@ , %@]",
@@ -571,6 +582,55 @@ AmazonServiceRequestDelegate>
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
         }
+        
+    }
+}
+-(void)FbChatRoomViewControllerDelegateDelRecordAWSS3:(BRRecordFbChat *)record{
+    [self _delUniqueAWSZipFile:record.uniquDataKey];
+    
+}
+
+-(void)FbChatRoomViewControllerDelegateDelPreseintGrattiti:(BRRecordFbChat *)record{
+    
+    
+    if(![record.uniquDataKey isEqualToString:@""]){
+        NSString* uniqueDtataKey = record.uniquDataKey;
+        NSString* localPathDir =  [Utils filePathInDocument:uniqueDtataKey withSuffix:nil];
+        BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
+        if(isLocalPathExists){
+            
+            NSString* bgFilePath = [NSString stringWithFormat:@"%@/bg.png", localPathDir];
+            NSString* filePath_arrayStrokes = [NSString stringWithFormat:@"%@/%@", localPathDir, @"strokes.plist"];
+            
+            
+            NSData * dataRestored = [NSData dataWithContentsOfFile:filePath_arrayStrokes];
+            NSMutableArray* strokesSaved =   (NSMutableArray*)[NSKeyedUnarchiver unarchiveObjectWithData:dataRestored];
+            
+
+            UIImage* bg = [[UIImage alloc] initWithContentsOfFile:bgFilePath];
+            
+            PRPLog(@"uniqueDtataKey: %@ \
+                   strokesSaved: %@ \
+                   bg: %@ \
+                   -[%@ , %@]",
+                   uniqueDtataKey,
+                   strokesSaved,
+                   bg,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            
+            UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
+                                                          bundle:nil];
+            testInkBrush1ViewController* brushVC =(testInkBrush1ViewController*) [sb instantiateViewControllerWithIdentifier:@"testInkBrush1ViewController"];
+            [brushVC prepareGraffiti:strokesSaved withBg:bg];
+            brushVC.delegate = self;
+            brushVC.modalPresentationStyle = UIModalPresentationPageSheet;
+            [self presentViewController:brushVC animated:YES completion:^{
+               
+            }];
+
+        }
+        
         
     }
 }
@@ -636,7 +696,7 @@ AmazonServiceRequestDelegate>
                            error,
                            NSStringFromClass([self class]),
                            NSStringFromSelector(_cmd));
-                    [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
+                    //[self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
                     self.isDownloading = NO;
                 }
             }
@@ -647,7 +707,7 @@ AmazonServiceRequestDelegate>
                        error,
                        NSStringFromClass([self class]),
                        NSStringFromSelector(_cmd));
-                [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
+                //[self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
                 self.isDownloading = NO;
             }
         }
@@ -735,6 +795,48 @@ AmazonServiceRequestDelegate>
     }
     return isLocalPathExist;
 }
+
+
+- (void)_delUniqueAWSZipFile:(NSString*)uniquiDataKey {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        
+        // Upload image data.  Remember to set the content type.
+        S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:uniquiDataKey
+                                                                  inBucket:AWS_S3_ZIP_BUCKET];
+        //por.contentType = @"image/jpeg";
+        por.contentType = @"application/zip";
+        // por.data        = imageData;
+        
+        // Put the image data into the specified s3 bucket and object.
+        S3DeleteObjectResponse *deleteObjectResponse = [self.s3 deleteObjectWithKey:uniquiDataKey withBucket: AWS_S3_ZIP_BUCKET];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if(deleteObjectResponse.error != nil)
+            {
+                PRPLog(@"The zip in ASW S3 was  deleted fail: %@, %@ \n \
+                       -[%@ , %@]",
+                       uniquiDataKey,
+                       deleteObjectResponse.error,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+            }
+            else
+            {
+                PRPLog(@"The zip in ASW S3 was successfully deleted.: %@ \n \
+                       -[%@ , %@]",
+                       uniquiDataKey,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+            }
+            
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        });
+    });
+}
+
+
 
 
 - (IBAction)downLoadUnzip:(id)sender {

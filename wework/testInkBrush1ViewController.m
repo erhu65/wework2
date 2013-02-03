@@ -64,6 +64,10 @@
 }
 - (IBAction)cancel:(id)sender {
     
+    Canvas* canvasView = (Canvas*)self.view;
+    [canvasView.timerAutoPlay invalidate];
+    canvasView.timerAutoPlay = nil;
+    
     if(nil != self.delegate){
         
         [self.delegate testInkBrush1ViewControllerDelegateDidCancel];
@@ -77,6 +81,7 @@
 
 - (IBAction)send:(id)sender {
         
+    
     Canvas* canvasView = (Canvas*)self.view;
     if(nil == canvasView.arrayStrokes 
        ||canvasView.arrayStrokes.count == 0){
@@ -84,10 +89,21 @@
         [self cancel:nil];
         return;
     }
+    
+    [canvasView.timerAutoPlay invalidate];
+    canvasView.timerAutoPlay = nil;
     canvasView.toolBar.hidden = YES;
     UIImage* imgGratiffi = [Utils getPNGScreenShotByView:self.view rect:self.view.bounds];
     canvasView.toolBar.hidden = NO;
     [self.delegate testInkBrush1ViewControllerDelegateDidFinish: canvasView.pickedImage arrayStrokes:canvasView.arrayStrokes gratiffiThumb:imgGratiffi];
+}
+
+-(void)prepareGraffiti:(NSMutableArray*)graffiti 
+                withBg:(UIImage *)bg{
+    
+    Canvas* canvasView = (Canvas*)self.view;
+    [canvasView prepareGraffiti:graffiti withBg:bg];
+    
 }
 
 #pragma mark - WWPhotoMenuViewControllerDelegate

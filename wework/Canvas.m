@@ -19,6 +19,13 @@
 
 #pragma mark Canvas
 @implementation Canvas
+{
+    BOOL _isAllowDraw;
+    BOOL _isAutoPlay;
+
+
+}
+
 
 -(BOOL)isMultipleTouchEnabled {
 	return NO;
@@ -26,7 +33,8 @@
 
 -(void) viewJustLoaded {
 	NSLog(@"viewJustLoaded");
-	
+	_isAllowDraw = YES;
+    _isAutoPlay = NO;
 	// color picker and popover
 	colorPC = [[ColorPickerController alloc] init];
 	colorPC.pickedColorDelegate = self;
@@ -50,8 +58,75 @@
 	[self setColor:[UIColor blackColor]];
 	activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	activityIndicator.center = CGPointMake(512, 384);
+    
+    self.timerAutoPlay = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                                      target:self
+                                                    selector:@selector(_autoPlay)
+                                                    userInfo:nil
+                                                     repeats:YES];
+    [self.timerAutoPlay fire];
+
 	    
 }
+-(void)prepareGraffiti:(NSMutableArray*)graffiti withBg:(UIImage*)bg{
+    self.arrayStrokes = [graffiti mutableCopy];
+    if(nil != bg){
+        self.pickedImage = bg;
+    }
+    
+    NSMutableArray *barBtns  = [self.toolBar.items mutableCopy];
+    [barBtns removeObject:self.btnSliderBarButtom];
+    [barBtns removeObject:self.btnColorBarButtom];
+    [barBtns removeObject:self.buttonColor];
+    [barBtns removeObject:self.btnAddBg];
+    [barBtns removeObject:self.btnEraser];
+    [barBtns removeObject:self.btnCancelCanvas];
+    [barBtns removeObject:self.btnSave];
+    [barBtns removeObject:self.btnShare];
+    
+    UIBarButtonItem *barButtomPlay = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(_play:)];
+    UIBarButtonItem *barButtomPause = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(_pause:)];
+    UIBarButtonItem *barButtomFlexiableRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [barBtns insertObject:barButtomPlay atIndex:2];
+    [barBtns insertObject:barButtomPause atIndex:3];
+    [barBtns insertObject:barButtomFlexiableRight atIndex:4];
+    
+
+    self.labelSize.hidden = YES;
+    self.toolBar.items = barBtns;
+    [self setNeedsDisplay];
+    _isAllowDraw = NO;
+    
+    
+}
+
+-(void)_play:(UIBarButtonItem*)sender{
+    
+    _isAutoPlay = YES;
+    
+    NSMutableArray* arrayStroksTemp = [self.arrayStrokes mutableCopy];
+    [arrayStroksTemp enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
+        [self undo]; 
+    }];    
+}
+
+
+-(void)_pause:(UIBarButtonItem*)sender{
+    _isAutoPlay = NO;
+}
+
+-(void)_autoPlay{
+    
+    PRPLog(@"_isAutoPlay: %d -[%@ , %@]",
+           _isAutoPlay,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+    if(_isAutoPlay){
+        [self redo];
+    }
+     
+}
+
 
 -(IBAction) setBrushSize:(UISlider*)sender {
 	self.currentSize = sender.value;
@@ -93,12 +168,16 @@
 	CGPoint point = [[touches anyObject] locationInView:self];
 	[arrayPointsInStroke addObject:NSStringFromCGPoint(point)];
     
-	[self.arrayStrokes addObject:dictStroke];
+    if(_isAllowDraw){
+        [self.arrayStrokes addObject:dictStroke];
+    }
+	
 }
 
 // Add each point to points array
 - (void) touchesMoved:(NSSet *) touches withEvent:(UIEvent *) event
 {
+    if(!_isAllowDraw) return;
 	CGPoint point = [[touches anyObject] locationInView:self];
 	CGPoint prevPoint = [[touches anyObject] previousLocationInView:self];
 	NSMutableArray *arrayPointsInStroke = [[self.arrayStrokes lastObject] objectForKey:@"points"];
@@ -110,7 +189,10 @@
 									 fabs(point.x-prevPoint.x)+2*self.currentSize,\
 									 fabs(point.y-prevPoint.y)+2*self.currentSize\
 									 );
-	[self setNeedsDisplayInRect:rectToRedraw];
+    if(_isAllowDraw){
+        [self setNeedsDisplayInRect:rectToRedraw];
+    }
+	
     
 //    NSString* str_current_point = NSStringFromCGPoint(point);
 //    NSString* str_prevPoint = NSStringFromCGPoint(prevPoint);
@@ -126,7 +208,10 @@
 // Send over new trace when the touch ends
 - (void) touchesEnded:(NSSet *) touches withEvent:(UIEvent *) event
 {
-	[self.arrayAbandonedStrokes removeAllObjects];
+    if(_isAllowDraw){
+        [self.arrayAbandonedStrokes removeAllObjects];
+    }
+	
 }
 
 // Draw all points, foreign and domestic, to the screen
@@ -246,7 +331,7 @@
 }
 
 -(IBAction) savePic {
-    
+
 	// hide toolbar temporarily
 	self.toolBar.hidden = YES;
     self.labelSize.hidden = YES;
@@ -269,6 +354,7 @@
 }
 
 -(void) saveToPhoto {
+    
 	// save to photo album
 	UIImageWriteToSavedPhotosAlbum(self.screenImage, nil, nil, nil);
 	

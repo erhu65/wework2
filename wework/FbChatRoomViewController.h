@@ -21,6 +21,8 @@
 -(void)FbChatRoomViewControllerDelegateProcessFileDownloadUnZip:
 (BRRecordFbChat*)record;
 -(void)FbChatRoomViewControllerDelegateDelRecord:(BRRecordFbChat*)record;
+-(void)FbChatRoomViewControllerDelegateDelRecordAWSS3:(BRRecordFbChat*)record;
+-(void)FbChatRoomViewControllerDelegateDelPreseintGrattiti:(BRRecordFbChat*)record;
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo;
 
 @end

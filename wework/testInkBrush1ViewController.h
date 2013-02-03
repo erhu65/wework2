@@ -24,5 +24,6 @@ gratiffiThumb:(UIImage*)gratiffiThumb;
 
 @property (nonatomic, weak) id <testInkBrush1ViewControllerDelegate>     delegate;
 
+-(void)prepareGraffiti:(NSMutableArray*)graffiti withBg:(UIImage*)bg;
 @end
 

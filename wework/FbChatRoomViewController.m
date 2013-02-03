@@ -238,6 +238,9 @@ BRCellfBChatDelegate>
     [self.tbFbChat reloadData];
     [self.tbFriendsOnLine reloadData];
     [self.mArrDownloadQueue removeAllObjects];
+    self.uniquDataKey = @"";
+    self.fbIdRoomOwner = nil;
+    
     
     //self.barBtnJoin.title = self.lang[@"actionJoin"];
     //self.barBtnJoin.enabled = YES;
@@ -738,7 +741,9 @@ BRCellfBChatDelegate>
         
         BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
         [self _delChat:record._id atRow:[indexPath row]];
-        
+        if(![record.uniquDataKey isEqualToString:@""]){
+            [self.delegate FbChatRoomViewControllerDelegateDelRecordAWSS3:record];
+        }
         
     }    
 }
@@ -766,8 +771,7 @@ BRCellfBChatDelegate>
 #pragma mark BRCellfBChatDelegate method
 -(void)BRCellfBChatDelegateCellTapped:(BRRecordFbChat *)record
 {
-    [self.delegate FbChatRoomViewControllerDelegateTriggerOuterAction1:record];
-    
+    [self.delegate FbChatRoomViewControllerDelegateDelPreseintGrattiti:record];
 }
 
 -(void)_postChat:(NSString*)type
@@ -843,13 +847,15 @@ BRCellfBChatDelegate>
                                [mTempArrTestExist enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
                                    
                                    BRRecordFbChat* newRecord = (BRRecordFbChat*)object;
-                                   NSString* localPathDir =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:nil];
-                                   BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
-                                   if(!isLocalPathExists){
-                                       [mTempArr removeObject:newRecord];
-                                       [weakSelf.mArrDownloadQueue addObject:newRecord];
+                                   if(![newRecord.uniquDataKey isEqualToString:@""]){
+                                       NSString* localPathDir =  [Utils filePathInDocument:newRecord.uniquDataKey withSuffix:nil];
+                                       BOOL isLocalPathExists = [weakSelf _chkDataPathLocalExist:localPathDir];
+                                       if(!isLocalPathExists){
+                                           [mTempArr removeObject:newRecord];
+                                           [weakSelf.mArrDownloadQueue addObject:newRecord];
+                                       }
                                    }
-                               
+
                                }];
                                
                                NSRange range = NSMakeRange(0, mTempArr.count); 
@@ -859,7 +865,7 @@ BRCellfBChatDelegate>
                                weakSelf.isLastPage = [((NSNumber*)res[@"isLastPage"]) boolValue];
                                weakSelf.page = res[@"page"];
                                
-                               if(self.mArrFbChat.count > 0){
+                               if(weakSelf.mArrFbChat.count > 0){
                                    
                                    PRPLog(@"self.mArrFbChat.count: %d-[%@ , %@]",
                                           weakSelf.mArrFbChat.count,
@@ -889,8 +895,10 @@ BRCellfBChatDelegate>
                               [weakSelf showMsg:res[@"error"] type:msgLevelError];
                               return;
                           }
-                          
+                       
+                     
                           BRRecordFbChat* record = [weakSelf.mArrFbChat objectAtIndex:row];
+                          
                           [weakSelf.mArrFbChat removeObject:record];
                           NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
                           [weakSelf.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -966,13 +974,13 @@ BRCellfBChatDelegate>
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
 	// Trigger the offset if the user has pulled back more than 50 pixels
-    PRPLog(@"scrollView.contentOffset.y: %f \
-           scrollView.frame.size.height + 80.0f %f \
-           -[%@ , %@]",
-           scrollView.contentOffset.y,
-           (scrollView.frame.size.height + 80.0f),
-           NSStringFromClass([self class]),
-           NSStringFromSelector(_cmd));
+//    PRPLog(@"scrollView.contentOffset.y: %f \
+//           scrollView.frame.size.height + 80.0f %f \
+//           -[%@ , %@]",
+//           scrollView.contentOffset.y,
+//           (scrollView.frame.size.height + 80.0f),
+//           NSStringFromClass([self class]),
+//           NSStringFromSelector(_cmd));
     
 	if (scrollView.contentOffset.y < -125.0f )
 		addItemsTrigger = YES;
