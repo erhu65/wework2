@@ -18,5 +18,9 @@
 	<string>app-background.png</string>
 	<key>users</key>
 	<string>users.png</string>
+	<key>greenlight</key>
+	<string>greenlight.png</string>
+	<key>redlight</key>
+	<string>redlight.png</string>
 </dict>
 </plist>

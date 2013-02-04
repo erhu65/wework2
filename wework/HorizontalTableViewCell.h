@@ -27,5 +27,5 @@
 @interface HorizontalTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *lbFbName;
 @property (weak, nonatomic) IBOutlet UIImageView *imvFb;
-
+@property (weak, nonatomic) IBOutlet UIImageView *imvIsOnLine;
 @end

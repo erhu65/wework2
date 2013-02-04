@@ -106,7 +106,7 @@
     
     NSMutableArray* arrayStroksTemp = [self.arrayStrokes mutableCopy];
     [arrayStroksTemp enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
-        [self undo]; 
+        [self undo:nil]; 
     }];    
 }
 
@@ -116,13 +116,13 @@
 }
 
 -(void)_autoPlay{
-    
-    PRPLog(@"_isAutoPlay: %d -[%@ , %@]",
-           _isAutoPlay,
-           NSStringFromClass([self class]),
-           NSStringFromSelector(_cmd));
+//    
+//    PRPLog(@"_isAutoPlay: %d -[%@ , %@]",
+//           _isAutoPlay,
+//           NSStringFromClass([self class]),
+//           NSStringFromSelector(_cmd));
     if(_isAutoPlay){
-        [self redo];
+        [self redo:nil];
     }
      
 }
@@ -305,7 +305,8 @@
     [self setNeedsDisplay];
 }
 
--(IBAction) undo {
+-(IBAction) undo:(id)sender {
+    if(nil !=  sender) _isAutoPlay = NO;
 	if ([self.arrayStrokes count]>0) {
 		NSMutableDictionary* dictAbandonedStroke = [self.arrayStrokes lastObject];
 		[self.arrayAbandonedStrokes addObject:dictAbandonedStroke];
@@ -314,7 +315,8 @@
 	}
 }
 
--(IBAction) redo {
+-(IBAction) redo:(id)sender {
+    if(nil !=  sender) _isAutoPlay = NO;
 	if ([self.arrayAbandonedStrokes count]>0) {
 		NSMutableDictionary* dictReusedStroke = [self.arrayAbandonedStrokes lastObject];
 		[self.arrayStrokes addObject:dictReusedStroke];

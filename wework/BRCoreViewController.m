@@ -244,4 +244,15 @@ typedef enum videosFilterMode {
         return;
     } 
 }
+
+
+-(void)playSoundEffect:(NSString*)soundName 
+               soundId:(SystemSoundID)soundId{
+    
+    NSString *soundPath = [[NSBundle mainBundle] 
+                           pathForResource:soundName ofType:@"caf"];
+    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
+    AudioServicesPlaySystemSound(soundId);
+}
 @end

@@ -10,6 +10,7 @@
 
 #import "MBProgressHUD.h"
 #import "SGChildViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 @class SGChildViewController;
 
 
@@ -41,5 +42,6 @@ typedef enum msgLevel {
 @property (nonatomic, strong) NSArray *noticeVConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *noticeHorizontalAlignconstrain;
 @property (nonatomic, strong) NSLayoutConstraint *noticeVerticalAlignconstrain;
-
+-(void)playSoundEffect:(NSString*)soundName 
+               soundId:(SystemSoundID)soundId;
 @end

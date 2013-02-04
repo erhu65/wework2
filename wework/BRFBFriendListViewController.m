@@ -157,6 +157,7 @@ UIAlertViewDelegate>
     __weak __block BRFBFriendListViewController* weakSelf = self;
     
     [kSharedModel toggleInvitedFriend:record.fbId 
+                               fbName:record.fbName
                            joinRoomId:self.myRoomId 
                             isInvited:!isSelected
                             withBlock:^(NSDictionary* res){

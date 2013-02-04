@@ -105,6 +105,7 @@ typedef enum subCategoriesSortType {
                     withBlock:(void (^)(NSDictionary* userInfo))block;
 
 - (void)toggleInvitedFriend:(NSString*)fbId
+                 fbName:(NSString*)fbName 
                  joinRoomId:(NSString*)joinRoomId 
                   isInvited:(BOOL)isInvited
                   withBlock:(void (^)(NSDictionary* userInfo))block;
@@ -132,6 +133,9 @@ withBlock:(void (^)(NSDictionary* userInfo))block;
 
 - (void)fetchFriendInviteRooms:(NSString*)fbId 
                       withPage:(NSNumber*)page
+                     withBlock:(void (^)(NSDictionary* userInfo))block;
+
+- (void)fetchFriendInviteInRoom:(NSString*)roomId 
                      withBlock:(void (^)(NSDictionary* userInfo))block;
 
 - (void)postChat:(NSString*)type

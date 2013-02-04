@@ -144,7 +144,7 @@
             break;
         case BRLabelTypeBirthdayDate:
             label.font = kFontBirthdayDate;
-            label.textColor = kFontLightOnDarkTextColour;
+            label.textColor = kFontDarkOnLightTextColour;
             break;
         case BRLabelTypeDaysUntilBirthday:
             label.font = kFontDaysUntilBirthday;

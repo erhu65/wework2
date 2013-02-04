@@ -156,12 +156,12 @@
                                     </barButtonItem>
                                     <barButtonItem image="picUndo.png" id="TuT-vD-AHH">
                                         <connections>
-                                            <action selector="undo" destination="Z8N-hv-DHF" id="bT2-pM-euz"/>
+                                            <action selector="undo:" destination="Z8N-hv-DHF" id="j4b-Ej-ekM"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem image="redo.png" id="Aac-ON-bYb">
                                         <connections>
-                                            <action selector="redo" destination="Z8N-hv-DHF" id="CMU-vr-fRe"/>
+                                            <action selector="redo:" destination="Z8N-hv-DHF" id="MlR-nS-m3r"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="trash" id="XHj-c0-VmB">
@@ -1140,18 +1140,29 @@
                                     <action selector="_sendMsgToRoom" destination="uEJ-0X-aZ2" eventType="touchUpInside" id="8bH-hy-r9v"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xkZ-qr-jZL">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xkZ-qr-jZL" customClass="CustomTextField">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="399" id="BqP-oU-93n"/>
+                                    <constraint firstAttribute="width" constant="263" id="Rzm-4K-hll"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="icon-sount.png" translatesAutoresizingMaskIntoConstraints="NO" id="flg-Ov-a5Y" userLabel="imvSound">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="UXX-tj-22V"/>
+                                    <constraint firstAttribute="width" constant="66" id="y2Q-Nw-yb6"/>
+                                </constraints>
+                            </imageView>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2io-sZ-cR7" userLabel="switchSound">
+                                <connections>
+                                    <action selector="toggleSound:" destination="uEJ-0X-aZ2" eventType="valueChanged" id="HHc-Bn-47i"/>
+                                </connections>
+                            </switch>
                             <tableView clipsSubviews="YES" tag="1342" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="76" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1fH-5v-pFe" userLabel="tbFriendsOnLine">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="81" id="KQv-qr-W9b"/>
-                                    <constraint firstAttribute="height" constant="712" id="PVI-9q-gx2"/>
+                                    <constraint firstAttribute="height" constant="712" type="user" id="PVI-9q-gx2"/>
+                                    <constraint firstAttribute="width" constant="81" id="a4M-qK-Bm6"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="" selectionStyle="none" indentationWidth="10" reuseIdentifier="HorizontalTableViewCell" rowHeight="76" id="aaE-dc-93P" customClass="HorizontalTableViewCell">
@@ -1161,9 +1172,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="81" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ka7-kY-PFh">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ka7-kY-PFh">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="kWx-9T-ybn"/>
+                                                        <constraint firstAttribute="width" constant="59" id="xoe-Fg-XVr"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1175,18 +1187,26 @@
                                                         <constraint firstAttribute="height" constant="46" id="bcs-dz-BbE"/>
                                                     </constraints>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="greenlight.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXp-sa-y9i">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="19" id="6sr-6V-MqX"/>
+                                                        <constraint firstAttribute="height" constant="17" id="wIa-pS-ytX"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="ka7-kY-PFh" secondAttribute="bottom" constant="1" id="MC4-lT-0i0"/>
-                                            <constraint firstItem="6fQ-0T-wLy" firstAttribute="leading" secondItem="aaE-dc-93P" secondAttribute="leading" constant="7" id="Z8G-ne-qya"/>
+                                            <constraint firstItem="mXp-sa-y9i" firstAttribute="trailing" secondItem="aaE-dc-93P" secondAttribute="trailing" type="default" id="1Bt-K4-kGZ"/>
+                                            <constraint firstItem="6fQ-0T-wLy" firstAttribute="leading" secondItem="aaE-dc-93P" secondAttribute="leading" constant="7" id="IlB-Tt-Ol2"/>
+                                            <constraint firstItem="mXp-sa-y9i" firstAttribute="bottom" secondItem="ka7-kY-PFh" secondAttribute="bottom" type="default" id="KGD-2a-vEv"/>
+                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="leading" secondItem="6fQ-0T-wLy" secondAttribute="leading" type="default" id="d94-Ny-WNg"/>
                                             <constraint firstItem="6fQ-0T-wLy" firstAttribute="top" secondItem="aaE-dc-93P" secondAttribute="top" constant="4" id="ogj-Vg-DN7"/>
-                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="trailing" secondItem="6fQ-0T-wLy" secondAttribute="trailing" type="default" id="xzs-kF-LqO"/>
-                                            <constraint firstItem="ka7-kY-PFh" firstAttribute="leading" secondItem="6fQ-0T-wLy" secondAttribute="leading" type="default" id="yFX-Tf-Fc6"/>
+                                            <constraint firstItem="mXp-sa-y9i" firstAttribute="top" secondItem="6fQ-0T-wLy" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="wP8-xR-Y91"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imvFb" destination="6fQ-0T-wLy" id="z91-9I-t1X"/>
+                                            <outlet property="imvIsOnLine" destination="mXp-sa-y9i" id="bDL-5J-tv6"/>
                                             <outlet property="lbFbName" destination="ka7-kY-PFh" id="AeI-5z-y9C"/>
                                         </connections>
                                     </tableViewCell>
@@ -1205,7 +1225,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="2io-sZ-cR7" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" constant="60" id="34e-kk-6Bf"/>
                             <constraint firstItem="pxG-B2-Q0e" firstAttribute="baseline" secondItem="rqW-FH-ZMK" secondAttribute="baseline" type="default" id="64I-N4-kKJ"/>
+                            <constraint firstItem="flg-Ov-a5Y" firstAttribute="centerY" secondItem="2io-sZ-cR7" secondAttribute="centerY" type="default" id="AIk-dt-H28"/>
+                            <constraint firstItem="xkZ-qr-jZL" firstAttribute="leading" secondItem="2io-sZ-cR7" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="CXL-Zm-RiE"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="user" id="Fh8-eY-Eth"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="user" id="KMI-a3-xFW"/>
                             <constraint firstAttribute="trailing" secondItem="43Q-xr-IHM" secondAttribute="trailing" constant="211" id="KRq-X1-EeC"/>
@@ -1214,9 +1237,9 @@
                             <constraint firstAttribute="trailing" secondItem="rqW-FH-ZMK" secondAttribute="trailing" constant="64" id="NSO-gv-IUR"/>
                             <constraint firstItem="6Bq-SM-SyN" firstAttribute="bottom" secondItem="LI7-fG-rrz" secondAttribute="bottom" type="default" id="OTC-Xh-4AK"/>
                             <constraint firstItem="xkZ-qr-jZL" firstAttribute="top" secondItem="LI7-fG-rrz" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Pmy-6c-bua"/>
-                            <constraint firstItem="1fH-5v-pFe" firstAttribute="bottom" secondItem="6Bq-SM-SyN" secondAttribute="top" type="default" id="U1N-XZ-Fqp"/>
+                            <constraint firstItem="2io-sZ-cR7" firstAttribute="centerY" secondItem="43Q-xr-IHM" secondAttribute="centerY" type="default" id="TjR-6i-xfw"/>
                             <constraint firstItem="Nhv-TX-hNr" firstAttribute="top" secondItem="LI7-fG-rrz" secondAttribute="top" constant="27" id="Ybj-vw-QZu"/>
-                            <constraint firstItem="1fH-5v-pFe" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="default" id="b5x-Vo-0Iy"/>
+                            <constraint firstAttribute="bottom" secondItem="1fH-5v-pFe" secondAttribute="bottom" type="user" id="ZFW-8S-7IH"/>
                             <constraint firstItem="rqW-FH-ZMK" firstAttribute="top" secondItem="LI7-fG-rrz" secondAttribute="top" constant="20" symbolic="YES" type="default" id="bvu-iS-G8s"/>
                             <constraint firstItem="hQa-LF-wny" firstAttribute="baseline" secondItem="rqW-FH-ZMK" secondAttribute="baseline" type="default" id="efT-La-eja"/>
                             <constraint firstItem="PpR-O5-EF9" firstAttribute="top" secondItem="LI7-fG-rrz" secondAttribute="top" type="default" id="fDa-dT-n8F"/>
@@ -1224,9 +1247,10 @@
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="trailing" secondItem="Nhv-TX-hNr" secondAttribute="trailing" type="default" id="jQw-25-dXb"/>
                             <constraint firstItem="PpR-O5-EF9" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="default" id="mas-XH-GoP"/>
                             <constraint firstAttribute="trailing" secondItem="hQa-LF-wny" secondAttribute="trailing" constant="37" id="oOI-mE-mu3"/>
+                            <constraint firstItem="flg-Ov-a5Y" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" constant="5" id="pI8-jC-IU0"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="top" secondItem="pxG-B2-Q0e" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="tHH-eh-nWh"/>
                             <constraint firstItem="6Bq-SM-SyN" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="default" id="uNJ-5V-aoE"/>
-                            <constraint firstItem="xkZ-qr-jZL" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" constant="9" id="uyj-Uu-FlS"/>
+                            <constraint firstItem="1fH-5v-pFe" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="default" id="xss-kG-iSy"/>
                             <constraint firstAttribute="trailing" secondItem="pxG-B2-Q0e" secondAttribute="trailing" constant="124" id="yAp-Z3-bOW"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="trailing" secondItem="6Bq-SM-SyN" secondAttribute="trailing" type="default" id="ylJ-cm-51O"/>
                         </constraints>
@@ -1238,6 +1262,7 @@
                     <connections>
                         <outlet property="imvGratiffiThumb" destination="43Q-xr-IHM" id="6Yv-3w-FoF"/>
                         <outlet property="lbRoomCount" destination="qNk-be-0Bi" id="zHY-bw-CW9"/>
+                        <outlet property="switchSound" destination="2io-sZ-cR7" id="ehP-Mn-w8d"/>
                         <outlet property="tbFbChat" destination="PuE-ut-dIB" id="kgV-Jt-HbE"/>
                         <outlet property="tbFriendsOnLine" destination="1fH-5v-pFe" id="wRD-rO-xT1"/>
                         <outlet property="tfChat" destination="rqW-FH-ZMK" id="80i-Ts-JDR"/>
@@ -1442,8 +1467,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="greenlight.png" width="48" height="48"/>
         <image name="icon-days-remaining.png" width="48" height="50"/>
         <image name="icon-notes.png" width="22" height="22"/>
+        <image name="icon-sount.png" width="25" height="19"/>
         <image name="picEraser.png" width="20" height="20"/>
         <image name="picUndo.png" width="20" height="20"/>
         <image name="redo.png" width="20" height="20"/>
@@ -1527,16 +1554,12 @@
             <relationships>
                 <relationship kind="action" name="_notice:"/>
                 <relationship kind="action" name="aboutTapped:"/>
-                <relationship kind="action" name="downLoadUnzip:"/>
-                <relationship kind="action" name="presentTapped:"/>
-                <relationship kind="action" name="toggleEditOrDone:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="FbChatRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FbChatRoomViewController.h"/>
             <relationships>
-                <relationship kind="action" name="_prepareTextForSendMsgToRoom:"/>
                 <relationship kind="action" name="joinRoomWithFBAccount:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="barBtnTalk" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="btnZoom" candidateClass="UIBarButtonItem"/>
@@ -1544,6 +1567,7 @@
                 <relationship kind="outlet" name="imvGratiffiThumb" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="joinRoomButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="lbRoomCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="switchSound" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="tb" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="tbFbChat" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="tbFriendsOnLine" candidateClass="UITableView"/>
@@ -1559,6 +1583,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HorizontalTableViewCell.h"/>
             <relationships>
                 <relationship kind="outlet" name="imvFb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imvIsOnLine" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lbFbName" candidateClass="UILabel"/>
             </relationships>
         </class>

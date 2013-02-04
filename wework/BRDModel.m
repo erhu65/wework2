@@ -522,6 +522,7 @@ static BRDModel *_sharedInstance = nil;
 }
 
 - (void)toggleInvitedFriend:(NSString*)fbId
+                     fbName:(NSString*)fbName 
              joinRoomId:(NSString*)joinRoomId 
                   isInvited:(BOOL)isInvited
             withBlock:(void (^)(NSDictionary* userInfo))block{
@@ -541,7 +542,7 @@ static BRDModel *_sharedInstance = nil;
         [urlRequest setTimeoutInterval:30.0f];
         [urlRequest setHTTPMethod:@"POST"];
         NSString* action = (isInvited)?@"add":@"del";
-        NSString *body = [NSString stringWithFormat:@"joinRoomId=%@&fbId=%@&action=%@", joinRoomId, fbId, action];
+        NSString *body = [NSString stringWithFormat:@"joinRoomId=%@&fbId=%@&fbName=%@&action=%@", joinRoomId, fbId, fbName, action];
         [urlRequest setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
         NSURLResponse *response;
         NSError *error;
@@ -1184,14 +1185,6 @@ static BRDModel *_sharedInstance = nil;
                         NSArray* arrMsgs = [deserializedDictionary objectForKey:@"msgs"];
                         isLastPage = (NSNumber*) [deserializedDictionary objectForKey:@"lastPage"];
                         page = (NSNumber*)[deserializedDictionary objectForKey:@"page"];
-                        //                        if(nil == self.videoMsgs 
-                        //                           || [page integerValue] == 0
-                        //                           || [arrMsgs count] == 0
-                        //                           ){
-                        //                            self.videoMsgs = [[NSMutableArray alloc] init];
-                        //                            
-                        //                            
-                        //                        }
                         
                         [arrMsgs enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
                             
@@ -2273,6 +2266,142 @@ static BRDModel *_sharedInstance = nil;
                 userInfo = @{@"mTempArr": [mArrTemp mutableCopy],
                 @"isLastPage": isLastPage, 
                 @"page": page};
+            }
+            
+            block(userInfo);               
+        });        
+    });
+}
+
+- (void)fetchFriendInviteInRoom:(NSString*)roomId 
+                      withBlock:(void (^)(NSDictionary* userInfo))block{
+    //[self.mainCategories removeAllObjects];
+    dispatch_queue_t concurrentQueue = 
+    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+    dispatch_async(concurrentQueue, ^{
+        NSString* urlFriendInviteInRoom = [NSString stringWithFormat:@"%@/FriendInviteInRoom?roomId=%@", BASE_URL, roomId];
+        PRPLog(@"http request urlFriendInviteInRoom: %@\n  -[%@ , %@]",
+               urlFriendInviteInRoom,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        
+        NSURL *url = [NSURL URLWithString:urlFriendInviteInRoom];
+        //NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+        [urlRequest setTimeoutInterval:30.0f];
+        [urlRequest setHTTPMethod:@"GET"];
+        
+        NSURLResponse *response;
+        NSError *error;
+        NSString* errMsg; 
+        NSMutableArray* mArrTemp = [[NSMutableArray alloc] init];
+        NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                             returningResponse:&response
+                                                         error:&error];
+        if ([data length] > 0 &&
+            error == nil){
+            
+            NSString*  resStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            
+            PRPLog(@"%lu bytes of data was returned \n resStr: %@\n-[%@ , %@]",
+                   (unsigned long)[data length],
+                   resStr,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            error = nil;
+            id jsonObject = [NSJSONSerialization 
+                             JSONObjectWithData:data
+                             options:NSJSONReadingAllowFragments
+                             error:&error];            
+            
+            if (jsonObject != nil &&
+                error == nil){
+                
+                PRPLog(@"Successfully deserialized....-[%@ , %@]",
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+                
+                if ([jsonObject isKindOfClass:[NSDictionary class]]){
+                    
+                    NSDictionary *deserializedDictionary = (NSDictionary *)jsonObject;
+                    if([deserializedDictionary objectForKey:@"error"]){
+                        errMsg = [deserializedDictionary objectForKey:@"error"];
+                    } else {
+                        PRPLog(@"Deserialized JSON Dictionary = %@ \n -[%@ , %@]",
+                               deserializedDictionary,
+                               NSStringFromClass([self class]),
+                               NSStringFromSelector(_cmd));
+
+                        
+                    }
+                    
+                } else if ([jsonObject isKindOfClass:[NSArray class]]){
+                    
+                    NSArray *deserializedArray = (NSArray *)jsonObject;
+                    PRPLog(@"Deserialized JSON Array = %@-[%@ , %@]",
+                           deserializedArray,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd)); 
+                    [deserializedArray enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop){
+                        
+                        NSDictionary* dicRecord = (NSDictionary*)obj;
+                        NSString* fbId = dicRecord[@"fbId"];
+                        if(![fbId isEqualToString:self.fbId]){
+                            NSMutableDictionary*dicRecordMutable = [dicRecord mutableCopy];
+                            dicRecordMutable[@"isOnLine"] = @0;
+                            [mArrTemp addObject:dicRecordMutable];
+                        }
+        
+                    }];
+                    
+                    
+                } else {
+                    /* Some other object was returned. We don't know how to deal
+                     with this situation as the deserializer only returns dictionaries
+                     or arrays */
+                    PRPLog(@"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries-[%@ , %@]",
+                           error,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));
+                    errMsg = @"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries";
+                }
+                
+            }else if (error != nil){
+                
+                PRPLog(@"An error happened while deserializing the JSON data.\n %@-[%@ , %@]",
+                       error,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));    
+                errMsg = [NSString stringWithFormat:@"An error happened while deserializing the JSON data %@",  [error description]];
+            }
+            
+        }
+        else if ([data length] == 0 &&
+                 error == nil){
+            PRPLog(@"No data was returned.-[%@ , %@]",
+                   (unsigned long)[data length],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = @"No data was returned.";
+        }
+        else if (error != nil){
+            PRPLog(@"Error happened = %@-[%@ , %@]",
+                   [error description],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = [NSString stringWithFormat:@"Error happened = %@",  [error description]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSDictionary *userInfo;
+            
+            if(nil != errMsg){
+                
+                userInfo = @{@"error":errMsg};
+            } else {
+                userInfo = @{@"mTempArr": [mArrTemp mutableCopy]};
             }
             
             block(userInfo);               

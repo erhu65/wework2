@@ -267,6 +267,16 @@
 		B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */; };
 		B78DEE9B16B6AED300921C90 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9916B6AEC600921C90 /* users.png */; };
 		B78DEE9C16B6AED300921C90 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9A16B6AECD00921C90 /* users@2x.png */; };
+		B795C9D216BF992D00D16BD2 /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D016BF992D00D16BD2 /* greenlight.png */; };
+		B795C9D316BF992D00D16BD2 /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D116BF992D00D16BD2 /* greenlight@2x.png */; };
+		B795C9D616BFA3BE00D16BD2 /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D416BFA3BE00D16BD2 /* redlight.png */; };
+		B795C9D716BFA3BE00D16BD2 /* redlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D516BFA3BE00D16BD2 /* redlight@2x.png */; };
+		B795C9DA16BFC35B00D16BD2 /* icon-sount.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D816BFC35B00D16BD2 /* icon-sount.png */; };
+		B795C9DB16BFC35B00D16BD2 /* icon-sount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */; };
+		B795C9E016BFCE7B00D16BD2 /* leave.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DC16BFCE7B00D16BD2 /* leave.caf */; };
+		B795C9E116BFCE7B00D16BD2 /* add.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DD16BFCE7B00D16BD2 /* add.caf */; };
+		B795C9E216BFCE7B00D16BD2 /* del.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DE16BFCE7B00D16BD2 /* del.caf */; };
+		B795C9E316BFCE7B00D16BD2 /* join.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DF16BFCE7B00D16BD2 /* join.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -642,6 +652,16 @@
 		B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWRecordMyRoom.m; sourceTree = "<group>"; };
 		B78DEE9916B6AEC600921C90 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = users.png; sourceTree = "<group>"; };
 		B78DEE9A16B6AECD00921C90 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "users@2x.png"; sourceTree = "<group>"; };
+		B795C9D016BF992D00D16BD2 /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
+		B795C9D116BF992D00D16BD2 /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
+		B795C9D416BFA3BE00D16BD2 /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
+		B795C9D516BFA3BE00D16BD2 /* redlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlight@2x.png"; sourceTree = "<group>"; };
+		B795C9D816BFC35B00D16BD2 /* icon-sount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-sount.png"; sourceTree = "<group>"; };
+		B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-sount@2x.png"; sourceTree = "<group>"; };
+		B795C9DC16BFCE7B00D16BD2 /* leave.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = leave.caf; sourceTree = "<group>"; };
+		B795C9DD16BFCE7B00D16BD2 /* add.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = add.caf; sourceTree = "<group>"; };
+		B795C9DE16BFCE7B00D16BD2 /* del.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = del.caf; sourceTree = "<group>"; };
+		B795C9DF16BFCE7B00D16BD2 /* join.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = join.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -830,6 +850,12 @@
 				B78C00F216B1223B000043EB /* iPhoneiPadShare */,
 				B78C006016B10EBF000043EB /* indicator.png */,
 				B78C006116B10EBF000043EB /* indicator@2x.png */,
+				B795C9D816BFC35B00D16BD2 /* icon-sount.png */,
+				B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */,
+				B795C9D016BF992D00D16BD2 /* greenlight.png */,
+				B795C9D116BF992D00D16BD2 /* greenlight@2x.png */,
+				B795C9D416BFA3BE00D16BD2 /* redlight.png */,
+				B795C9D516BFA3BE00D16BD2 /* redlight@2x.png */,
 				B78DEE9916B6AEC600921C90 /* users.png */,
 				B78DEE9A16B6AECD00921C90 /* users@2x.png */,
 				B78C006216B10EBF000043EB /* favoriteAdd@2x.png */,
@@ -901,6 +927,10 @@
 		B78C005D16B10E5E000043EB /* sounds */ = {
 			isa = PBXGroup;
 			children = (
+				B795C9DC16BFCE7B00D16BD2 /* leave.caf */,
+				B795C9DD16BFCE7B00D16BD2 /* add.caf */,
+				B795C9DE16BFCE7B00D16BD2 /* del.caf */,
+				B795C9DF16BFCE7B00D16BD2 /* join.caf */,
 				B78C005E16B10E68000043EB /* notice.caf */,
 			);
 			name = sounds;
@@ -1584,6 +1614,16 @@
 				B7887E5016B3AFAC00670C77 /* colorWheel.png in Resources */,
 				B78DEE9B16B6AED300921C90 /* users.png in Resources */,
 				B78DEE9C16B6AED300921C90 /* users@2x.png in Resources */,
+				B795C9D216BF992D00D16BD2 /* greenlight.png in Resources */,
+				B795C9D316BF992D00D16BD2 /* greenlight@2x.png in Resources */,
+				B795C9D616BFA3BE00D16BD2 /* redlight.png in Resources */,
+				B795C9D716BFA3BE00D16BD2 /* redlight@2x.png in Resources */,
+				B795C9DA16BFC35B00D16BD2 /* icon-sount.png in Resources */,
+				B795C9DB16BFC35B00D16BD2 /* icon-sount@2x.png in Resources */,
+				B795C9E016BFCE7B00D16BD2 /* leave.caf in Resources */,
+				B795C9E116BFCE7B00D16BD2 /* add.caf in Resources */,
+				B795C9E216BFCE7B00D16BD2 /* del.caf in Resources */,
+				B795C9E316BFCE7B00D16BD2 /* join.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

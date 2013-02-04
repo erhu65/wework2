@@ -16,7 +16,9 @@
 #import "UIView+position.h"
 
 #import "HorizontalTableViewCell.h"
+
 #import "Utils.h"
+
 
 #define KTempTfInKeyboard 7789
 
@@ -46,6 +48,12 @@ BRCellfBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBarRoom;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnTalk;
+
+@property (weak, nonatomic) IBOutlet UISwitch *switchSound;
+
+@property(nonatomic)BOOL isEnableSound;
+
+
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnJoin;
 
 @property (weak, nonatomic) IBOutlet UILabel *lbRoomCount;
@@ -75,6 +83,10 @@ BRCellfBChatDelegate>
 @implementation FbChatRoomViewController
 {
     BOOL addItemsTrigger;
+    SystemSoundID _addSound;
+    SystemSoundID _delSound;
+    SystemSoundID _joinSound;
+    SystemSoundID _leaveSound;
 }
 @synthesize javascriptBridge = _bridge;
 
@@ -101,19 +113,19 @@ BRCellfBChatDelegate>
     if(nil == _mArrFriendOnLine){
         _mArrFriendOnLine = [[NSMutableArray alloc] init];
     }
-    [_mArrFriendOnLine removeAllObjects];
-    
-    if(self.isJoinFbChatRoom){
-        [self.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-            NSString* fbId = (NSString*)key;
-            NSString* fbName = (NSString*)object;
-            NSDictionary* friend = @{@"fbId": fbId,
-                                     @"fbName": fbName};
-            [_mArrFriendOnLine addObject:friend];
-            
-        }];
 
-    }
+//    [_mArrFriendOnLine removeAllObjects];    
+//    if(self.isJoinFbChatRoom){
+//        [self.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+//            NSString* fbId = (NSString*)key;
+//            NSString* fbName = (NSString*)object;
+//            NSDictionary* friend = @{@"fbId": fbId,
+//                                     @"fbName": fbName};
+//            [_mArrFriendOnLine addObject:friend];
+//            
+//        }];
+//
+//    }
     
     return _mArrFriendOnLine;
 }
@@ -147,17 +159,19 @@ BRCellfBChatDelegate>
     
     self = [super initWithCoder:aDecoder];
     if(self){
+        
         self.isDisableInAppNotification = NO;
         
         addItemsTrigger = NO;
         self.page = @0;
-        self.isLastPage = YES;
+        self.isLastPage = NO;
         
         self.isJoinFbChatRoom = NO;
         self.isLeaving = NO;
         self.isZoomed = YES;
         self.mArrFbChat = [[NSMutableArray alloc] init];
         self.isDisableInAppNotification = YES;
+        self.isEnableSound = YES;
         
     }
     return self;
@@ -167,7 +181,7 @@ BRCellfBChatDelegate>
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+  
     //node.js socket.io webview bridge start...
     [self.view  insertSubview:self.webview atIndex:0];
     
@@ -196,8 +210,9 @@ BRCellfBChatDelegate>
 	self.tbFriendsOnLine.frame = CGRectMake(0, 500, self.tbFriendsOnLine.frame.size.width, self.tbFriendsOnLine.frame.size.height);
     UIImage* backgroundImage = [UIImage imageNamed:@"tool-bar-background.png"];
     self.tbFriendsOnLine.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-
     
+    [self.switchSound setOnTintColor:[UIColor colorWithRed:0 green:175.0/255.0 blue:176.0/255.0 alpha:1.0]];
+ 
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -231,15 +246,18 @@ BRCellfBChatDelegate>
     addItemsTrigger = NO;
     self.isJoinFbChatRoom = NO;
     self.page = @0;
-    self.isLastPage = YES;  
+    self.isLastPage = NO;  
+    self.isEnableSound = YES;
     
     [self.mArrFbChat removeAllObjects];
     [self.mArrFriendOnLine removeAllObjects];
+    [self.mDicFriendOnLine removeAllObjects]; 
     [self.tbFbChat reloadData];
     [self.tbFriendsOnLine reloadData];
     [self.mArrDownloadQueue removeAllObjects];
     self.uniquDataKey = @"";
     self.fbIdRoomOwner = nil;
+    self.tbFbChat.editing = NO;
     
     
     //self.barBtnJoin.title = self.lang[@"actionJoin"];
@@ -479,14 +497,20 @@ BRCellfBChatDelegate>
                     NSDictionary* friendsOnLine = resDic[@"friendsOnLine"];
                     
                     if(nil != friendsOnLine){
-                       
+                        
                         [friendsOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
                             NSString* fbId = (NSString*)key;
                             NSString* fbName = (NSString*)object;
                             
                             [weakSelf.mDicFriendOnLine setObject:fbName forKey:fbId];
-                            [weakSelf.tbFriendsOnLine reloadData];
+//                            NSMutableDictionary* friendOnLine = [weakSelf _findInviteFriendsByFbId:fbId];
+//                            friendOnLine[@"isOnLine"] = @1;
+//                            [weakSelf.tbFriendsOnLine reloadData];
                         }];
+                        if([weakSelf.page integerValue] == 0){
+                            
+                            [weakSelf _fetchFriendInviteInRoom:weakSelf.room];
+                        }
                     }
                     
                     NSString* friendFbName = [self.mDicFriendOnLine objectForKey:fbId];
@@ -496,20 +520,27 @@ BRCellfBChatDelegate>
                        && nil == friendFbName){
                         NSString* userJoinFbName = resDic[@"userJoinFbName"];
                         
-                        [self.mDicFriendOnLine setObject:userJoinFbName forKey:fbId];
+                        [weakSelf.mDicFriendOnLine setObject:userJoinFbName forKey:fbId];
+                        NSMutableDictionary* friendOnLine = [weakSelf _findInviteFriendsByFbId:fbId];
+                        friendOnLine[@"isOnLine"] = @1;
                          [weakSelf.tbFriendsOnLine reloadData];
+                        
                     } else if(nil != subType 
                               && [subType isEqualToString:@"userLeave"]
                         && nil != friendFbName) {
                        
-                        [self.mDicFriendOnLine removeObjectForKey:fbId];
+                        NSMutableDictionary* friendOnLine = [weakSelf _findInviteFriendsByFbId:fbId];
+                        friendOnLine[@"isOnLine"] = @0;
+                        
+                        [weakSelf.mDicFriendOnLine removeObjectForKey:fbId];
                         [weakSelf.tbFriendsOnLine reloadData];
                     }
+                    
                     PRPLog(@"self.mDicFriendOnLine :%@ \n\
                            self.mArrFriendOnLine :%@\n\
                            -[%@ , %@] \n ",
-                           self.mDicFriendOnLine ,
-                           self.mArrFriendOnLine ,
+                           weakSelf.mDicFriendOnLine ,
+                           weakSelf.mArrFriendOnLine ,
                            NSStringFromClass([self class]),
                            NSStringFromSelector(_cmd));
                 }
@@ -518,14 +549,16 @@ BRCellfBChatDelegate>
                 
                 if([fbName isEqualToString:@"server"]
                    && [msg rangeOfString:@"Good to see your"].location != NSNotFound){
-                    self.isJoinFbChatRoom = YES;
                     
+                    self.isJoinFbChatRoom = YES;
                     [self _fetchChatByRoom:self.room withPage:self.page];
                     [self.tbFriendsOnLine reloadData];
                 }
+                
                 if(nil != roomCount){
                     self.lbRoomCount.text = [NSString stringWithFormat:@"%@: %@",kSharedModel.lang[@"onLine"], roomCount];
                 }
+                
                  NSString* action = (NSString*)resDic[@"action"];
                 
                 if([type isEqualToString:@"chat"] 
@@ -542,12 +575,12 @@ BRCellfBChatDelegate>
                     BRRecordFbChat* recordFound = [self _findChatById:_id];
                     
                     if(nil != recordFound){
+                        
                         NSUInteger* indexFound = [self.mArrFbChat indexOfObject:recordFound];
                         [self.mArrFbChat removeObject:recordFound];
                         NSIndexPath * indexPathFound = [NSIndexPath indexPathForRow:indexFound inSection:0];
                         [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
                         [self.delegate FbChatRoomViewControllerDelegateDelRecord:recordFound];
-                        
                     }
 
                 } else if (([type isEqualToString:@"chat"] 
@@ -676,24 +709,26 @@ BRCellfBChatDelegate>
         HorizontalTableViewCell *cellFriend = (HorizontalTableViewCell *)[self.tbFriendsOnLine dequeueReusableCellWithIdentifier:@"HorizontalTableViewCell"];
         NSDictionary* record = [self.mArrFriendOnLine objectAtIndex:[indexPath row]];
         cellFriend.lbFbName.text = record[@"fbName"];
-        
         NSString *url = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/picture",record[@"fbId"]];
         [Utils showImageAsync:cellFriend.imvFb  fromUrl:url cacheName:record[@"fbId"]];
-
-        return cellFriend;    
+        BOOL isOnline = [(NSNumber*)record[@"isOnLine"] intValue];
+        if(isOnline){
+            cellFriend.imvIsOnLine.image = [UIImage imageNamed:kSharedModel.theme[@"greenlight"]];
+        } else {
+            cellFriend.imvIsOnLine.image = [UIImage imageNamed:kSharedModel.theme[@"redlight"]];
+        }
+        return cellFriend;     
         
     } else {
-        BRCellfBChat *cellfBChat = (BRCellfBChat *)[self.tbFbChat dequeueReusableCellWithIdentifier:@"BRCellfBChat"];
         
+        BRCellfBChat *cellfBChat = (BRCellfBChat *)[self.tbFbChat dequeueReusableCellWithIdentifier:@"BRCellfBChat"];
         cellfBChat.tb = tableView;
         BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
         cellfBChat.record = record;
         cellfBChat.indexPath = indexPath;
-        
         cellfBChat.deletate = self;
         UIImage *backgroundImage = [UIImage imageNamed:@"table-row-background.png"];
         cellfBChat.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-        
         return cellfBChat;
     }
     
@@ -722,15 +757,20 @@ BRCellfBChatDelegate>
 // for some items. By default, all items are editable.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return YES if you want the specified item to be editable.
-    BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
-    NSString* type = record.type;
-    
-    if([type isEqualToString:@"chat"] 
-       && ( [self.fbIdRoomOwner isEqualToString:kSharedModel.fbId] 
-           || [record.fbId isEqualToString:kSharedModel.fbId]))return YES;
-    return NO;
-}
+    if(tableView.tag == KTbFriendsOnLine){
+        return NO;
+    } else {
+        BRRecordFbChat* record = [self.mArrFbChat objectAtIndex:[indexPath row]];
+        NSString* type = record.type;
+        
+        if([type isEqualToString:@"chat"] 
+           && ( [self.fbIdRoomOwner isEqualToString:kSharedModel.fbId] 
+               || [record.fbId isEqualToString:kSharedModel.fbId]))return YES;
+        return NO;
 
+    }
+    
+}
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -877,7 +917,57 @@ BRCellfBChatDelegate>
                                
                                
                            }];
+    
 }
+
+
+- (void)_fetchFriendInviteInRoom:(NSString*)roomId{
+    
+    [self showHud:YES];
+    __weak __block FbChatRoomViewController* weakSelf = (FbChatRoomViewController*)self;
+    [kSharedModel fetchFriendInviteInRoom:roomId
+                        withBlock:^(NSDictionary* res) {
+                            
+                            [weakSelf hideHud:YES];
+                            
+                            if(nil != res 
+                               && nil != res[@"error"]){
+                                
+                                [weakSelf showMsg:res[@"error"] type:msgLevelError];
+                                return;
+                            }
+                            
+                            NSMutableArray* mTempArr =(NSMutableArray*)res[@"mTempArr"];                            
+                            NSRange range = NSMakeRange(0, mTempArr.count); 
+                            NSMutableIndexSet *indexes = [NSMutableIndexSet indexSetWithIndexesInRange:range];
+                            [weakSelf.mArrFriendOnLine insertObjects:mTempArr atIndexes:indexes];
+                            
+                            
+
+                            if(weakSelf.isJoinFbChatRoom){
+                                [weakSelf.mDicFriendOnLine enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+                                    NSString* fbId = (NSString*)key;                                    
+                                    NSMutableDictionary* friendInvited = [weakSelf _findInviteFriendsByFbId:fbId];
+                                    
+                                    friendInvited[@"isOnLine"] = @1;
+                                    
+                                }];
+                                
+                            }
+                            
+                            if(weakSelf.mArrFriendOnLine.count > 0){
+                                PRPLog(@"self.mArrFriendOnLine.count: %d-[%@ , %@]",
+                                       weakSelf.mArrFriendOnLine.count,
+                                       NSStringFromClass([self class]),
+                                       NSStringFromSelector(_cmd));
+                                [weakSelf.tbFriendsOnLine reloadData];
+                                
+                            } 
+                            
+                            
+                        }];
+}
+
 
 -(void)_delChat:(NSString*)_id
             atRow:(int) row
@@ -924,6 +1014,21 @@ BRCellfBChatDelegate>
     return recordFound;
 }
 
+-(NSMutableDictionary*)_findInviteFriendsByFbId:(NSString*)fbId
+{
+    __block NSMutableDictionary* recordFound;
+    [self.mArrFriendOnLine enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+        NSMutableDictionary* record = (NSMutableDictionary*) obj;
+        NSString* fbId_ = record[@"fbId"];
+        
+        if([fbId_ isEqualToString:fbId]) {
+            stop = YES;
+            recordFound = record;
+        }
+    }];
+    return recordFound;
+}
+
 -(BOOL)_chkDataPathLocalExist:(NSString*)localPath
 {
     BOOL isLocalPathExist = NO;
@@ -949,6 +1054,17 @@ BRCellfBChatDelegate>
                NSStringFromSelector(_cmd));
     }
     return isLocalPathExist;
+}
+
+- (IBAction)toggleSound:(UISwitch*)sender {
+    
+    self.isEnableSound = sender.on;
+    
+    PRPLog(@"self.isEnableSound : %d \
+           -[%@ , %@]",
+           self.isEnableSound,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));  
 }
 
 
