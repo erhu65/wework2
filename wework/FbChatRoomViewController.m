@@ -51,9 +51,6 @@ BRCellfBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchSound;
 
-@property(nonatomic)BOOL isEnableSound;
-
-
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnJoin;
 
 @property (weak, nonatomic) IBOutlet UILabel *lbRoomCount;
@@ -83,10 +80,10 @@ BRCellfBChatDelegate>
 @implementation FbChatRoomViewController
 {
     BOOL addItemsTrigger;
-    SystemSoundID _addSound;
-    SystemSoundID _delSound;
-    SystemSoundID _joinSound;
-    SystemSoundID _leaveSound;
+    SystemSoundID _soundAdd;
+    SystemSoundID _soundDel;
+    SystemSoundID _soundJoin;
+    SystemSoundID _soundLeave;
 }
 @synthesize javascriptBridge = _bridge;
 
@@ -171,7 +168,7 @@ BRCellfBChatDelegate>
         self.isZoomed = YES;
         self.mArrFbChat = [[NSMutableArray alloc] init];
         self.isDisableInAppNotification = YES;
-        self.isEnableSound = YES;
+   
         
     }
     return self;
@@ -257,7 +254,7 @@ BRCellfBChatDelegate>
     [self.mArrDownloadQueue removeAllObjects];
     self.uniquDataKey = @"";
     self.fbIdRoomOwner = nil;
-    self.tbFbChat.editing = NO;
+    //self.tbFbChat.editing = NO;
     
     
     //self.barBtnJoin.title = self.lang[@"actionJoin"];
@@ -270,7 +267,8 @@ BRCellfBChatDelegate>
     [self.webview loadRequest:request];  
     //self.activityChatRoom.hidden = YES;
     //[self.activityChatRoom stopAnimating];
-      [self hideHud:YES];
+    [self hideHud:YES];
+
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification
@@ -510,6 +508,8 @@ BRCellfBChatDelegate>
                         if([weakSelf.page integerValue] == 0){
                             
                             [weakSelf _fetchFriendInviteInRoom:weakSelf.room];
+                            
+
                         }
                     }
                     
@@ -523,7 +523,9 @@ BRCellfBChatDelegate>
                         [weakSelf.mDicFriendOnLine setObject:userJoinFbName forKey:fbId];
                         NSMutableDictionary* friendOnLine = [weakSelf _findInviteFriendsByFbId:fbId];
                         friendOnLine[@"isOnLine"] = @1;
-                         [weakSelf.tbFriendsOnLine reloadData];
+                        [weakSelf.tbFriendsOnLine reloadData];
+                        
+                        [self playSoundEffect:@"join" soundId:_soundJoin];    
                         
                     } else if(nil != subType 
                               && [subType isEqualToString:@"userLeave"]
@@ -534,6 +536,7 @@ BRCellfBChatDelegate>
                         
                         [weakSelf.mDicFriendOnLine removeObjectForKey:fbId];
                         [weakSelf.tbFriendsOnLine reloadData];
+                        [self playSoundEffect:@"leave" soundId:_soundLeave];
                     }
                     
                     PRPLog(@"self.mDicFriendOnLine :%@ \n\
@@ -549,10 +552,11 @@ BRCellfBChatDelegate>
                 
                 if([fbName isEqualToString:@"server"]
                    && [msg rangeOfString:@"Good to see your"].location != NSNotFound){
-                    
+                   
                     self.isJoinFbChatRoom = YES;
                     [self _fetchChatByRoom:self.room withPage:self.page];
                     [self.tbFriendsOnLine reloadData];
+
                 }
                 
                 if(nil != roomCount){
@@ -581,6 +585,7 @@ BRCellfBChatDelegate>
                         NSIndexPath * indexPathFound = [NSIndexPath indexPathForRow:indexFound inSection:0];
                         [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
                         [self.delegate FbChatRoomViewControllerDelegateDelRecord:recordFound];
+                        [self playSoundEffect:@"del" soundId:_soundDel];
                     }
 
                 } else if (([type isEqualToString:@"chat"] 
@@ -592,6 +597,7 @@ BRCellfBChatDelegate>
                     
                     [self hideHud:YES];
                     self.barBtnTalk.enabled = YES;
+                    
                 }
                 
             }
@@ -638,6 +644,10 @@ BRCellfBChatDelegate>
     [self.tbFbChat insertRowsAtIndexPaths:arrIndexPathNew withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self tbFbChat] endUpdates];
     [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
+    if([recordNew.type isEqualToString:@"chat"]){
+        [self playSoundEffect:@"add" soundId:_soundAdd];
+    }
+
 }
 
 #pragma mark chat textfield/keyboard 
@@ -851,7 +861,7 @@ BRCellfBChatDelegate>
                                             @"_id": recordAdded._id
                                             };
                      
-                     
+                     [self playSoundEffect:@"add" soundId:_soundAdd];
                      [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
                          NSLog(@"JsSendMsgHandler responded: %@", response);
                          weakSelf.tfMsg.text = @"";
@@ -985,11 +995,11 @@ BRCellfBChatDelegate>
                               [weakSelf showMsg:res[@"error"] type:msgLevelError];
                               return;
                           }
-                       
-                     
+                          
                           BRRecordFbChat* record = [weakSelf.mArrFbChat objectAtIndex:row];
                           
                           [weakSelf.mArrFbChat removeObject:record];
+                          [self playSoundEffect:@"del" soundId:_soundDel];
                           NSIndexPath * indexPath = [NSIndexPath indexPathForRow:row inSection:0];
                           [weakSelf.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
                           [weakSelf _callJsDelMsgHandler:record._id];

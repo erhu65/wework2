@@ -78,6 +78,7 @@ WWCellMyRoomDelegate>
     self.tb.backgroundColor = [UIColor clearColor];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:kSharedModel.theme[@"bg_sand"]]];
     self.view.backgroundColor  = background;
+    self.navigationItem.leftBarButtonItem = nil;
     
     [self _fetchMyRooms:self.page fbId:kSharedModel.fbId];
 }

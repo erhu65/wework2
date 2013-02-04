@@ -562,7 +562,7 @@ AmazonServiceRequestDelegate>
         
     NSString* localPathDir =  [Utils filePathInDocument:record.uniquDataKey withSuffix:nil];
     BOOL isLocalPathExists = [self _chkDataPathLocalExist:localPathDir];
-    if(isLocalPathExists){
+    if(isLocalPathExists && ![record.uniquDataKey isEqualToString:@""]){
         
         NSError *error = nil;
         NSFileManager *fileMgr = [NSFileManager defaultManager];
@@ -676,7 +676,8 @@ AmazonServiceRequestDelegate>
                             [[NSFileManager defaultManager] removeItemAtPath:localPathRes error:nil];  
                               [self.fbChatRoomViewController addNewChatFromOthers:newRecord];
                             [self.fbChatRoomViewController.mArrDownloadQueue removeObject:newRecord];
-                            
+                            [self.fbChatRoomViewController playSoundEffect:@"add" soundId:_soundAdd];
+                             
                             if(self.fbChatRoomViewController.mArrDownloadQueue .count>0){
                                 self.isDownloading = YES;
                                 BRRecordFbChat* recordNeedDownload =(BRRecordFbChat*) [self.fbChatRoomViewController.mArrDownloadQueue lastObject];        

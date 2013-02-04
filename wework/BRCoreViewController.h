@@ -42,6 +42,8 @@ typedef enum msgLevel {
 @property (nonatomic, strong) NSArray *noticeVConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *noticeHorizontalAlignconstrain;
 @property (nonatomic, strong) NSLayoutConstraint *noticeVerticalAlignconstrain;
+@property (nonatomic) BOOL isEnableSound;
 -(void)playSoundEffect:(NSString*)soundName 
                soundId:(SystemSoundID)soundId;
+
 @end

@@ -655,4 +655,33 @@ static NSFileManager * _fileManager = nil;
     return mem_free;
 }
 
++ (BOOL)chkDataPathLocalExist:(NSString*)localPath
+{
+    BOOL isLocalPathExist = NO;
+    BOOL isDir;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDir];
+    if (exists) {
+        /* file exists */
+        if (isDir) {
+            isLocalPathExist = YES;
+            /* file is a directory */
+            PRPLog(@"localPth exixt: %@ \n \
+                   -[%@ , %@]",
+                   localPath,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            
+        }
+    } else {
+        PRPLog(@"localPth not exixt: %@ \n \
+               -[%@ , %@]",
+               localPath,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    }
+    return isLocalPathExist;
+}
+
+
+
 @end

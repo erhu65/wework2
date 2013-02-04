@@ -17,7 +17,7 @@
 
 @interface DetailViewController_iPad : BRCoreViewController 
 {    
-   
+   SystemSoundID _soundAdd;
 }
 @property(nonatomic, strong)NSString* room;
 @property(nonatomic, strong) NSString* fbIdRoomOwner;

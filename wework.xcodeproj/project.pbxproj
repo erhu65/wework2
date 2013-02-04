@@ -273,10 +273,10 @@
 		B795C9D716BFA3BE00D16BD2 /* redlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D516BFA3BE00D16BD2 /* redlight@2x.png */; };
 		B795C9DA16BFC35B00D16BD2 /* icon-sount.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D816BFC35B00D16BD2 /* icon-sount.png */; };
 		B795C9DB16BFC35B00D16BD2 /* icon-sount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */; };
-		B795C9E016BFCE7B00D16BD2 /* leave.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DC16BFCE7B00D16BD2 /* leave.caf */; };
 		B795C9E116BFCE7B00D16BD2 /* add.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DD16BFCE7B00D16BD2 /* add.caf */; };
 		B795C9E216BFCE7B00D16BD2 /* del.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DE16BFCE7B00D16BD2 /* del.caf */; };
-		B795C9E316BFCE7B00D16BD2 /* join.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9DF16BFCE7B00D16BD2 /* join.caf */; };
+		B795C9E616BFEDDE00D16BD2 /* leave.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9E416BFEDDE00D16BD2 /* leave.caf */; };
+		B795C9E716BFEDDE00D16BD2 /* join.caf in Resources */ = {isa = PBXBuildFile; fileRef = B795C9E516BFEDDE00D16BD2 /* join.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -658,10 +658,10 @@
 		B795C9D516BFA3BE00D16BD2 /* redlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redlight@2x.png"; sourceTree = "<group>"; };
 		B795C9D816BFC35B00D16BD2 /* icon-sount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-sount.png"; sourceTree = "<group>"; };
 		B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-sount@2x.png"; sourceTree = "<group>"; };
-		B795C9DC16BFCE7B00D16BD2 /* leave.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = leave.caf; sourceTree = "<group>"; };
 		B795C9DD16BFCE7B00D16BD2 /* add.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = add.caf; sourceTree = "<group>"; };
 		B795C9DE16BFCE7B00D16BD2 /* del.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = del.caf; sourceTree = "<group>"; };
-		B795C9DF16BFCE7B00D16BD2 /* join.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = join.caf; sourceTree = "<group>"; };
+		B795C9E416BFEDDE00D16BD2 /* leave.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = leave.caf; sourceTree = "<group>"; };
+		B795C9E516BFEDDE00D16BD2 /* join.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = join.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -927,10 +927,10 @@
 		B78C005D16B10E5E000043EB /* sounds */ = {
 			isa = PBXGroup;
 			children = (
-				B795C9DC16BFCE7B00D16BD2 /* leave.caf */,
+				B795C9E416BFEDDE00D16BD2 /* leave.caf */,
+				B795C9E516BFEDDE00D16BD2 /* join.caf */,
 				B795C9DD16BFCE7B00D16BD2 /* add.caf */,
 				B795C9DE16BFCE7B00D16BD2 /* del.caf */,
-				B795C9DF16BFCE7B00D16BD2 /* join.caf */,
 				B78C005E16B10E68000043EB /* notice.caf */,
 			);
 			name = sounds;
@@ -1620,10 +1620,10 @@
 				B795C9D716BFA3BE00D16BD2 /* redlight@2x.png in Resources */,
 				B795C9DA16BFC35B00D16BD2 /* icon-sount.png in Resources */,
 				B795C9DB16BFC35B00D16BD2 /* icon-sount@2x.png in Resources */,
-				B795C9E016BFCE7B00D16BD2 /* leave.caf in Resources */,
 				B795C9E116BFCE7B00D16BD2 /* add.caf in Resources */,
 				B795C9E216BFCE7B00D16BD2 /* del.caf in Resources */,
-				B795C9E316BFCE7B00D16BD2 /* join.caf in Resources */,
+				B795C9E616BFEDDE00D16BD2 /* leave.caf in Resources */,
+				B795C9E716BFEDDE00D16BD2 /* join.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

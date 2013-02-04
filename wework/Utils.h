@@ -69,4 +69,5 @@
 //+(CLLocationDistance)fromLocation:(CLLocationCoordinate2D)locationA toLocation:(CLLocationCoordinate2D)locationB;
 
 + (NSUInteger)amountOfFreeMemory;
++ (BOOL)chkDataPathLocalExist:(NSString*)localPath;
 @end

@@ -10,6 +10,7 @@
 #import "BRRecordFbChat.h"
 #import "BRStyleSheet.h"
 #import "UIImageView+RemoteFile.h"
+#import "Utils.h"
 
 @implementation BRCellfBChat
 
@@ -57,7 +58,7 @@
     if([record.type isEqualToString:@"chat"]){
         
         if(![record.uniquDataKey isEqualToString:@""]){
-             self.accessoryView = [self _makeDetailDisclosureButton];
+             self.accessoryView = [self _makeDetailDisclosureButton:record.uniquDataKey];
         }
     }
     
@@ -67,11 +68,20 @@
     }
 }
 
-- (UIButton *) _makeDetailDisclosureButton
+- (UIButton *) _makeDetailDisclosureButton:(NSString*)uniqueDataKey
 {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setFrame:CGRectMake(0, 0, 30, 30)];
-    [button setImage:[UIImage imageNamed:kSharedModel.theme[@"eyeball"]] forState:UIControlStateNormal];
+    [button setFrame:CGRectMake(0, 0, 50, 50)];
+    
+    NSString* localPathDir =  [Utils filePathInDocument:uniqueDataKey withSuffix:nil];
+    BOOL isLocalPathExists = [Utils chkDataPathLocalExist:localPathDir];
+    if(isLocalPathExists){
+        NSString* imgBg = [NSString stringWithFormat:@"%@/bg.png", localPathDir];
+        UIImage* img = [[UIImage alloc] initWithContentsOfFile:imgBg];
+        UIImage* imgThumb = [Utils imageWithImage:img scaledToSize:CGSizeMake(50.0f, 50.0f)];
+        [button setImage:imgThumb forState:UIControlStateNormal];
+    }
+    
     [button addTarget: self
                action: @selector(_accessoryButtonTapped:withEvent:)
      forControlEvents: UIControlEventTouchUpInside];
@@ -85,6 +95,8 @@
     }
 //    [self.tb.delegate tableView: self.tb accessoryButtonTappedForRowWithIndexPath:self.indexPath];
 }
+
+
 
 -(void) setLbFbUserName:(UILabel *)lbFbUserName
 {

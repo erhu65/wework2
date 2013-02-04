@@ -32,6 +32,7 @@ typedef enum videosFilterMode {
     if(self){
         self.lang = [LangManager sharedManager].dic;
         self.isDisableInAppNotification = NO;
+        self.isEnableSound = YES;
     }
     return self;
 }
@@ -249,10 +250,13 @@ typedef enum videosFilterMode {
 -(void)playSoundEffect:(NSString*)soundName 
                soundId:(SystemSoundID)soundId{
     
-    NSString *soundPath = [[NSBundle mainBundle] 
-                           pathForResource:soundName ofType:@"caf"];
-    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
-    AudioServicesPlaySystemSound(soundId);
+    if(self.isEnableSound){
+        NSString *soundPath = [[NSBundle mainBundle] 
+                               pathForResource:soundName ofType:@"caf"];
+        NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
+        AudioServicesPlaySystemSound(soundId);
+
+    }
 }
 @end
