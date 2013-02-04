@@ -18,7 +18,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1304" y="-2093"/>
+            <point key="canvasLocation" x="1496" y="-1297"/>
         </scene>
         <!--Surfs Up View Controller i Pad-->
         <scene sceneID="5c4-M1-YNN">
@@ -49,7 +49,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aVC-RT-JHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1751" y="-2093"/>
+            <point key="canvasLocation" x="1943" y="-1297"/>
         </scene>
         <!--Detail View Controller i Pad - Detail-->
         <scene sceneID="16">
@@ -467,7 +467,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hia-bd-Tr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="-1062"/>
+            <point key="canvasLocation" x="1873" y="-2238"/>
         </scene>
         <!--Friend Invite View Controller-->
         <scene sceneID="yJ1-ql-M1x">
@@ -685,7 +685,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fG-ya-FML" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="HIp-fv-9QP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2216" y="-1062"/>
+            <point key="canvasLocation" x="2312" y="-2238"/>
         </scene>
         <!--Tab1 Navigation Controller - Item-->
         <scene sceneID="4QE-eH-00u">
@@ -704,7 +704,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVM-qi-eB0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="-1078"/>
+            <point key="canvasLocation" x="1404" y="-2254"/>
         </scene>
         <!--Detail1 View Controller - Detail-->
         <scene sceneID="wo8-bY-6t8">
@@ -1554,12 +1554,16 @@
             <relationships>
                 <relationship kind="action" name="_notice:"/>
                 <relationship kind="action" name="aboutTapped:"/>
+                <relationship kind="action" name="downLoadUnzip:"/>
+                <relationship kind="action" name="presentTapped:"/>
+                <relationship kind="action" name="toggleEditOrDone:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="FbChatRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FbChatRoomViewController.h"/>
             <relationships>
+                <relationship kind="action" name="_prepareTextForSendMsgToRoom:"/>
                 <relationship kind="action" name="joinRoomWithFBAccount:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="barBtnTalk" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="btnZoom" candidateClass="UIBarButtonItem"/>
@@ -1628,6 +1632,8 @@
         <class className="WWMyRoomViewController" superclassName="BRCoreViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WWMyRoomViewController.h"/>
             <relationships>
+                <relationship kind="action" name="showAddMyRoomAlertView:"/>
+                <relationship kind="action" name="toggleEditOrDone:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="unwindBackToMyRoomlViewController:" candidateClass="UIStoryboardSegue"/>
                 <relationship kind="outlet" name="barBtnEdit" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="tb" candidateClass="UITableView"/>
