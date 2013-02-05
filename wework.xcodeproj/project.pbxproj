@@ -267,6 +267,13 @@
 		B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */; };
 		B78DEE9B16B6AED300921C90 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9916B6AEC600921C90 /* users.png */; };
 		B78DEE9C16B6AED300921C90 /* users@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78DEE9A16B6AECD00921C90 /* users@2x.png */; };
+		B78FFA8C16C0B8DC004541AF /* WWTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FFA8B16C0B8DC004541AF /* WWTagViewController.m */; };
+		B78FFA8F16C0BAEE004541AF /* WWRecordTag.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FFA8E16C0BAEE004541AF /* WWRecordTag.m */; };
+		B78FFA9216C0C126004541AF /* WWTagEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FFA9116C0C126004541AF /* WWTagEditViewController.m */; };
+		B78FFA9516C10551004541AF /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9316C10550004541AF /* tag.png */; };
+		B78FFA9616C10551004541AF /* tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9416C10551004541AF /* tag@2x.png */; };
+		B78FFA9916C10D1C004541AF /* tagSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9716C10D1A004541AF /* tagSelected.png */; };
+		B78FFA9A16C10D1C004541AF /* tagSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9816C10D1B004541AF /* tagSelected@2x.png */; };
 		B795C9D216BF992D00D16BD2 /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D016BF992D00D16BD2 /* greenlight.png */; };
 		B795C9D316BF992D00D16BD2 /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D116BF992D00D16BD2 /* greenlight@2x.png */; };
 		B795C9D616BFA3BE00D16BD2 /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D416BFA3BE00D16BD2 /* redlight.png */; };
@@ -652,6 +659,16 @@
 		B78DEE9716B63B8200921C90 /* WWRecordMyRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWRecordMyRoom.m; sourceTree = "<group>"; };
 		B78DEE9916B6AEC600921C90 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = users.png; sourceTree = "<group>"; };
 		B78DEE9A16B6AECD00921C90 /* users@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "users@2x.png"; sourceTree = "<group>"; };
+		B78FFA8A16C0B8DC004541AF /* WWTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWTagViewController.h; sourceTree = "<group>"; };
+		B78FFA8B16C0B8DC004541AF /* WWTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWTagViewController.m; sourceTree = "<group>"; };
+		B78FFA8D16C0BAEE004541AF /* WWRecordTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWRecordTag.h; sourceTree = "<group>"; };
+		B78FFA8E16C0BAEE004541AF /* WWRecordTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWRecordTag.m; sourceTree = "<group>"; };
+		B78FFA9016C0C126004541AF /* WWTagEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWTagEditViewController.h; sourceTree = "<group>"; };
+		B78FFA9116C0C126004541AF /* WWTagEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWTagEditViewController.m; sourceTree = "<group>"; };
+		B78FFA9316C10550004541AF /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
+		B78FFA9416C10551004541AF /* tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag@2x.png"; sourceTree = "<group>"; };
+		B78FFA9716C10D1A004541AF /* tagSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tagSelected.png; sourceTree = "<group>"; };
+		B78FFA9816C10D1B004541AF /* tagSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tagSelected@2x.png"; sourceTree = "<group>"; };
 		B795C9D016BF992D00D16BD2 /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
 		B795C9D116BF992D00D16BD2 /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
 		B795C9D416BFA3BE00D16BD2 /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
@@ -850,6 +867,10 @@
 				B78C00F216B1223B000043EB /* iPhoneiPadShare */,
 				B78C006016B10EBF000043EB /* indicator.png */,
 				B78C006116B10EBF000043EB /* indicator@2x.png */,
+				B78FFA9716C10D1A004541AF /* tagSelected.png */,
+				B78FFA9816C10D1B004541AF /* tagSelected@2x.png */,
+				B78FFA9316C10550004541AF /* tag.png */,
+				B78FFA9416C10551004541AF /* tag@2x.png */,
 				B795C9D816BFC35B00D16BD2 /* icon-sount.png */,
 				B795C9D916BFC35B00D16BD2 /* icon-sount@2x.png */,
 				B795C9D016BF992D00D16BD2 /* greenlight.png */,
@@ -1265,6 +1286,7 @@
 		B78CFFC416B10AB9000043EB /* view-controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B78FFA8916C0B7B4004541AF /* Tag */,
 				B78DEE8C16B637ED00921C90 /* friendInviteRoom */,
 				B78DEE8A16B6374C00921C90 /* myRoom */,
 				B7887E4016B3A48900670C77 /* Brush */,
@@ -1421,6 +1443,19 @@
 				B78BF76616B7F40500249F83 /* WWFriendInviteViewController.m */,
 			);
 			name = friendInviteRoom;
+			sourceTree = "<group>";
+		};
+		B78FFA8916C0B7B4004541AF /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				B78FFA8A16C0B8DC004541AF /* WWTagViewController.h */,
+				B78FFA8B16C0B8DC004541AF /* WWTagViewController.m */,
+				B78FFA9016C0C126004541AF /* WWTagEditViewController.h */,
+				B78FFA9116C0C126004541AF /* WWTagEditViewController.m */,
+				B78FFA8D16C0BAEE004541AF /* WWRecordTag.h */,
+				B78FFA8E16C0BAEE004541AF /* WWRecordTag.m */,
+			);
+			name = Tag;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1624,6 +1659,10 @@
 				B795C9E216BFCE7B00D16BD2 /* del.caf in Resources */,
 				B795C9E616BFEDDE00D16BD2 /* leave.caf in Resources */,
 				B795C9E716BFEDDE00D16BD2 /* join.caf in Resources */,
+				B78FFA9516C10551004541AF /* tag.png in Resources */,
+				B78FFA9616C10551004541AF /* tag@2x.png in Resources */,
+				B78FFA9916C10D1C004541AF /* tagSelected.png in Resources */,
+				B78FFA9A16C10D1C004541AF /* tagSelected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1739,6 +1778,9 @@
 				B78DEE9816B63B8200921C90 /* WWRecordMyRoom.m in Sources */,
 				B78BF76716B7F40500249F83 /* WWFriendInviteViewController.m in Sources */,
 				B76A0FC916B924C8002C7964 /* HorizontalTableViewCell.m in Sources */,
+				B78FFA8C16C0B8DC004541AF /* WWTagViewController.m in Sources */,
+				B78FFA8F16C0BAEE004541AF /* WWRecordTag.m in Sources */,
+				B78FFA9216C0C126004541AF /* WWTagEditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

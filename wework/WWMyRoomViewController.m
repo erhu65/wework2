@@ -8,6 +8,7 @@
 
 #import "WWMyRoomViewController.h"
 #import "BRFBFriendListViewController.h"
+#import "WWTagViewController.h"
 #import "DetailViewController_iPad.h"
 #import "BRDModel.h"
 #import "DetailViewController_iPad.h"
@@ -125,8 +126,6 @@ WWCellMyRoomDelegate>
         sender.title = kSharedModel.lang[@"actionEdit"];
         self.tb.editing = NO;
     }
-
-    
 }
 
 - (IBAction)showAddMyRoomAlertView:(id)sender {
@@ -196,7 +195,9 @@ WWCellMyRoomDelegate>
     
     [self showHud:YES];
     __weak __block WWMyRoomViewController* weakSelf = self;
+    NSString* tagId = (nil != self.byTagId)?self.byTagId:@"";
     [kSharedModel fetchMyRoomsByFbId:fbId 
+                             byTagId:tagId
                             withPage:page 
                            withBlock:^(NSDictionary* res) {
                                
@@ -341,7 +342,11 @@ WWCellMyRoomDelegate>
     
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"ImportFacebook"];
     [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+}
+-(void)WWCellMyRoomDelegateWillChooseTags:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath{
 
+    [self performSegueWithIdentifier:@"segueSelectTag" sender:record];
+    
 }
 
 #pragma mark UITableViewDataSource
@@ -461,7 +466,13 @@ WWCellMyRoomDelegate>
 		BRFBFriendListViewController* BRFBFriendListViewController = segue.destinationViewController;
         BRFBFriendListViewController.myRoomId =  cell.record._id;
         self.cellTemp = cell;
-	} 
+	} else if ([identifier isEqualToString:@"segueSelectTag"]){
+        
+        WWRecordMyRoom* recordSelected =(WWRecordMyRoom*) sender;
+		WWTagViewController* WWTagViewController = segue.destinationViewController;
+        WWTagViewController.recordMyRoom = recordSelected;
+
+	}
 }
 
 

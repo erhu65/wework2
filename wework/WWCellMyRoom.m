@@ -90,4 +90,9 @@
 }
 
 
+- (IBAction)_prepareChooseTags:(id)sender {
+    
+    [self.delegate WWCellMyRoomDelegateWillChooseTags:self.record withIndexPath:self.indexPath];
+}
+
 @end

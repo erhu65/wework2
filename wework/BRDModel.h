@@ -122,14 +122,34 @@ typedef enum subCategoriesSortType {
             fbName:(NSString*)fbNmae
          withBlock:(void (^)(NSDictionary* userInfo))block;
 - (void)fetchMyRoomsByFbId:(NSString*)fbId 
+                   byTagId:(NSString*)tagId
                        withPage:(NSNumber*)page
                       withBlock:(void (^)(NSDictionary* userInfo))block;
 - (void)updMyRoom:(NSString*)roomName
               _id:(NSString*)_id
         withBlock:(void (^)(NSDictionary* userInfo))block;
-
 -(void)delMyRoomById:(NSString*)_id
-withBlock:(void (^)(NSDictionary* userInfo))block;
+           withBlock:(void (^)(NSDictionary* userInfo))block;
+
+
+
+- (void)postTag:(NSString*)tagName
+              fbId:(NSString*)fbId 
+            fbName:(NSString*)fbNmae
+         withBlock:(void (^)(NSDictionary* userInfo))block;
+- (void)fetchTagsByFbId:(NSString*)fbId 
+               ByRoomId:(NSString*)roomId
+                 withBlock:(void (^)(NSDictionary* userInfo))block;
+- (void)updTag:(NSString*)tagName
+              _id:(NSString*)_id
+        withBlock:(void (^)(NSDictionary* userInfo))block;
+-(void)delTagById:(NSString*)_id
+           withBlock:(void (^)(NSDictionary* userInfo))block;
+
+- (void)toggleRoomSelectTag:(NSString*)tagId
+                   byRoom:(NSString*)roomId
+                  isSelected:(BOOL)isSelected
+                  withBlock:(void (^)(NSDictionary* userInfo))block;
 
 - (void)fetchFriendInviteRooms:(NSString*)fbId 
                       withPage:(NSNumber*)page
@@ -145,17 +165,17 @@ withBlock:(void (^)(NSDictionary* userInfo))block;
             fbName:(NSString*)fbNmae
             roomId:(NSString*)roomId
          withBlock:(void (^)(NSDictionary* userInfo))block;
-
 - (void)fetchChatByRoom:(NSString*)roomId 
                   withPage:(NSNumber*)page
                  withBlock:(void (^)(NSDictionary* userInfo))block;
-
 - (void)updMyChat:(NSString*)msg
               _id:(NSString*)_id
         withBlock:(void (^)(NSDictionary* userInfo))block;
-
 -(void)delChat:(NSString*)_id
            withBlock:(void (^)(NSDictionary* userInfo))block;
+
+
+
 
 - (void)getSocketUrl;
 - (void)registerUdid:(NSString*)udid;
@@ -163,7 +183,5 @@ withBlock:(void (^)(NSDictionary* userInfo))block;
 
 -(void) importBirthdays:(NSArray *)birthdaysToImport;
 - (void)postToFacebookWall:(NSString *)message withFacebookID:(NSString *)facebookID;
-
-
 
 @end

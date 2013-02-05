@@ -14,6 +14,8 @@
 
 -(void)WWCellMyRoomDelegateWillChooseFriends:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath;
 
+-(void)WWCellMyRoomDelegateWillChooseTags:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath;
+
 @end
 
 @interface WWCellMyRoom : UITableViewCell

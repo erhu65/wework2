@@ -22,5 +22,9 @@
 	<string>greenlight.png</string>
 	<key>redlight</key>
 	<string>redlight.png</string>
+	<key>tag</key>
+	<string>tag.png</string>
+	<key>tagSelected</key>
+	<string>tagSelected.png</string>
 </dict>
 </plist>

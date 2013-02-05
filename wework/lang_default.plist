@@ -38,6 +38,10 @@
 	<string>Service</string>
 	<key>actionSplit</key>
 	<string>Split</string>
+	<key>titleEditTag</key>
+	<string>Edit your tag</string>
+	<key>titleAddTag</key>
+	<string>Add your tag</string>
 	<key>onLine</key>
 	<string>On Line</string>
 	<key>warn</key>
@@ -136,10 +140,14 @@
 	<string>My Subjects</string>
 	<key>titleFriendInvite</key>
 	<string>Friends Invite</string>
+	<key>titleTags</key>
+	<string>Tags</string>
 	<key>titleChangeSubjectName</key>
 	<string>Change Subject Name</string>
 	<key>titleWhatIsYourSubjectName</key>
-	<string>What is your subject Nmae?</string>
+	<string>What is your subject name?</string>
+	<key>titleWhatIsYourTagName</key>
+	<string>What is your tag name?</string>
 	<key>titleChatAndGraffiti</key>
 	<string>Chat &amp; Graffiti</string>
 </dict>
