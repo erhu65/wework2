@@ -165,6 +165,8 @@
                                           NSStringFromSelector(_cmd));
                                    [weakSelf.tb reloadData];
                                    
+                               } else {
+                                   [weakSelf showMsg:kSharedModel.lang[@"infoNoData"] type:msgLevelInfo];
                                } 
                                
                                
@@ -209,6 +211,7 @@
     __weak __block WWTagViewController* weakSelf = self;
     
     [kSharedModel updTag:tagName 
+                    fbId:kSharedModel.fbId
                         _id:_id 
                   withBlock:^(NSDictionary* res){
                       
@@ -343,7 +346,7 @@
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     
     WWRecordTag *record = self.docs[indexPath.row];
-    [self performSegueWithIdentifier:@"segueTagRelateRooms" sender:record._id];
+    [self performSegueWithIdentifier:@"segueTagRelateRooms" sender:record];
 }
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
@@ -411,9 +414,10 @@
         
         WWTagEditViewController.type = tagEditTypeAdd;
     } else if ([identifier isEqualToString:@"segueTagRelateRooms"]) {
-        NSString* tagId = (NSString*)sender;
+        WWRecordTag* record = (WWRecordTag*)sender;
 		WWMyRoomViewController* WWMyRoomViewController = segue.destinationViewController;
-        WWMyRoomViewController.byTagId = tagId;
+        WWMyRoomViewController.byTagId = record._id;
+        WWMyRoomViewController.byTagName = record.tagName;
     }
 }
 

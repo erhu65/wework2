@@ -141,6 +141,7 @@ typedef enum subCategoriesSortType {
                ByRoomId:(NSString*)roomId
                  withBlock:(void (^)(NSDictionary* userInfo))block;
 - (void)updTag:(NSString*)tagName
+              fbId:(NSString*)fbId   
               _id:(NSString*)_id
         withBlock:(void (^)(NSDictionary* userInfo))block;
 -(void)delTagById:(NSString*)_id

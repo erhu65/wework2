@@ -37,7 +37,7 @@
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:kSharedModel.theme[@"bg_sand"]]];
     self.view.backgroundColor  = background;
-    
+    self.tfTagName.clearButtonMode = UITextFieldViewModeAlways;
     
 }
 

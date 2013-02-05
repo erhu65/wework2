@@ -94,6 +94,7 @@ UIScrollViewDelegate>
     self.tfMsg.borderStyle = UITextBorderStyleBezel;
     self.tfMsg.frameWidth = 180.0f;
     self.tfMsg.frameHeight = 30.0f;
+    self.tfMsg.clearButtonMode = UITextFieldViewModeAlways;
     self.tbMsgBoard.dataSource = self;
     self.tbMsgBoard.delegate = self;
     self.barBtnBack.enabled = NO;

@@ -11,5 +11,6 @@
 @interface WWMyRoomViewController : BRCoreViewController
 
 @property(nonatomic, strong)NSString* byTagId;
+@property(nonatomic, strong)NSString* byTagName;
 -(IBAction)unwindBackToMyRoomlViewController:(UIStoryboardSegue *)segue;
 @end

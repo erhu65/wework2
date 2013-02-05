@@ -2244,6 +2244,7 @@ static BRDModel *_sharedInstance = nil;
     });
 }
 - (void)updTag:(NSString*)tagName
+               fbId:(NSString*)fbId 
               _id:(NSString*)_id
         withBlock:(void (^)(NSDictionary* userInfo))block{
     
@@ -2262,7 +2263,7 @@ static BRDModel *_sharedInstance = nil;
         [urlRequest setTimeoutInterval:30.0f];
         [urlRequest setHTTPMethod:@"POST"];
         
-        NSString *body = [NSString stringWithFormat:@"tagName=%@&_method=put", tagName];
+        NSString *body = [NSString stringWithFormat:@"tagName=%@&fbId=%@&_method=put", tagName, fbId];
         [urlRequest setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
         NSURLResponse *response;
         NSError *error;

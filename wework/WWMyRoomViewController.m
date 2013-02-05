@@ -61,7 +61,7 @@ WWCellMyRoomDelegate>
     if(self){
         addItemsTrigger = NO;
         self.isDisableInAppNotification = NO;
-        self.title = kSharedModel.lang[@"titleMySubject"];
+        
         self.page = @0;
         self.isLastPage = YES;
     }
@@ -72,6 +72,14 @@ WWCellMyRoomDelegate>
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if(nil != self.byTagName){
+        
+        self.title = [NSString stringWithFormat:@"%@ - %@", kSharedModel.lang[@"titleMySubject"], self.byTagName];
+    } else {
+        self.title = kSharedModel.lang[@"titleMySubject"];
+    }
+
+    
 	// Do any additional setup after loading the view.
     self.barBtnEdit.title = kSharedModel.lang[@"actionEdit"];
   
