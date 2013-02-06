@@ -334,6 +334,22 @@ forProductIdentifier:(NSString *)productIdentifier {
             PRPLog(@"add play animation units [%@ , %@]",
                    NSStringFromClass([self class]),
                    NSStringFromSelector(_cmd));
+            
+            //add 50 points and store in server
+            [kSharedModel postPointsConsumtion:prodcut.productIdentifier points:@"50" fbId:kSharedModel.fbId withBlock:^(NSDictionary* res) {
+                NSString* error = res[@"error"];
+                if(nil !=  error){
+                    return;
+                }
+                NSDictionary* docPoints = res[@"doc"];
+                PRPLog(@"docPoints: %@-[%@ , %@]",
+                       docPoints,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+                kSharedModel.points = (NSNumber*)docPoints[@"points"];
+            }];
+
+            
         }
     }
    

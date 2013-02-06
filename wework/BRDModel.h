@@ -60,7 +60,9 @@ typedef enum subCategoriesSortType {
 @property(nonatomic, strong)NSString* fbId;
 @property(nonatomic, strong)NSString* access_token;
 
+
 @property(nonatomic, assign)BOOL isEnebleToggleFavorite;
+@property(nonatomic, strong)NSNumber* points;
 
 @property(nonatomic, strong)NSMutableArray* mArrFriends;
 @property (nonatomic,readonly) NSArray *addressBookBirthdays;
@@ -175,7 +177,10 @@ typedef enum subCategoriesSortType {
 -(void)delChat:(NSString*)_id
            withBlock:(void (^)(NSDictionary* userInfo))block;
 
-
+- (void)postPointsConsumtion:(NSString*)productIdentifier
+         points:(NSString*) points
+           fbId:(NSString*)fbId 
+      withBlock:(void (^)(NSDictionary* res))block;
 
 
 - (void)getSocketUrl;

@@ -62,9 +62,30 @@ static BRDModel *_sharedInstance = nil;
         NSString* fbId = [defaults objectForKey:KUserDefaultFbId];
         NSString* fbName = [defaults objectForKey:KUserDefaultFbName];
         if(nil != fbId && nil != fbName) {
+            
             _sharedInstance.fbId = fbId;
             _sharedInstance.fbName = fbName;
+            //restore points left previous    
+            [_sharedInstance postPointsConsumtion:@"com.erhu65.wework.amount.animation" points:@"0" fbId:fbId withBlock:^(NSDictionary* res) {
+                NSString* error = res[@"error"];
+                if(nil !=  error){
+                    return;
+                }
+                NSDictionary* docPoints = res[@"doc"];
+                PRPLog(@"docPoints: %@-[%@ , %@]",
+                       docPoints,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+                _sharedInstance.points = (NSNumber*)docPoints[@"points"];
+            }];
+        } else {
+            _sharedInstance.points = @0;
         }
+        
+
+
+
+        
 	}
     
 	return _sharedInstance;
@@ -583,8 +604,6 @@ static BRDModel *_sharedInstance = nil;
                                deserializedDictionary,
                                NSStringFromClass([self class]),
                                NSStringFromSelector(_cmd));
-                        
-                        
                     }
                     
                 } else if ([jsonObject isKindOfClass:[NSArray class]]){
@@ -3476,14 +3495,147 @@ static BRDModel *_sharedInstance = nil;
             if(nil != errMsg){
                 res = @{@"error":errMsg};
             } 
-            block(res);   
-            
+            block(res);
         });
-        
     });
-
 }
 
+- (void)postPointsConsumtion:(NSString*)productIdentifier
+                      points:(NSString*) points
+                        fbId:(NSString*)fbId 
+                   withBlock:(void (^)(NSDictionary* res))block{
+
+    //[self.mainCategories removeAllObjects];
+    dispatch_queue_t concurrentQueue = 
+    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_async(concurrentQueue, ^{
+        NSString* urlAddPoints = [NSString stringWithFormat:@"%@/coffeecup/addPoints", BASE_URL];
+        
+        PRPLog(@"http request urlAddPoints: %@\n  -[%@ , %@]",
+               urlAddPoints,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        
+        NSURL *url = [NSURL URLWithString:urlAddPoints];
+        //NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+        [urlRequest setTimeoutInterval:30.0f];
+        [urlRequest setHTTPMethod:@"POST"];
+        
+        NSString *body = [NSString stringWithFormat:@"productIdentifier=%@&fbId=%@&pointsToAdd=%@", productIdentifier, fbId, points];
+        
+        PRPLog(@"http url urlAddChat body: %@\n  -[%@ , %@]",
+               body,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        
+        [urlRequest setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+        NSURLResponse *response;
+        NSError *error;
+        NSString* errMsg; 
+        NSDictionary* doc;
+        NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                             returningResponse:&response
+                                                        error:&error];
+        if ([data length] > 0 &&
+            error == nil){
+            
+            NSString*  resStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            PRPLog(@"%lu bytes of data was returned \n resStr: %@\n-[%@ , %@]",
+                   (unsigned long)[data length],
+                   resStr,
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            error = nil;
+            id jsonObject = [NSJSONSerialization 
+                             JSONObjectWithData:data
+                             options:NSJSONReadingAllowFragments
+                             error:&error];            
+            
+            if (jsonObject != nil &&
+                error == nil){
+                
+                PRPLog(@"Successfully deserialized....-[%@ , %@]",
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));
+                
+                if ([jsonObject isKindOfClass:[NSDictionary class]]){
+                    
+                    NSDictionary *deserializedDictionary = (NSDictionary *)jsonObject;
+                    if([deserializedDictionary objectForKey:@"error"]){
+                        errMsg = [deserializedDictionary objectForKey:@"error"];
+                    } else {
+                        PRPLog(@"Deserialized JSON Dictionary = %@ \n -[%@ , %@]",
+                               deserializedDictionary,
+                               NSStringFromClass([self class]),
+                               NSStringFromSelector(_cmd));
+                        doc = [deserializedDictionary objectForKey:@"doc"]; 
+                        
+                    }
+                    
+                } else if ([jsonObject isKindOfClass:[NSArray class]]){
+                    
+                    NSArray *deserializedArray = (NSArray *)jsonObject;
+                    PRPLog(@"Deserialized JSON Array = %@-[%@ , %@]",
+                           deserializedArray,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd)); 
+                                        
+                } else {
+                    /* Some other object was returned. We don't know how to deal
+                     with this situation as the deserializer only returns dictionaries
+                     or arrays */
+                    PRPLog(@"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries-[%@ , %@]",
+                           error,
+                           NSStringFromClass([self class]),
+                           NSStringFromSelector(_cmd));
+                    errMsg = @"Some other object was returned. We don't know how to deal with this situation as the deserializer only returns dictionaries";
+                }
+                
+            }else if (error != nil){
+                
+                PRPLog(@"An error happened while deserializing the JSON data.\n %@-[%@ , %@]",
+                       error,
+                       NSStringFromClass([self class]),
+                       NSStringFromSelector(_cmd));    
+                errMsg = [NSString stringWithFormat:@"An error happened while deserializing the JSON data %@",  [error description]];
+            }
+            
+        }
+        else if ([data length] == 0 &&
+                 error == nil){
+            PRPLog(@"No data was returned.-[%@ , %@]",
+                   (unsigned long)[data length],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = @"No data was returned.";
+        }
+        else if (error != nil){
+            PRPLog(@"Error happened = %@-[%@ , %@]",
+                   [error description],
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+            errMsg = [NSString stringWithFormat:@"Error happened = %@",  [error description]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSDictionary *res;
+            
+            if(nil != errMsg){
+                
+                res = @{@"error":errMsg};
+            } else {
+                res = @{@"doc": [doc copy]};
+            }
+            
+            block(res);               
+        });        
+    });
+
+    
+}
 
 - (void)registerUdid:(NSString*)udid
 {

@@ -1111,7 +1111,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dek-oW-qcd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="eDa-Gr-wVc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3518" y="37"/>
+            <point key="canvasLocation" x="2433" y="11"/>
         </scene>
         <!--Fb Chat Room View Controller-->
         <scene sceneID="OKq-zK-vP0">
@@ -1173,9 +1173,6 @@
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="85" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PuE-ut-dIB" userLabel="tbFbChat">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="495" id="ltx-ri-3nV"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="BRCellfBChat" rowHeight="85" id="Cxb-0V-WXV" userLabel="cellFbChat" customClass="BRCellfBChat">
                                         <rect key="frame" x="0.0" y="22" width="704" height="85"/>
@@ -1394,6 +1391,7 @@
                             <constraint firstItem="flg-Ov-a5Y" firstAttribute="centerY" secondItem="2io-sZ-cR7" secondAttribute="centerY" type="default" id="AIk-dt-H28"/>
                             <constraint firstItem="9xd-gL-3f6" firstAttribute="leading" secondItem="hQa-LF-wny" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Bow-8c-Pfe"/>
                             <constraint firstItem="xkZ-qr-jZL" firstAttribute="leading" secondItem="2io-sZ-cR7" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="CXL-Zm-RiE"/>
+                            <constraint firstItem="PuE-ut-dIB" firstAttribute="centerY" secondItem="qSF-R1-Ejz" secondAttribute="centerY" type="default" id="Dz0-jA-Xdh"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="user" id="Fh8-eY-Eth"/>
                             <constraint firstItem="PuE-ut-dIB" firstAttribute="leading" secondItem="LI7-fG-rrz" secondAttribute="leading" type="user" id="KMI-a3-xFW"/>
                             <constraint firstAttribute="trailing" secondItem="43Q-xr-IHM" secondAttribute="trailing" constant="211" id="KRq-X1-EeC"/>
@@ -1888,7 +1886,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVJ-CG-eXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2855" y="-3641"/>
+            <point key="canvasLocation" x="2447" y="-3677"/>
         </scene>
         <!--Custom Service View Controller-->
         <scene sceneID="5eq-D4-eWY">
@@ -2103,6 +2101,242 @@
         <image name="tag.png" width="32" height="32"/>
         <image name="users.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="BRCellFriend" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCellFriend.h"/>
+            <relationships>
+                <relationship kind="outlet" name="iconView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lbCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="BRCellMsg" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCellMsg.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imvThumb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lbChatDatetime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbFbUserMsg" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbFbUserName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="BRCellfBChat" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCellfBChat.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imvThumb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lbChatDatetime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbFbUserMsg" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbFbUserName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbVideoName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="BRCoreViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelAndDismiss:"/>
+                <relationship kind="action" name="navigationBack:"/>
+                <relationship kind="action" name="saveAndDismiss:"/>
+            </relationships>
+        </class>
+        <class className="BRCustomServiceViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRCustomServiceViewController.h"/>
+        </class>
+        <class className="BRFBFriendListViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BRFBFriendListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="importButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="Canvas" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Canvas.h"/>
+            <relationships>
+                <relationship kind="action" name="clearCanvas"/>
+                <relationship kind="action" name="didClickChoosePhoto"/>
+                <relationship kind="action" name="didClickColorButton"/>
+                <relationship kind="action" name="didClickTakePhoto"/>
+                <relationship kind="action" name="eraser"/>
+                <relationship kind="action" name="redo"/>
+                <relationship kind="action" name="savePic"/>
+                <relationship kind="action" name="setBrushSize:" candidateClass="UISlider"/>
+                <relationship kind="action" name="undo"/>
+                <relationship kind="outlet" name="btnAddBg" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnCancelCanvas" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnColorBarButtom" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnEraser" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnSave" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnShare" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnSliderBarButtom" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="buttonColor" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="labelSize" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sliderSize" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="toolBar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="CustomTextField" superclassName="UITextField">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CustomTextField.h"/>
+        </class>
+        <class className="Detail1ViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Detail1ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="aboutTapped:"/>
+                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="rentSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="DetailViewController_iPad" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController_iPad.h"/>
+            <relationships>
+                <relationship kind="action" name="aboutTapped:"/>
+                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FbChatRoomViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FbChatRoomViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="joinRoomWithFBAccount:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="barBtnTalk" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnZoom" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="chatButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imvGratiffiThumb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="joinRoomButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="lbRoomCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="switchSound" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="tb" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="tbFbChat" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="tbFriendsOnLine" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="tfChat" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfMsg" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="toolBarRoom" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="tvOutPut" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="vContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="webview" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="FbMsgBaordViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FbMsgBaordViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityMsgBoard" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="barBtnBack" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="barBtnMsg" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="lbTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tbBottom" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="tbMsgBoard" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="tfMsg" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="HMStoreDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HMStoreDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="imvBg" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pauseButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="priceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="resumeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="versionLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="HMStoreListViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HMStoreListViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="iconImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="outerImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="priceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="HMStoreListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HMStoreListViewController.h"/>
+        </class>
+        <class className="HorizontalTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HorizontalTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imvFb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imvIsOnLine" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lbFbName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SurfsUpViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelAndDismiss:"/>
+                <relationship kind="action" name="navigationBack:"/>
+                <relationship kind="action" name="saveAndDismiss:"/>
+            </relationships>
+        </class>
+        <class className="SurfsUpViewController_iPad" superclassName="SurfsUpViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SurfsUpViewController_iPad.h"/>
+        </class>
+        <class className="Tab1NavigationController" superclassName="UINavigationController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/Tab1NavigationController.h"/>
+        </class>
+        <class className="UIStoryboardSegue" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIStoryboardSegue.h"/>
+        </class>
+        <class className="WWCellMyRoom" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWCellMyRoom.h"/>
+            <relationships>
+                <relationship kind="outlet" name="btnEdit" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="btnInvite" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="imvFb" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lbChatDatetime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbFbName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbInviteCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbRoomName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="WWFriendInviteViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWFriendInviteViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tb" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="WWMyRoomViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWMyRoomViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="unwindBackToMyRoomlViewController:" candidateClass="UIStoryboardSegue"/>
+                <relationship kind="outlet" name="barBtnEdit" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="tb" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="WWPhotoMenuViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWPhotoMenuViewController.h"/>
+        </class>
+        <class className="WWTagEditViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWTagEditViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tfTagName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="WWTagViewController" superclassName="BRCoreViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WWTagViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="unwindBackToWWTagViewControllerSave:" candidateClass="UIStoryboardSegue"/>
+                <relationship kind="outlet" name="barBtnEdit" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="tb" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="WeaponSelector" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WeaponSelector.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="testInkBrush1ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/testInkBrush1ViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

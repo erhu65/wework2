@@ -100,6 +100,10 @@
 	<string>Friends&apos; Favorite videos</string>
 	<key>intoBuyUnlockKeyFirst</key>
 	<string>You can buy or restore the unlock key to add tags to your subject</string>
+	<key>intoBuyPoints</key>
+	<string>You can buy units to continue play and share animation with your friends.</string>
+	<key>units</key>
+	<string>Units</string>
 	<key>warnAreYouSore</key>
 	<string>Are you sure?</string>
 	<key>warnPleaseJoinSubjectFirst</key>

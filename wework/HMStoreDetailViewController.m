@@ -43,9 +43,10 @@
      setFormatterBehavior:NSNumberFormatterBehavior10_4];
     [_priceFormatter
      setNumberStyle:NSNumberFormatterCurrencyStyle];
+
+    [self.view insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_sand.png"]] atIndex:0];
     
 }
-
 - (void)refresh {
     
     if ([_product.info.icon length] > 0) {

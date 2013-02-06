@@ -76,9 +76,9 @@ void exceptionHandler(NSException *exception)
     UINavigationController *navigationControllerMaster = [navigationControllerMasterTab.viewControllers objectAtIndex:2];
     SurfsUpViewController_iPad* master =  (SurfsUpViewController_iPad*) navigationControllerMaster.topViewController;
     
-    master.title =  @"Surf's Up";
-    master.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
-    navigationControllerMaster.title = @"Surf's Up";
+    //master.title =  @"Surf's Up";
+//    master.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]];
+    //navigationControllerMaster.title = @"Surf's Up";
   
     UINavigationController *navigationControllerDetail = [splitViewController.viewControllers lastObject];
    DetailViewController_iPad* detail = (DetailViewController_iPad*)navigationControllerDetail.topViewController;
