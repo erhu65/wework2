@@ -68,8 +68,9 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
         case 2:
             return @"Waikiki, Hawaii";
             break;
+        
     }
-    return @"-";
+    return @"default -";
 }
 
 - (UIImage *)tripPhotoForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -86,7 +87,7 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
             return [UIImage imageNamed:@"surf3.png"];
             break;
     }
-    return nil;
+    return  [UIImage imageNamed:@"surf2.png"];
 }
 
 - (NSString *)reuseIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -322,7 +323,6 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
 
 
 #pragma mark - UITableViewCell
-
 - (void)configureCell:(CustomCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[cell tripPhoto] setImage:[self tripPhotoForRowAtIndexPath:indexPath]];
@@ -339,7 +339,6 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
 }
 
 #pragma mark - UITableViewDataSource
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -347,7 +346,7 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -365,6 +364,7 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
     UITableViewCell *cell = [self tableView:[self tableView] cellForRowAtIndexPath:indexPath];
     return [cell frame].size.height;
 }
+
 
 #pragma mark - Rotation
 

@@ -105,7 +105,7 @@ WWCellMyRoomDelegate>
     
     [self.tb deselectRowAtIndexPath:[self.tb indexPathForSelectedRow] animated:animated];   
     [[NSNotificationCenter defaultCenter] removeObserver:self name:BRNotificationFacebookMeDidUpdate object:kSharedModel];
-    [kAppDelegate.detail leaveRoom];
+    //[kAppDelegate.detail leaveRoom];
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification

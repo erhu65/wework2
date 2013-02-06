@@ -89,7 +89,7 @@ UIAlertViewDelegate>
 {
     [super viewWillDisappear:animated];
     [self.tb deselectRowAtIndexPath:[self.tb indexPathForSelectedRow] animated:animated]; 
-    [kAppDelegate.detail leaveRoom];
+    //[kAppDelegate.detail leaveRoom];
  
 }
 

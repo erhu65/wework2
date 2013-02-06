@@ -274,6 +274,7 @@
 		B78FFA9616C10551004541AF /* tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9416C10551004541AF /* tag@2x.png */; };
 		B78FFA9916C10D1C004541AF /* tagSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9716C10D1A004541AF /* tagSelected.png */; };
 		B78FFA9A16C10D1C004541AF /* tagSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9816C10D1B004541AF /* tagSelected@2x.png */; };
+		B79275CA16C23C130039A5D9 /* BRCustomServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79275C916C23C130039A5D9 /* BRCustomServiceViewController.m */; };
 		B795C9D216BF992D00D16BD2 /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D016BF992D00D16BD2 /* greenlight.png */; };
 		B795C9D316BF992D00D16BD2 /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D116BF992D00D16BD2 /* greenlight@2x.png */; };
 		B795C9D616BFA3BE00D16BD2 /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D416BFA3BE00D16BD2 /* redlight.png */; };
@@ -669,6 +670,8 @@
 		B78FFA9416C10551004541AF /* tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag@2x.png"; sourceTree = "<group>"; };
 		B78FFA9716C10D1A004541AF /* tagSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tagSelected.png; sourceTree = "<group>"; };
 		B78FFA9816C10D1B004541AF /* tagSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tagSelected@2x.png"; sourceTree = "<group>"; };
+		B79275C816C23C120039A5D9 /* BRCustomServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCustomServiceViewController.h; sourceTree = "<group>"; };
+		B79275C916C23C130039A5D9 /* BRCustomServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCustomServiceViewController.m; sourceTree = "<group>"; };
 		B795C9D016BF992D00D16BD2 /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
 		B795C9D116BF992D00D16BD2 /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
 		B795C9D416BFA3BE00D16BD2 /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
@@ -1292,6 +1295,8 @@
 				B7887E4016B3A48900670C77 /* Brush */,
 				B78C00DF16B11025000043EB /* BRPostToFacebookWallViewController.h */,
 				B78C00E016B11026000043EB /* BRPostToFacebookWallViewController.m */,
+				B79275C816C23C120039A5D9 /* BRCustomServiceViewController.h */,
+				B79275C916C23C130039A5D9 /* BRCustomServiceViewController.m */,
 				B78C003116B10CF8000043EB /* FriendsList */,
 				B78C002716B10CD8000043EB /* FBMsgBoard */,
 				B78C001D16B10CC6000043EB /* ChatRoom */,
@@ -1781,6 +1786,7 @@
 				B78FFA8C16C0B8DC004541AF /* WWTagViewController.m in Sources */,
 				B78FFA8F16C0BAEE004541AF /* WWRecordTag.m in Sources */,
 				B78FFA9216C0C126004541AF /* WWTagEditViewController.m in Sources */,
+				B79275CA16C23C130039A5D9 /* BRCustomServiceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

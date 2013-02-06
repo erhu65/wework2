@@ -73,7 +73,7 @@ void exceptionHandler(NSException *exception)
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UITabBarController *navigationControllerMasterTab = [splitViewController.viewControllers objectAtIndex:0];
-    UINavigationController *navigationControllerMaster = [navigationControllerMasterTab.viewControllers objectAtIndex:1];
+    UINavigationController *navigationControllerMaster = [navigationControllerMasterTab.viewControllers objectAtIndex:2];
     SurfsUpViewController_iPad* master =  (SurfsUpViewController_iPad*) navigationControllerMaster.topViewController;
     
     master.title =  @"Surf's Up";

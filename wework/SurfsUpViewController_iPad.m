@@ -38,6 +38,11 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PRPLog(@"indexPath.row: %d-[%@ , %@]",
+           indexPath.row,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+    
     [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:indexPath]];
     self.detailVC.detailItem = [self tripNameForRowAtIndexPath:indexPath];
 }
