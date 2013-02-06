@@ -9,7 +9,7 @@
 #import "BRCustomServiceViewController.h"
 #import "FbMsgBaordViewController.h"
 #import "BRRecordFriend.h"
-#import "MarqueeLabel.h"
+
 #import "LangManager.h"
 
 @interface UIWindow (AutoLayoutDebug) 
@@ -24,7 +24,7 @@ FbMsgBaordViewControllerDelegate,
 V8HorizontalPickerViewDelegate, V8HorizontalPickerViewDataSource>
 
 @property(nonatomic, strong) FbMsgBaordViewController* fbMsgBoardviewController;
-@property(nonatomic, weak)  MarqueeLabel* lbMarquee;
+
 
 @property (nonatomic, strong) V8HorizontalPickerView *pickerView;
 @property (nonatomic, strong)  NSMutableArray *titleArray;
@@ -60,16 +60,9 @@ V8HorizontalPickerViewDelegate, V8HorizontalPickerViewDataSource>
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor blackColor];
+    
 
-    double delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
-        [self.noticeChildViewController 
-         toggleSlide:nil msg: kSharedModel.lang[@"infoLeaveYourMsgOrQuestionHere"]
-         stayTime:5.0f];
-        
-    });
 
 
     CGRect tmpFrame = CGRectMake(0, 50, 320, 50);
@@ -90,39 +83,26 @@ V8HorizontalPickerViewDelegate, V8HorizontalPickerViewDataSource>
     int whichLang_ = [selectedLangStr intValue];
     [self.pickerView scrollToElement:whichLang_ animated:YES];
     
-    if(nil != self.lbMarquee ){
-        [self.lbMarquee removeFromSuperview];
-    }
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString* noticeRecently = [defaults objectForKey:KUserDefaultNotice];
-    if(nil != noticeRecently){
-        
-        self.lbMarquee = [[MarqueeLabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, 20)  rate:50.0f andFadeLength:10.0f];
-        self.lbMarquee.translatesAutoresizingMaskIntoConstraints = NO;
-        self.lbMarquee.marqueeType = MLContinuous;
-        self.lbMarquee.continuousMarqueeSeparator = @"  ****  ";
-        self.lbMarquee.animationCurve = UIViewAnimationOptionCurveLinear;
-        self.lbMarquee.numberOfLines = 1;
-        self.lbMarquee.opaque = NO;
-        self.lbMarquee.enabled = YES;
-        self.lbMarquee.shadowOffset = CGSizeMake(0.0, -1.0);
-        [BRStyleSheet styleLabel:(UILabel*)self.lbMarquee withType:BRLabelTypeName];
-        //self.lbMarquee.backgroundColor = [UIColor clearColor];
-        self.lbMarquee.font = [UIFont fontWithName:@"Helvetica-Bold" size:17.000];
-        self.lbMarquee.text = noticeRecently;
-        self.lbMarquee.tag = 101;
-        [self.view insertSubview:self.lbMarquee belowSubview:self.noticeChildViewController.view];
-        
-    }
-
-    
 }
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString* noticeRecently = [defaults objectForKey:KUserDefaultNotice];
+    if(nil != noticeRecently){
+        
+        double delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            
+            [self.noticeChildViewController 
+             toggleSlide:nil msg: noticeRecently
+             stayTime:5.0f];
+            
+        });
+        
+    }
 } 
 - (void) viewWillDisappear:(BOOL)animated
 {

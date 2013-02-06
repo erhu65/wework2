@@ -45,6 +45,8 @@
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
 
 - (IBAction)joinRoomWithFBAccount:(UIBarButtonItem*)sender;
+- (void)playAnimation:(int)type;
+
 -(void) leaveRoom;
 -(void) toggleChatRoomEdit:(BOOL)isEditing;
 -(void)postChatAfterUploadFile;

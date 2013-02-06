@@ -897,6 +897,15 @@ AmazonServiceRequestDelegate>
     self.isDownloading = NO;
 }
 
+-(void)playAnimation:(int)type
+{
+    if(!self.isJoinFbChatRoom){
+    
+        [self showMsg:kSharedModel.lang[@"warnPleaseJoinSubjectFirst"] type:msgLevelWarn];
+        return ;
+    }
+    [self.fbChatRoomViewController playAnimation: type];
+}
 #pragma mark Segues
 //- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
 //    

@@ -107,8 +107,12 @@ forProductIdentifier:(NSString *)productIdentifier {
         _products[skProduct.productIdentifier];
         product.skProduct = skProduct;
         product.availableForPurchase = YES;
+        
+        PRPLog(@"skProduct.productIdentifier %@ \n [%@ , %@]",
+               skProduct.productIdentifier,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
     }
-    
     // 2
     for (NSString * invalidProductIdentifier in
          response.invalidProductIdentifiers) {
@@ -126,7 +130,6 @@ forProductIdentifier:(NSString *)productIdentifier {
             [availableProducts addObject:product];
         }
     }
-    
     _completionHandler(YES, availableProducts);
     _completionHandler = nil;
     
@@ -136,7 +139,6 @@ forProductIdentifier:(NSString *)productIdentifier {
     
     NSLog(@"Failed to load list of products.");
     _productsRequest = nil;
-    
     // 5
     _completionHandler(FALSE, nil);
     _completionHandler = nil;
@@ -236,13 +238,18 @@ forProductIdentifier:(NSString *)productIdentifier {
     IAPProduct * product = _products[productIdentifier];
     
     if (product.info.consumable) {
+        
+        PRPLog(@"process consumable  purchased product: %@\n-[%@ , %@]",
+               product,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
         [self
          purchaseConsumable:product.info.consumableIdentifier
          forProductIdentifier:productIdentifier
          amount:product.info.consumableAmount];
     } else {
         
-        PRPLog(@"process purchased product: %@\n-[%@ , %@]",
+        PRPLog(@"process non-consumable purchased product: %@\n-[%@ , %@]",
                product,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
@@ -286,9 +293,11 @@ forProductIdentifier:(NSString *)productIdentifier {
                                          contentVersion:@""];
         [self addPurchase:purchase
     forProductIdentifier:productIdentifier];
+        previousPurchase = purchase;
     
     }
-    [self savePurchases];
+    //[self savePurchases];
+    [self _provideContentWithPurchasedProdcut:previousPurchase];
 }
 
 //enable(non-consumable) or add points(consumable) for user after purchasing 
@@ -300,7 +309,34 @@ forProductIdentifier:(NSString *)productIdentifier {
            NSStringFromClass([self class]),
            NSStringFromSelector(_cmd));
     
-    kSharedModel.isEnebleToggleFavorite = YES;
+    //non-consumable -> enable some functionality..
+    if(!prodcut.consumable){
+        PRPLog(@" non-consumable -> enable some functionality.. [%@ , %@]",
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        
+        if([prodcut.productIdentifier isEqualToString:@"com.erhu65.wework.enableaddtag"]){
+            kSharedModel.isEnebleToggleFavorite = YES;
+            PRPLog(@"enable add tag functionality [%@ , %@]",
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+
+        }
+        
+    //consumable products -> add some points..
+    } else {
+        PRPLog(@"consumable products -> add some points..[%@ , %@]",
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+        
+        if([prodcut.productIdentifier isEqualToString:@"com.erhu65.wework.amount.animation"]){
+
+            PRPLog(@"add play animation units [%@ , %@]",
+                   NSStringFromClass([self class]),
+                   NSStringFromSelector(_cmd));
+        }
+    }
+   
     
     
 }

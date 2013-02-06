@@ -275,6 +275,10 @@
 		B78FFA9916C10D1C004541AF /* tagSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9716C10D1A004541AF /* tagSelected.png */; };
 		B78FFA9A16C10D1C004541AF /* tagSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B78FFA9816C10D1B004541AF /* tagSelected@2x.png */; };
 		B79275CA16C23C130039A5D9 /* BRCustomServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79275C916C23C130039A5D9 /* BRCustomServiceViewController.m */; };
+		B79275CD16C251C00039A5D9 /* UIImage+Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B79275CC16C251C00039A5D9 /* UIImage+Sprite.m */; };
+		B79275D116C2521D0039A5D9 /* explosion_4_39_128_debug.png in Resources */ = {isa = PBXBuildFile; fileRef = B79275CF16C2521D0039A5D9 /* explosion_4_39_128_debug.png */; };
+		B79275D216C2521D0039A5D9 /* explosion_4_39_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B79275D016C2521D0039A5D9 /* explosion_4_39_128.png */; };
+		B79275D516C25A490039A5D9 /* smoke_1_40_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B79275D416C25A490039A5D9 /* smoke_1_40_128.png */; };
 		B795C9D216BF992D00D16BD2 /* greenlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D016BF992D00D16BD2 /* greenlight.png */; };
 		B795C9D316BF992D00D16BD2 /* greenlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D116BF992D00D16BD2 /* greenlight@2x.png */; };
 		B795C9D616BFA3BE00D16BD2 /* redlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B795C9D416BFA3BE00D16BD2 /* redlight.png */; };
@@ -672,6 +676,11 @@
 		B78FFA9816C10D1B004541AF /* tagSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tagSelected@2x.png"; sourceTree = "<group>"; };
 		B79275C816C23C120039A5D9 /* BRCustomServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCustomServiceViewController.h; sourceTree = "<group>"; };
 		B79275C916C23C130039A5D9 /* BRCustomServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCustomServiceViewController.m; sourceTree = "<group>"; };
+		B79275CB16C251C00039A5D9 /* UIImage+Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Sprite.h"; sourceTree = "<group>"; };
+		B79275CC16C251C00039A5D9 /* UIImage+Sprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Sprite.m"; sourceTree = "<group>"; };
+		B79275CF16C2521D0039A5D9 /* explosion_4_39_128_debug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explosion_4_39_128_debug.png; sourceTree = "<group>"; };
+		B79275D016C2521D0039A5D9 /* explosion_4_39_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explosion_4_39_128.png; sourceTree = "<group>"; };
+		B79275D416C25A490039A5D9 /* smoke_1_40_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smoke_1_40_128.png; sourceTree = "<group>"; };
 		B795C9D016BF992D00D16BD2 /* greenlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenlight.png; sourceTree = "<group>"; };
 		B795C9D116BF992D00D16BD2 /* greenlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenlight@2x.png"; sourceTree = "<group>"; };
 		B795C9D416BFA3BE00D16BD2 /* redlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redlight.png; sourceTree = "<group>"; };
@@ -866,6 +875,7 @@
 		B78C005C16B10E2E000043EB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				B79275D316C25A3C0039A5D9 /* sprite */,
 				B78DDCC416B277960043ECD8 /* others */,
 				B78C00F216B1223B000043EB /* iPhoneiPadShare */,
 				B78C006016B10EBF000043EB /* indicator.png */,
@@ -1177,6 +1187,7 @@
 		B78CFF8116B10947000043EB /* categories */ = {
 			isa = PBXGroup;
 			children = (
+				B79275CE16C251EB0039A5D9 /* UIImage+Sprite */,
 				B78CFF8216B1095C000043EB /* UIImage+RWExtensions */,
 				B78CFF8616B1097C000043EB /* MarqueeLabel.h */,
 				B78CFF8716B1097C000043EB /* MarqueeLabel.m */,
@@ -1463,6 +1474,25 @@
 			name = Tag;
 			sourceTree = "<group>";
 		};
+		B79275CE16C251EB0039A5D9 /* UIImage+Sprite */ = {
+			isa = PBXGroup;
+			children = (
+				B79275CB16C251C00039A5D9 /* UIImage+Sprite.h */,
+				B79275CC16C251C00039A5D9 /* UIImage+Sprite.m */,
+			);
+			name = "UIImage+Sprite";
+			sourceTree = "<group>";
+		};
+		B79275D316C25A3C0039A5D9 /* sprite */ = {
+			isa = PBXGroup;
+			children = (
+				B79275CF16C2521D0039A5D9 /* explosion_4_39_128_debug.png */,
+				B79275D016C2521D0039A5D9 /* explosion_4_39_128.png */,
+				B79275D416C25A490039A5D9 /* smoke_1_40_128.png */,
+			);
+			name = sprite;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1668,6 +1698,9 @@
 				B78FFA9616C10551004541AF /* tag@2x.png in Resources */,
 				B78FFA9916C10D1C004541AF /* tagSelected.png in Resources */,
 				B78FFA9A16C10D1C004541AF /* tagSelected@2x.png in Resources */,
+				B79275D116C2521D0039A5D9 /* explosion_4_39_128_debug.png in Resources */,
+				B79275D216C2521D0039A5D9 /* explosion_4_39_128.png in Resources */,
+				B79275D516C25A490039A5D9 /* smoke_1_40_128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1787,6 +1820,7 @@
 				B78FFA8F16C0BAEE004541AF /* WWRecordTag.m in Sources */,
 				B78FFA9216C0C126004541AF /* WWTagEditViewController.m in Sources */,
 				B79275CA16C23C130039A5D9 /* BRCustomServiceViewController.m in Sources */,
+				B79275CD16C251C00039A5D9 /* UIImage+Sprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

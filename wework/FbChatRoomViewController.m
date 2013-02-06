@@ -18,7 +18,7 @@
 #import "HorizontalTableViewCell.h"
 
 #import "Utils.h"
-
+#import "UIImage+Sprite.h"
 
 #define KTempTfInKeyboard 7789
 
@@ -48,6 +48,10 @@ BRCellfBChatDelegate>
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBarRoom;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barBtnTalk;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchSound;
 
@@ -237,11 +241,15 @@ BRCellfBChatDelegate>
 {
     self.tbFbChat.editing = isEditing;
 }
+- (IBAction)leaveRoom:(id)sender {
+    [self leaveRoom];
+}
 
 -(void) leaveRoom{
     
     addItemsTrigger = NO;
     self.isJoinFbChatRoom = NO;
+    self.room = nil;
     self.page = @0;
     self.isLastPage = NO;  
     self.isEnableSound = YES;
@@ -1076,6 +1084,30 @@ BRCellfBChatDelegate>
            NSStringFromClass([self class]),
            NSStringFromSelector(_cmd));  
 }
+
+- (void)playAnimation:(int)type {
+    
+    if ([self.imageView isAnimating]) {
+        [self.imageView stopAnimating];
+    }
+    // This cool sprite sheet can be found at http://gushh.net/blog/free-game-sprites-explosion-2/ 
+    // I added numbers to this image to make testing and debuging easier.
+    //smoke_1_40_128.png
+    //explosion_4_39_128_debug
+    UIImage *spriteSheet = [UIImage imageNamed:@"smoke_1_40_128"];
+    NSArray *arrayWithSprites = [spriteSheet spritesWithSpriteSheetImage:spriteSheet 
+                                                              spriteSize:CGSizeMake(128, 128)];
+    [self.imageView setAnimationImages:arrayWithSprites];    
+    NSLog(@"Sprite images: %i", [self.imageView.animationImages count]);
+   
+    
+    float animationDuration = [self.imageView.animationImages count] * 0.100; // 100ms per frame
+    
+    [self.imageView setAnimationRepeatCount:1];
+    [self.imageView setAnimationDuration:animationDuration]; 
+    [self.imageView startAnimating];
+}
+
 
 
 

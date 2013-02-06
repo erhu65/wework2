@@ -45,6 +45,7 @@
     
     [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:indexPath]];
     self.detailVC.detailItem = [self tripNameForRowAtIndexPath:indexPath];
+    [self.detailVC playAnimation:indexPath.row];
 }
 
 #pragma mark - Rotation

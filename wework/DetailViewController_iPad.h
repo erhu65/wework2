@@ -31,5 +31,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo;
 -(void) leaveRoom;
-
+-(void)playAnimation:(int)type;
 @end
