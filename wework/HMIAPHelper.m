@@ -30,6 +30,10 @@
     JSNotifier *notify =
     [[JSNotifier alloc]initWithTitle:message];
     [notify showFor:2.0];
+    
+    UIAlertView* av = [[UIAlertView alloc] initWithTitle:kSharedModel.lang[@"info"] message:message delegate:nil cancelButtonTitle:kSharedModel.lang[@"actionOK"] otherButtonTitles:nil, nil];
+    [av show];
+    
 }
 
 //- (void)provideContentWithURL:(NSURL *)URL {

@@ -137,7 +137,7 @@ BRCellfBChatDelegate>
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
         //Clear A UIWebView to trigger window.onunload
-        [self.webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"http://google.com"]];    
+        [self.webview loadHTMLString:@"" baseURL:[NSURL URLWithString:BASE_URL]];    
     }
 }
 
@@ -262,7 +262,7 @@ BRCellfBChatDelegate>
 
     //Clear A UIWebView to trigger window.onunload
     //Clear A UIWebView to trigger window.onunload
-    NSURL* url = [[NSURL alloc] initWithString:@"http://google.com"];
+    NSURL* url = [[NSURL alloc] initWithString:BASE_URL];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [self.webview loadRequest:request];  
     //self.activityChatRoom.hidden = YES;

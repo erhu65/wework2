@@ -66,8 +66,8 @@ static VerificationController *singleton;
 }
 
 
-#pragma mark Receipt Verification
 
+#pragma mark Receipt Verification
 // This method should be called once a transaction gets to the SKPaymentTransactionStatePurchased or SKPaymentTransactionStateRestored state
 // Call it with the SKPaymentTransaction.transactionReceipt
 - (void)verifyPurchase:(SKPaymentTransaction *)transaction completionHandler:(VerifyCompletionHandler)completionHandler
@@ -76,7 +76,9 @@ static VerificationController *singleton;
     if (!isOk)
     {
         // There was something wrong with the transaction we got back, so no need to call verifyReceipt.
-        NSLog(@"Invalid transacion");
+        PRPLog(@"Invalid transacion[%@ , %@]",
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
         completionHandler(FALSE);
         return;
     }
@@ -90,7 +92,7 @@ static VerificationController *singleton;
     // Create the POST request payload.
     NSString *payload = [NSString stringWithFormat:@"{\"receipt-data\" : \"%@\", \"password\" : \"%@\"}",
                          jsonObjectString, ITC_CONTENT_PROVIDER_SHARED_SECRET];
-    
+
     NSData *payloadData = [payload dataUsingEncoding:NSUTF8StringEncoding];
     
 //#warning Check for the correct itms verify receipt URL
@@ -99,9 +101,19 @@ static VerificationController *singleton;
     //ITMS_PROD_VERIFY_RECEIPT_URL;
     //ITMS_SANDBOX_VERIFY_RECEIPT_URL
     // Create the POST request to the server.
+    PRPLog(@"serverURL: %@ \n Ipayload: %@[%@ , %@]",
+           serverURL,
+           payload,
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+    
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:payloadData];
+    [request setHTTPBody:payloadData];//not work in iPad 2
+
+    
+    
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
     _completionHandlers[[NSValue valueWithNonretainedObject:conn]] = completionHandler;

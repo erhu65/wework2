@@ -32,7 +32,7 @@
     [super viewDidLoad];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(doneTapped:)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kSharedModel.lang[@"actionBack"] style:UIBarButtonItemStyleBordered target:self action:@selector(doneTapped:)];
     }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Restore" style:UIBarButtonItemStyleBordered target:self action:@selector(restoreTapped:)];
 
@@ -157,6 +157,7 @@
 #pragma mark - Callbacks
 
 - (void)doneTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)restoreTapped:(id)sender {

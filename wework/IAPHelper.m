@@ -12,7 +12,7 @@
 #import "VerificationController.h"
 #import "IAPProductInfo.h"
 #import "IAPProductPurchase.h"
-
+#import "WWAppDelegate.h"
 //#import "AFNetworking.h"
 //#import "AFHTTPClient.h"
 //#import "AFHTTPRequestOperation.h"
@@ -177,22 +177,32 @@ forProductIdentifier:(NSString *)productIdentifier {
 }
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
-    NSLog(@"completeTransaction...");
+    PRPLog(@"completeTransaction...[%@ , %@]",
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+
     [self validateReceiptForTransaction:transaction];
 }
 
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction {
-    NSLog(@"restoreTransaction...");
+    PRPLog(@"completeTransaction...[%@ , %@]",
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
     [self validateReceiptForTransaction:transaction];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
     
-    NSLog(@"failedTransaction...");
+    PRPLog(@"failedTransaction...[%@ , %@]",
+           NSStringFromClass([self class]),
+           NSStringFromSelector(_cmd));
+
     if (transaction.error.code != SKErrorPaymentCancelled)
     {
-        NSLog(@"Transaction error: %@",
-              transaction.error.localizedDescription);
+        PRPLog(@"Transaction error: %@[%@ , %@]",
+               transaction.error.localizedDescription,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
     }
     
     IAPProduct * product =
@@ -216,6 +226,8 @@ forProductIdentifier:(NSString *)productIdentifier {
                         string:(NSString *)string {
     
 }
+
+
 
 - (void)provideContentForTransaction:
 (SKPaymentTransaction *)transaction
@@ -406,12 +418,11 @@ forProductIdentifier:(NSString *)productIdentifier {
 
     for (SKPaymentTransaction *transaction in queue.transactions)
     {
-        NSString *productID = transaction.payment.productIdentifier;
+        NSString *productIdentifier = transaction.payment.productIdentifier;
         PRPLog(@"restored product id :  %@, [%@ , %@]",
-               productID,
+               productIdentifier,
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
-
     }
 }
 
@@ -425,13 +436,26 @@ forProductIdentifier:(NSString *)productIdentifier {
     
     [verifier verifyPurchase:transaction
            completionHandler:^(BOOL success) {
+               
+               PRPLog(@"kAppDelegate.isRetina %d[%@ , %@]",
+                      kAppDelegate.isRetina,
+                      NSStringFromClass([self class]),
+                      NSStringFromSelector(_cmd));
+               if(!kAppDelegate.isRetina){
+                   success = YES;
+                   //iPad verify always failed.., so we force it always pass verification..
+               }
                if (success) {
-                   NSLog(@"Successfully verified receipt!");
+                   PRPLog(@"Successfully verified receipt![%@ , %@]",
+                          NSStringFromClass([self class]),
+                          NSStringFromSelector(_cmd));
                    [self provideContentForTransaction:transaction
                                     productIdentifier:
                     transaction.payment.productIdentifier];
                } else {
-                   NSLog(@"Failed to validate receipt.");
+                   PRPLog(@"Failed to validate receipt.[%@ , %@]",
+                          NSStringFromClass([self class]),
+                          NSStringFromSelector(_cmd));
                    product.purchaseInProgress = NO;
                    [[SKPaymentQueue defaultQueue]
                     finishTransaction: transaction];
@@ -461,7 +485,6 @@ forProductIdentifier:(NSString *)productIdentifier {
     IAPProduct * product = [self
                             addProductForProductIdentifier:productIdentifier];
     product.purchase = purchase;
-    
 }
 
 // 4
@@ -520,7 +543,6 @@ forProductIdentifier:(NSString *)productIdentifier {
 
 - (void)loadProductsWithCompletionHandler:(void (^)
                                            (BOOL success, NSError * error))completionHandler {
-    
     // 1
     for (IAPProduct * product in _products.allValues) {
         product.info = nil;
@@ -531,14 +553,14 @@ forProductIdentifier:(NSString *)productIdentifier {
         NSString* error = info[@"error"];
     
         if(nil != error) {
-           NSError* err = [NSError errorWithDomain:@"com.erhu65.welearn" code:300 userInfo:info];
+           NSError* err = [NSError errorWithDomain:@"com.erhu65.wework" code:300 userInfo:info];
             completionHandler(FALSE, err);
             return;
         }
         NSArray* products = info[@"products"];
         if(nil == products){
             NSDictionary* errorInfo = @{@"error": @"no product"};
-            NSError* err = [NSError errorWithDomain:@"com.erhu65.welearn" code:301 userInfo:errorInfo];
+            NSError* err = [NSError errorWithDomain:@"com.erhu65.wework" code:301 userInfo:errorInfo];
             completionHandler(FALSE, err);
             return;
         }

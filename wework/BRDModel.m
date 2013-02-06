@@ -192,7 +192,7 @@ static BRDModel *_sharedInstance = nil;
                     break;
                 case FacebookActionToggleMainCategoryFIsUserFavorite:
                     [self fetchFacebookMe];
-                    
+                    break;
                 default:
                     PRPLog(@"self.facebookAccount= %@-[%@ , %@]",
                            self.facebookAccount,

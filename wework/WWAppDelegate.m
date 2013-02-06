@@ -40,11 +40,8 @@ void exceptionHandler(NSException *exception)
     [settings synchronize];
 }
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
 #if !TARGET_IPHONE_SIMULATOR
     // Default exception handling code
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
@@ -98,7 +95,7 @@ void exceptionHandler(NSException *exception)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleRegisterUdidDidUpdate:) name:BRNotificationRegisterUdidDidUpdate object:[BRDModel sharedInstance]]; 
     
     [kSharedModel getSocketUrl];
-    //[HMIAPHelper sharedInstance];//restore the pervious purchased products first
+    [HMIAPHelper sharedInstance];//restore the pervious purchased products first
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 							
@@ -112,7 +109,7 @@ void exceptionHandler(NSException *exception)
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    NSURL* url = [[NSURL alloc] initWithString:@"http://google.com"];
+    NSURL* url = [[NSURL alloc] initWithString:BASE_URL];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [self.webview loadRequest:request];
 }
@@ -307,6 +304,14 @@ void exceptionHandler(NSException *exception)
                NSStringFromSelector(_cmd));
         
     }
+}
+
+- (BOOL) isRetina
+{
+    if([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        return [[UIScreen mainScreen] scale] == 2.0 ? YES : NO;
+    
+    return NO;
 }
 
 

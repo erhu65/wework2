@@ -21,5 +21,5 @@
 @property (strong, nonatomic) WebViewJavascriptBridge *javascriptBridge;
 
 @property (nonatomic, weak)DetailViewController_iPad* detail;
-
+- (BOOL) isRetina;
 @end

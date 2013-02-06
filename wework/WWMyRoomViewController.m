@@ -32,6 +32,7 @@ WWCellMyRoomDelegate>
 @property(weak, nonatomic)WWCellMyRoom* cellTemp;
 @property(weak, nonatomic)NSIndexPath* indexPathSelectedTemp;
 
+@property(nonatomic, strong)UIAlertView* avChkisEnableToggleFavorite;
 @end
 
 @implementation WWMyRoomViewController
@@ -78,7 +79,6 @@ WWCellMyRoomDelegate>
     } else {
         self.title = kSharedModel.lang[@"titleMySubject"];
     }
-
     
 	// Do any additional setup after loading the view.
     self.barBtnEdit.title = kSharedModel.lang[@"actionEdit"];
@@ -156,8 +156,13 @@ WWCellMyRoomDelegate>
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if([title isEqualToString:kSharedModel.lang[@"actionAdd"]])
-    {
+    if(alertView == self.avChkisEnableToggleFavorite) {
+        if([title isEqualToString:kSharedModel.lang[@"actionOK"]]){
+            
+            [self performSegueWithIdentifier:@"segueStoreList" sender:nil];
+            
+        }
+    } else if([title isEqualToString:kSharedModel.lang[@"actionAdd"]]){
         UITextField *tfRoomName = [alertView textFieldAtIndex:0];
         NSString* roomName = tfRoomName.text;
         if(roomName.length == 0){
@@ -352,6 +357,12 @@ WWCellMyRoomDelegate>
     [self.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 -(void)WWCellMyRoomDelegateWillChooseTags:(WWRecordMyRoom*)record withIndexPath:(NSIndexPath*)indexPath{
+    
+    if(!kSharedModel.isEnebleToggleFavorite){
+        self.avChkisEnableToggleFavorite = [[UIAlertView alloc] initWithTitle:kSharedModel.lang[@"info"] message:kSharedModel.lang[@"intoBuyUnlockKeyFirst"] delegate:self cancelButtonTitle:kSharedModel.lang[@"actionOK"] otherButtonTitles:kSharedModel.lang[@"actionCancel"], nil];
+        [self.avChkisEnableToggleFavorite show];
+        return ;
+    }		
 
     [self performSegueWithIdentifier:@"segueSelectTag" sender:record];
     
@@ -462,6 +473,18 @@ WWCellMyRoomDelegate>
 	if (scrollView.contentOffset.y < -125.0f )
 		addItemsTrigger = YES;
 }
+
+#pragma mark Segues
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+	if ([identifier isEqualToString:@"segueSelectTag"])
+	{
+
+	}
+    
+	return YES;
+}
+
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

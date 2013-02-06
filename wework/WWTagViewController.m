@@ -387,6 +387,13 @@
 #pragma mark Segues
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
+    if([identifier isEqualToString:@"segueAddTag"] && nil == kSharedModel.fbId){
+    
+        [self showMsg:kSharedModel.lang[@"warnConnectFBFirst"] type:msgLevelWarn];
+        [kSharedModel fetchFacebookMe];
+        return NO;
+    }
+    
 	if(nil != self.recordMyRoom) return NO;//selection mode
 	return YES;
 }
