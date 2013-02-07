@@ -39,13 +39,18 @@
 
 @property(nonatomic, strong) NSMutableArray *mArrDownloadQueue;
 
+@property(strong, nonatomic)NSMutableArray* mArrAnimationQueue;
+@property(nonatomic, assign)BOOL isPlayingAnimation;
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *imvGratiffiThumb;
 
 @property(nonatomic, weak) id<FbChatRoomViewControllerDelegate> delegate;
 
 - (IBAction)joinRoomWithFBAccount:(UIBarButtonItem*)sender;
-- (void)playAnimation:(int)type;
+- (void)playAnimation:(int)animationId;
+- (void)playAnimationInQueue;
+
 
 -(void) leaveRoom;
 -(void) toggleChatRoomEdit:(BOOL)isEditing;

@@ -61,10 +61,6 @@ V8HorizontalPickerViewDelegate, V8HorizontalPickerViewDataSource>
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor blackColor];
-    
-
-
-
     CGRect tmpFrame = CGRectMake(0, 50, 320, 50);
  	self.pickerView = [[V8HorizontalPickerView alloc] initWithFrame:tmpFrame];
 	self.pickerView.backgroundColor   = [UIColor darkGrayColor];
@@ -82,6 +78,7 @@ V8HorizontalPickerViewDelegate, V8HorizontalPickerViewDataSource>
     NSString* selectedLangStr = [settings objectForKey:KUserDefaultLang];
     int whichLang_ = [selectedLangStr intValue];
     [self.pickerView scrollToElement:whichLang_ animated:YES];
+    self.title = kSharedModel.lang[@"titleService"];
     
 }
 -(void) viewWillAppear:(BOOL)animated

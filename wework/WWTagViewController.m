@@ -69,6 +69,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = kSharedModel.lang[@"titleTags"];
 	// Do any additional setup after loading the view.
     self.barBtnEdit.title = kSharedModel.lang[@"actionEdit"];
     

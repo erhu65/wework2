@@ -7,6 +7,7 @@
 //
 
 #import "WWFriendInviteViewController.h"
+#import "BRFBFriendListViewController.h"
 #import "BRDModel.h"
 #import "WWAppDelegate.h"
 #import "DetailViewController_iPad.h"
@@ -58,7 +59,7 @@ UIAlertViewDelegate>
     if(self){
         addItemsTrigger = NO;
         self.isDisableInAppNotification = NO;
-        self.title = kSharedModel.lang[@"titleFriendInvite"];
+        
         self.page = @0;
         self.isLastPage = YES;
     }
@@ -72,13 +73,20 @@ UIAlertViewDelegate>
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    
+    self.title = kSharedModel.lang[@"titleFriendInvite"];
     [[self tb] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tb.backgroundColor = [UIColor clearColor];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:kSharedModel.theme[@"bg_sand"]]];
     self.view.backgroundColor  = background;
     
     [self _fetchFriendInviteRooms:self.page fbId:kSharedModel.fbId];
+    
+    UINavigationController *navigationControllerDetail = [self.splitViewController.viewControllers lastObject];
+    
+    DetailViewController_iPad* detail = (DetailViewController_iPad*)navigationControllerDetail.topViewController;
+    self.detailVC = detail;
+
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -186,7 +194,7 @@ UIAlertViewDelegate>
     kAppDelegate.detail.room = record._id;
     self.indexPathSelectedTemp = [tableView indexPathForSelectedRow];
 
-
+    self.detailVC.title = record.roomName;
 }
 
 #pragma mark UIScrollViewDelegate

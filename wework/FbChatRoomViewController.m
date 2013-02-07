@@ -16,6 +16,7 @@
 #import "UIView+position.h"
 
 #import "HorizontalTableViewCell.h"
+#import "NSMutableArray+Shuffling.h"
 
 #import "Utils.h"
 #import "UIImage+Sprite.h"
@@ -88,10 +89,18 @@ BRCellfBChatDelegate>
     SystemSoundID _soundDel;
     SystemSoundID _soundJoin;
     SystemSoundID _soundLeave;
+    SystemSoundID _soundExplosion;
 }
 @synthesize javascriptBridge = _bridge;
 
 
+-(NSMutableArray*)mArrAnimationQueue{
+    
+    if(nil == _mArrAnimationQueue){
+        _mArrAnimationQueue = [[NSMutableArray alloc] init];
+    }
+    return _mArrAnimationQueue;
+}
 -(NSMutableArray*)mArrDownloadQueue{
     
     if(nil == _mArrDownloadQueue){
@@ -112,7 +121,7 @@ BRCellfBChatDelegate>
 -(NSMutableArray*)mArrFriendOnLine
 {
     if(nil == _mArrFriendOnLine){
-        _mArrFriendOnLine = [[NSMutableArray alloc] init];
+        _mArrFriendOnLine = [[NSMutableArray alloc] init];        
     }
 
 //    [_mArrFriendOnLine removeAllObjects];    
@@ -260,9 +269,18 @@ BRCellfBChatDelegate>
     [self.tbFbChat reloadData];
     [self.tbFriendsOnLine reloadData];
     [self.mArrDownloadQueue removeAllObjects];
+    [self.mArrAnimationQueue removeAllObjects];
     self.uniquDataKey = @"";
     self.fbIdRoomOwner = nil;
     //self.tbFbChat.editing = NO;
+    
+//    for (int i = 0; i <30; i++) {
+//        NSDictionary* friendDummy = @{@"fbId": @"100000103740638",
+//                                      @"fbname": @"test user", 
+//                                      @"isOnLine": @1};
+//        [_mArrFriendOnLine addObject:friendDummy];
+//    }
+
     
     
     //self.barBtnJoin.title = self.lang[@"actionJoin"];
@@ -312,10 +330,25 @@ BRCellfBChatDelegate>
                            };
     
     [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
-        NSLog(@"JsSendMsgHandler responded: %@", response);
+        NSLog(@"_callJsDelMsgHandler responded: %@", response);
         
     }];
 }
+
+-(void)_callJsSendAnimationHandler:(NSString*)animationId{
+    
+    NSDictionary* data = @{@"type": @"chat",
+                           @"action": @"playAnimation",
+                           @"fbId": kSharedModel.fbId,
+                           @"animationId": animationId,
+                           };
+    
+    [_bridge callHandler:@"JsSendMsgHandler" data:data responseCallback:^(id response) {
+        NSLog(@"_callJsSendAnimationHandler responded: %@", response);
+        
+    }];
+}
+
 
 - (void)callJsSendMsgHandler:(NSString*)newMsg  {
     
@@ -531,6 +564,9 @@ BRCellfBChatDelegate>
                         [weakSelf.mDicFriendOnLine setObject:userJoinFbName forKey:fbId];
                         NSMutableDictionary* friendOnLine = [weakSelf _findInviteFriendsByFbId:fbId];
                         friendOnLine[@"isOnLine"] = @1;
+                        
+                        [weakSelf.mArrFriendOnLine shuffle];
+                        
                         [weakSelf.tbFriendsOnLine reloadData];
                         
                         [self playSoundEffect:@"join" soundId:_soundJoin];    
@@ -594,9 +630,22 @@ BRCellfBChatDelegate>
                         [self.tbFbChat deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathFound] withRowAnimation:UITableViewRowAnimationFade];
                         [self.delegate FbChatRoomViewControllerDelegateDelRecord:recordFound];
                         [self playSoundEffect:@"del" soundId:_soundDel];
+                        NSMutableDictionary* friendOnLine = [self _findInviteFriendsByFbId:fbId];
+                        NSUInteger rowIndex = [self.mArrFriendOnLine indexOfObject:friendOnLine];
+                        NSIndexPath * indexPathOfPlayer = [NSIndexPath indexPathForRow:rowIndex inSection:0];
+                        [self.tbFriendsOnLine scrollToRowAtIndexPath:indexPathOfPlayer atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                        
                     }
 
-                } else if (([type isEqualToString:@"chat"] 
+                } else if ([type isEqualToString:@"chat"] 
+                           && nil != action 
+                           && [action isEqualToString:@"playAnimation"]
+                           && ![fbId isEqualToString:kSharedModel.fbId]) {
+                   
+                    NSString* animationId = (NSString*)resDic[@"animationId"];
+                    [self _playAnimation:[animationId intValue]  playerFbId:fbId];
+                
+                }else if (([type isEqualToString:@"chat"] 
                     && ![fbId isEqualToString:kSharedModel.fbId] ) 
                    || [type isEqualToString:@"server"]){
                     
@@ -653,10 +702,15 @@ BRCellfBChatDelegate>
     [[self tbFbChat] endUpdates];
     [[self tbFbChat] setContentOffset:CGPointZero animated:YES];
     if([recordNew.type isEqualToString:@"chat"]){
+        
         [self playSoundEffect:@"add" soundId:_soundAdd];
+        NSMutableDictionary* friendOnLine = [self _findInviteFriendsByFbId:recordNew.fbId];
+        NSUInteger rowIndex = [self.mArrFriendOnLine indexOfObject:friendOnLine];
+        NSIndexPath * indexPathOfPlayer = [NSIndexPath indexPathForRow:rowIndex inSection:0];
+        [self.tbFriendsOnLine scrollToRowAtIndexPath:indexPathOfPlayer atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
-
 }
+
 
 #pragma mark chat textfield/keyboard 
 - (void) keyboardWillHide: (NSNotification *) notification
@@ -930,15 +984,10 @@ BRCellfBChatDelegate>
                                           NSStringFromClass([self class]),
                                           NSStringFromSelector(_cmd));
                                    [weakSelf.tbFbChat reloadData];
-                                   
                                } 
-                               
-                               
                            }];
     
 }
-
-
 - (void)_fetchFriendInviteInRoom:(NSString*)roomId{
     
     [self showHud:YES];
@@ -981,8 +1030,6 @@ BRCellfBChatDelegate>
                                 [weakSelf.tbFriendsOnLine reloadData];
                                 
                             } 
-                            
-                            
                         }];
 }
 
@@ -1085,31 +1132,124 @@ BRCellfBChatDelegate>
            NSStringFromSelector(_cmd));  
 }
 
-- (void)playAnimation:(int)type {
+- (void)playAnimation:(int)animationId {
     
-    if ([self.imageView isAnimating]) {
-        [self.imageView stopAnimating];
-    }
-    // This cool sprite sheet can be found at http://gushh.net/blog/free-game-sprites-explosion-2/ 
-    // I added numbers to this image to make testing and debuging easier.
-    //smoke_1_40_128.png
-    //explosion_4_39_128_debug
-    UIImage *spriteSheet = [UIImage imageNamed:@"smoke_1_40_128"];
-    NSArray *arrayWithSprites = [spriteSheet spritesWithSpriteSheetImage:spriteSheet 
-                                                              spriteSize:CGSizeMake(128, 128)];
-    [self.imageView setAnimationImages:arrayWithSprites];    
-    NSLog(@"Sprite images: %i", [self.imageView.animationImages count]);
-   
+    NSString* strAnimationId = [NSString stringWithFormat:@"%d", animationId];
+    [self _callJsSendAnimationHandler:strAnimationId];
     
-    float animationDuration = [self.imageView.animationImages count] * 0.100; // 100ms per frame
-    
-    [self.imageView setAnimationRepeatCount:1];
-    [self.imageView setAnimationDuration:animationDuration]; 
-    [self.imageView startAnimating];
+    [self _playAnimation:animationId 
+                    playerFbId:kSharedModel.fbId];
 }
 
+- (void)_playAnimation:(int)animationId 
+                  playerFbId:(NSString*)fbId {
+    
+    
+    NSDictionary* animation = @{@"fbId": fbId, @"animationId": [NSNumber numberWithInt:animationId]};
+    
+    [self.mArrAnimationQueue addObject:animation];
+    [self playAnimationInQueue];
+
+}
+
+- (void)playAnimationInQueue{
+    
+    NSDictionary* animation = [self.mArrAnimationQueue lastObject];
+   
+    if(nil == animation || self.isPlayingAnimation) return;
+ 
+    NSString* fbId = animation[@"fbId"];
+    NSNumber* animationNum = (NSNumber*)animation[@"animationId"];
+    int animationId = [animationNum intValue];
+    animationId++;
+    NSString* spriteKey = [NSString stringWithFormat:@"animation%d", animationId];
+    NSString* spriteName = kSharedModel.theme[spriteKey];
+    FbChatRoomViewController* weakSelf = (FbChatRoomViewController*)self;
+   
+    NSMutableDictionary* friendOnLine = [self _findInviteFriendsByFbId:fbId];
+    NSUInteger rowIndex = [self.mArrFriendOnLine indexOfObject:friendOnLine];
+    NSIndexPath * indexPathOfPlayer = [NSIndexPath indexPathForRow:rowIndex inSection:0];
+    
+    if(fbId != kSharedModel.fbId){
+        
+        [self.tbFriendsOnLine scrollToRowAtIndexPath:indexPathOfPlayer atScrollPosition:UITableViewScrollPositionMiddle animated:YES];        
+        int mod =  (rowIndex % 9);
+        PRPLog(@"mod: %d -[%@ , %@]",
+               mod,
+               NSStringFromClass([self class]),
+               NSStringFromSelector(_cmd));
+    } else {
+        
+    }
+    
+    @autoreleasepool {
+        UIImageView* imvFired =  [[UIImageView alloc] initWithImage:nil];
+        [self.view addSubview:imvFired];
+        
+        NSString *url = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/picture",fbId];
+        [Utils showImageAsync:imvFired  fromUrl:url cacheName:fbId];
+        imvFired.alpha = 0.0f;
+        imvFired.center = CGPointMake(350.0f, 1000.0f);
+        imvFired.contentMode = UIViewContentModeCenter;
+        // Fade out the view right away
+        self.isPlayingAnimation = YES;
+        NSString* soundFileName = [NSString stringWithFormat:@"explosion%d", animationId];
+        [self playSoundEffect:soundFileName soundId:_soundExplosion];  
+        [UIView animateWithDuration:2.0
+                              delay: 0.0
+                            options: UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             imvFired.alpha = 1.0f;
+                             imvFired.center = self.view.center;
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                             double delayInSeconds = 6.4;
+                             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                 
+                                 weakSelf.isPlayingAnimation = NO;
+                                 [weakSelf.mArrAnimationQueue removeObject:animation];
+                                 [weakSelf playAnimationInQueue];
+                                 imvFired.animationImages = nil;
+                             });                             
+                             
+                             imvFired.image = nil;
+                             imvFired.alpha = 1.0f;
+                             
+                             if ([imvFired isAnimating]) {
+                                 [imvFired stopAnimating];
+                             }
+                             
+                             // This cool sprite sheet can be found at http://gushh.net/blog/free-game-sprites-explosion-2/ 
+                             // I added numbers to this image to make testing and debuging easier.
+                             //smoke_1_40_128.png
+                             //explosion_4_39_128_debug
+                             UIImage *spriteSheet = [UIImage imageNamed:spriteName];
+                             NSArray *arrayWithSprites = [spriteSheet spritesWithSpriteSheetImage:spriteSheet 
+                                                                                       spriteSize:CGSizeMake(128, 128)];
+                             [imvFired setAnimationImages:arrayWithSprites];    
+                             int indexOfImage = [imvFired.animationImages count];
+                             PRPLog(@"Sprite images: %i-[%@ , %@]",
+                                    indexOfImage,
+                                    NSStringFromClass([self class]),
+                                    NSStringFromSelector(_cmd));
+                             
+                             float animationDuration = [imvFired.animationImages count] * 0.100; // 100ms per frame
+                             
+                             [imvFired setAnimationRepeatCount:1];
+                             [imvFired setAnimationDuration:animationDuration]; 
+                             [imvFired startAnimating];
+                             
+
+                    
+                         }];
+    }
+   
 
 
+}
 
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

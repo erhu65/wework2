@@ -8,9 +8,13 @@
 
 #import "BRCoreViewController.h"
 
+@class DetailViewController_iPad;
 @interface WWMyRoomViewController : BRCoreViewController
 
 @property(nonatomic, strong)NSString* byTagId;
 @property(nonatomic, strong)NSString* byTagName;
+@property (nonatomic, assign) DetailViewController_iPad *detailVC;
+
 -(IBAction)unwindBackToMyRoomlViewController:(UIStoryboardSegue *)segue;
+
 @end

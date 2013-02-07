@@ -141,9 +141,9 @@
 	<key>titleInvite</key>
 	<string>Invite friend</string>
 	<key>titleMySubject</key>
-	<string>My Subjects</string>
+	<string>My</string>
 	<key>titleFriendInvite</key>
-	<string>Friends Invite</string>
+	<string>Friend&apos;s</string>
 	<key>titleTags</key>
 	<string>Tags</string>
 	<key>titleChangeSubjectName</key>

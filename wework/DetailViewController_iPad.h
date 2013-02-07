@@ -32,4 +32,5 @@
 -(void)FbChatRoomViewControllerDelegateGetOutterInfo;
 -(void) leaveRoom;
 -(void)playAnimation:(int)type;
+-(BOOL)isPlayingAnimation;
 @end

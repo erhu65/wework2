@@ -38,7 +38,7 @@
     NSIndexPath *initialPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [[self tableView] selectRowAtIndexPath:initialPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 //    self.detailVC = (DetailViewController_iPad *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:initialPath]];
+    //[[self detailVC] setTitle:[self tripNameForRowAtIndexPath:initialPath]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -61,14 +61,19 @@
         [self showMsg:kSharedModel.lang[@"warnPleaseJoinSubjectFirst"] type:msgLevelWarn];
         return ;
     }
+    
+    if([self.detailVC isPlayingAnimation]){
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    } 
     [self showHud:YES];
     PRPLog(@"indexPath.row: %d-[%@ , %@]",
            indexPath.row,
            NSStringFromClass([self class]),
            NSStringFromSelector(_cmd));
     
-    [[self detailVC] setTitle:[self tripNameForRowAtIndexPath:indexPath]];
-    self.detailVC.detailItem = [self tripNameForRowAtIndexPath:indexPath];
+    //[[self detailVC] setTitle:[self tripNameForRowAtIndexPath:indexPath]];
+    //self.detailVC.detailItem = [self tripNameForRowAtIndexPath:indexPath];
 
     if([kSharedModel.points intValue] <= 0){
     
@@ -86,9 +91,10 @@
     [kSharedModel postPointsConsumtion:@"com.erhu65.wework.amount.animation" points:@"-1" fbId:kSharedModel.fbId withBlock:^(NSDictionary* res) {
         NSString* error = res[@"error"];
         
+        [weakSelf hideHud:YES];
         if(nil !=  error){
         
-            [self showMsg:error type:msgLevelInfo];
+            [weakSelf showMsg:error type:msgLevelInfo];
             return;
         }
         NSDictionary* docPoints = res[@"doc"];
@@ -105,7 +111,7 @@
         weakSelf.title = [NSString stringWithFormat:@"%d %@",
                           [kSharedModel.points intValue], kSharedModel.lang[@"units"]];
         
-        [weakSelf hideHud:YES];
+        
 
     }];
     

@@ -8,6 +8,7 @@
 
 #import "WWMyRoomViewController.h"
 #import "BRFBFriendListViewController.h"
+#import "DetailViewController_iPad.h"
 #import "WWTagViewController.h"
 #import "DetailViewController_iPad.h"
 #import "BRDModel.h"
@@ -90,6 +91,12 @@ WWCellMyRoomDelegate>
     self.navigationItem.leftBarButtonItem = nil;
     
     [self _fetchMyRooms:self.page fbId:kSharedModel.fbId];
+    
+    UINavigationController *navigationControllerDetail = [self.splitViewController.viewControllers lastObject];
+    
+    DetailViewController_iPad* detail = (DetailViewController_iPad*)navigationControllerDetail.topViewController;
+    self.detailVC = detail;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -399,6 +406,8 @@ WWCellMyRoomDelegate>
     kAppDelegate.detail.room = record._id;
     
     self.indexPathSelectedTemp = [tableView indexPathForSelectedRow];
+    self.detailVC.title = record.roomName;
+    
 }
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
@@ -439,7 +448,6 @@ WWCellMyRoomDelegate>
         }
     }
 }
-
 
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -506,7 +514,6 @@ WWCellMyRoomDelegate>
 	}
 }
 
-
 -(IBAction)unwindBackToMyRoomlViewController:(UIStoryboardSegue *)segue
 {
      NSString *identifier = segue.identifier;
@@ -520,10 +527,6 @@ WWCellMyRoomDelegate>
                NSStringFromClass([self class]),
                NSStringFromSelector(_cmd));
 	} 
-
-
-    
 }
-
 
 @end

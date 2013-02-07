@@ -87,7 +87,7 @@ AmazonServiceRequestDelegate>
         self.title = kSharedModel.lang[@"titleChatAndGraffiti"];
         self.uniquuidFileNameTemp = @"";
         self.isDisableInAppNotification = YES;
-        self.timerDownloadQueue = [NSTimer scheduledTimerWithTimeInterval:3.0f
+        self.timerDownloadQueue = [NSTimer scheduledTimerWithTimeInterval:10.0f
                                                                    target:self
                                                                  selector:@selector(_chkIfNeedDownload)
                                                                  userInfo:nil
@@ -178,11 +178,11 @@ AmazonServiceRequestDelegate>
                                                                    action:@selector(toggleEditOrDone:)];    
     [self.navigationItem setRightBarButtonItem:aboutButton animated:YES]; 
     
-    UIBarButtonItem *presentButton = [[UIBarButtonItem alloc] initWithTitle:@"Present"
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self 
-                                                                   action:@selector(presentTapped:)];    
-    [self.navigationItem setLeftBarButtonItem:presentButton animated:YES];
+//    UIBarButtonItem *presentButton = [[UIBarButtonItem alloc] initWithTitle:@"Present"
+//                                                                    style:UIBarButtonItemStylePlain
+//                                                                   target:self 
+//                                                                   action:@selector(presentTapped:)];    
+    //[self.navigationItem setLeftBarButtonItem:presentButton animated:YES];
     // Initialize popover
     AboutViewController *aboutVC = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
     [self setAboutPopover:[[UIPopoverController alloc] initWithContentViewController:aboutVC]];
@@ -895,6 +895,9 @@ AmazonServiceRequestDelegate>
     
     [self.fbChatRoomViewController leaveRoom];
     self.isDownloading = NO;
+}
+-(BOOL)isPlayingAnimation{
+    return self.fbChatRoomViewController.isPlayingAnimation;
 }
 
 -(void)playAnimation:(int)type

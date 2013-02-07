@@ -60,34 +60,25 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
     switch (indexPath.row)
     {
         case 0:
-            return @"Kuta, Bali";
+            return @"";
             break;
         case 1:
-            return @"Lagos, Portugal";
+            return @"";
             break;
         case 2:
-            return @"Waikiki, Hawaii";
+            return @"";
             break;
         
     }
-    return @"default -";
+    return @"";
 }
 
 - (UIImage *)tripPhotoForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row)
-    {
-        case 0:
-            return [UIImage imageNamed:@"surf1.png"];
-            break;
-        case 1:
-            return [UIImage imageNamed:@"surf2.png"];
-            break;
-        case 2:
-            return [UIImage imageNamed:@"surf3.png"];
-            break;
-    }
-    return  [UIImage imageNamed:@"surf2.png"];
+    int index = indexPath.row;
+    index++;
+    NSString* explosionThumbName = [NSString stringWithFormat:@"explosionThumb%d.png", index];
+    return [UIImage imageNamed:explosionThumbName];
 }
 
 - (NSString *)reuseIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -300,8 +291,7 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
 }
 
 -(void)navigationBack:(id)sender  {
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    [self.navigationController popViewControllerAnimated:YES];    
 }
 
 -(void)_handleFacebookMeDidUpdate:(NSNotification *)notification
@@ -320,7 +310,6 @@ NSString * const REUSE_ID_SINGLE = @"SingleRow";
         return;
     } 
 }
-
 
 #pragma mark - UITableViewCell
 - (void)configureCell:(CustomCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

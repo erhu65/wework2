@@ -7,7 +7,9 @@
 //
 
 #import "BRCoreViewController.h"
+@class DetailViewController_iPad;
 
 @interface WWFriendInviteViewController : BRCoreViewController
 
+@property (nonatomic, assign) DetailViewController_iPad *detailVC;
 @end
